@@ -1,4 +1,4 @@
-### PROTEIN CLASS
+### PROTEIN PROPERTIES CLASS
 
 ~~~
 class Protein(object):
@@ -22,4 +22,22 @@ class Protein(object):
 
     def get_totals(self):
         pass
+~~~
+
+### PROTEIN FOLDING CLASS
+
+~~~
+class Folding:
+
+    def __init__(self):
+        ...
+~~~
+
+### SCORE CLASS
+
+~~~
+class Score:
+
+    def __init__(self):
+        ...
 ~~~
