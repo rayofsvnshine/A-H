@@ -27,8 +27,12 @@ def import_protein(protein_number: int) -> bool:
             if row[0] == protein_number:
                 Protein.protein = row[1]
                 return True
-            else:
-                return False
+        return False
+
+
+def export_protein():
+    """Exports results to the output.csv file."""
+    pass
 
 
 if __name__ == "__main__":
@@ -38,12 +42,10 @@ if __name__ == "__main__":
         print("Usage: python main.py <protein number>")
         exit(1)
 
-    # Check if protein is in the file
+    # Import protein if found
     if not import_protein(argv[1]):
         print("Protein not found")
-
-    # Import selected protein
-    import_protein(argv[1])
+        exit(1)
 
     # Print protein (just for checking)
     print(Protein.protein)
