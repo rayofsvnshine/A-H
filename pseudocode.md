@@ -1,43 +1,8 @@
-### PROTEIN PROPERTIES CLASS
-
-~~~
-class Protein(object):
-
-    def __init__(self, protein, length, total_p, total_h, total_c):
-        self.protein = protein
-        self.length = length
-        self.bindings = length - 1
-        self.total_p = total_p
-        self.total_h = total_h
-        self.total_c = total_c
-
-    def get_protein(self):
-        pass
-
-    def get_length(self):
-        pass
-
-    def get_bindings(self):
-        pass
-
-    def get_totals(self):
-        pass
-~~~
-
-### PROTEIN FOLDING CLASS
-
-~~~
-class Folder:
-
-    def __init__(self):
-        ...
-~~~
-
-### SCORE CLASS
-
-~~~
-class Score:
-
-    def __init__(self):
-        ...
-~~~
+## Order of business
+1. main loads in csv
+2. stores string of protein in Protein class
+3. inputs Protein in Folder class
+4. if a valid fold is made, store score and coordinates in Fold class
+5. repeat until X number of valid folds is made
+6. call Score to determine best Fold
+7. save best fold to output
