@@ -1,2 +1,4 @@
-# Algoritmen en Heuristieken
-Case 2: Protein Pow(d)er
+# Protein folding algorithm
+
+Course: Algoritmen en Heuristieken
+Case: Protein Pow(d)er
