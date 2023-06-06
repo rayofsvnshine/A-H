@@ -1,4 +1,5 @@
 # Protein folding algorithm
 
-Course: Algoritmen en Heuristieken
-Case: Protein Pow(d)er
+Course: Algorithms and Heuristics  
+Case: Protein Pow(d)er  
+Team: The Folding Brigade  
