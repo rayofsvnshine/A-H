@@ -9,8 +9,7 @@ Returns:
 -------
 CSV with optimal protein coordinates (tuples) and score
 
-
-* 
+-------
 * counts the scores for each H-connection
 * counts the scores for each C-connection (if present)
 * gives a total score for each fold

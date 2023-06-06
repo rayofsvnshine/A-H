@@ -1,4 +1,17 @@
 class Protein(object):
+    """
+    Parameters:
+    ------
+    Protein chain (String)
+
+    Returns:
+    ------
+    The different properties of the protein
+
+    ------
+    * Maximum amount of coordinates
+    * 
+    """
 
     def __init__(self, protein, length, total_p, total_h, total_c):
         self.protein = protein
