@@ -22,6 +22,7 @@ List of tuples with directions
 * checks for hydrophobic aminoacids (H) if there are other H's around (without covalent binding)
     * if there is an H around, calls scoring class to keep track of score 
 """
+
 from random import choice
 # import Fold
 

@@ -44,9 +44,9 @@ class Protein(object):
         for element in protein_string:
             if element == 'H':
                 H_count += 1
-            else if element == 'P':
+            elif element == 'P':
                 P_count += 1
-            else if element == 'C':
+            elif element == 'C':
                 C_count += 1
             else:
                 return 1
