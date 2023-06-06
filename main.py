@@ -44,3 +44,6 @@ if __name__ == "__main__":
 
     # Import selected protein
     import_protein(argv[1])
+
+    # Print protein (just for checking)
+    print(Protein.protein)
