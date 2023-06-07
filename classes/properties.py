@@ -20,7 +20,7 @@ class Protein(object):
         """Initializer"""
         self.protein = protein
         self.length = length
-        self.bindings = length - 1
+        self.bonds = length - 1
         self.total_p = total_p
         self.total_h = total_h
         self.total_c = total_c
