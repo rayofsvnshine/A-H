@@ -28,10 +28,18 @@ class Score:
         score = 0
         for coordinate in coordinates:
             if "2" in last_chosen_direction:
-                if coordinate == current_coordinate[0] - 1 || coordinate == current_coordinate[0] + 1:
+                if "-" in last_chosen_direction:
+                    if coordinate == current_coordinate[0] - 1 || coordinate == current_coordinate[0] + 1 || coordinate == current_coordinate[1] - 1:
                     score += -1
-            if "1" in last_chosen_direction:
-                if coordinate == current_coordinate[1] - 1 || coordinate == current_coordinate[1] + 1:
-                    score += -1
+                else:
+                    if coordinate == current_coordinate[0] - 1 || coordinate == current_coordinate[0] + 1 || coordinate == current_coordinate[1] + 1:
+                        score += -1
+            elif "1" in last_chosen_direction:
+                if "-" in last_chosen_direction:
+                    if coordinate == current_coordinate[1] - 1 || coordinate == current_coordinate[1] + 1 || coordinate == current_coordinate[1] - 1:
+                        score += -1
+                else:
+                    if coordinate == current_coordinate[1] - 1 || coordinate == current_coordinate[1] + 1 || coordinate == current_coordinate[1] + 1:
+                        score += -1
+
         return score
-    
