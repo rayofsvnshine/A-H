@@ -6,29 +6,31 @@
 """
 
 # Import classes and used libraries
-# from classes.folded_protein import Fold
+from classes.folded_protein import Fold
 from classes.properties import Protein
-# from classes.protein_folder import Folder
-# from classes.scoring import Score
+from classes.protein_folder import Folder
+from classes.scoring import Score
 from sys import argv
 import csv
 
 
-def select_protein():
+def select_protein() -> str:
     """Gives an overview of the available proteins in the csv file."""
 
     with open("proteins.csv", "r") as csvfile:
 
+        # Read input file
         proteins = [row for row in csv.reader(csvfile)]
 
+        # Check if there are proteins in the file
         if len(proteins) == 0:
             return False
 
+        # Create an overview
         overview = "\n"
         for row in proteins:
             overview += "   ".join(row) + "\n"
-
-    return overview
+        return overview
 
 
 def import_protein(protein_number: int) -> bool:
@@ -47,7 +49,7 @@ def import_protein(protein_number: int) -> bool:
         return False
 
 
-def export_protein(foldingsteps, score):
+def export_protein(foldingsteps, score) -> None:
     """Exports results to the output.csv file."""
 
     with open('output.csv', 'w') as csvfile:
@@ -101,4 +103,4 @@ if __name__ == "__main__":
     foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
     score = -2
     export_protein(foldingsteps, score)
-    print("Results can be found in output")
+    print("Results can be found in output.csv")

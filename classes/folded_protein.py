@@ -15,7 +15,7 @@ class Fold(object):
 
     """
 
-    def __init__(self, score):
+    def __init__(self, score, coordinates):
         """
         Initializer
         ------
@@ -24,7 +24,7 @@ class Fold(object):
         self.scores = stores the score of the fold.
         """
         self.coordinatesandtype = {}
-        self.coordinates =
+        self.coordinates = coordinates
         self.scores = score
 
 

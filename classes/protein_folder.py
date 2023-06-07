@@ -15,8 +15,8 @@ protein_folder.py
 
 from random import choice
 # import numpy as np
-from folded_protein import Fold
-from scoring import Score
+from classes.folded_protein import Fold
+from classes.scoring import Score
 
 class Folder(object):
     """
