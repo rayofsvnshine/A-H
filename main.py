@@ -39,7 +39,7 @@ def import_protein(protein_number: int) -> bool:
     with open("proteins.csv", "r") as csvfile:
 
         # Read input file
-        proteins = csv.reader(csvfile, delimiter=',')
+        proteins = csv.reader(csvfile)
 
         # Select protein
         for row in proteins:
@@ -49,7 +49,7 @@ def import_protein(protein_number: int) -> bool:
         return False
 
 
-def export_protein(foldingsteps, score) -> None:
+def export_protein(foldingsteps: list, score: int) -> None:
     """Exports results to the output.csv file."""
 
     with open('output.csv', 'w') as csvfile:
