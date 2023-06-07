@@ -16,10 +16,9 @@ import csv
 def import_protein(protein_number: int) -> bool:
     """Loads the selected protein into the protein class."""
 
-    # Load file
-    with open('input/proteins.csv') as csvfile:
+    with open("input/proteins.csv", "r") as csvfile:
 
-        # Read file
+        # Read input file
         proteins = csv.reader(csvfile, delimiter=',')
 
         # Select protein
@@ -30,9 +29,36 @@ def import_protein(protein_number: int) -> bool:
         return False
 
 
-def export_protein():
+def export_protein(foldingsteps, score):
     """Exports results to the output.csv file."""
-    pass
+
+    with open('output/output.csv', 'w') as csvfile:
+
+        # Create output file
+        output = csv.writer(csvfile)
+
+        # Write column names
+        output.writerow(["amino", "fold"])
+
+        # Write folding data
+        for step in foldingsteps:
+            output.writerow([step[0], step[1]])
+
+        # Write score
+        output.writerow(["score", score])
+
+        # OTHER WAY WITH DICTWRITER:
+
+        # # Create two columns
+        # output = csv.DictWriter(csvfile, fieldnames = ["amino", "fold"])
+        # output.writeheader()
+
+        # # Write folding data
+        # for step in foldingsteps:
+        #     output.writerow({"amino": step[0], "fold": step[1]})
+
+        # # Write score
+        # output.writerow({"amino": "score", "fold": score})
 
 
 if __name__ == "__main__":
@@ -47,5 +73,10 @@ if __name__ == "__main__":
         print("Protein not found")
         exit(1)
 
-    # Print protein (just for checking)
+    # Test protein import
     print(Protein.protein)
+
+    # Test result export
+    foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
+    score = -2
+    export_protein(foldingsteps, score)
