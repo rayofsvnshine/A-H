@@ -8,7 +8,7 @@
 # Import classes and used libraries
 # from classes.folded_protein import Fold
 from classes.properties import Protein
-# from classes.protein_folder import Folder
+from classes.protein_folder import Folder
 # from classes.scoring import Score
 from sys import argv
 import csv
@@ -44,8 +44,7 @@ def import_protein(protein_number: int) -> bool:
         # Select protein
         for row in proteins:
             if row[0] == protein_number:
-                Protein.protein = row[1]
-                return True
+                return row[1]
         return False
 
 
@@ -80,6 +79,8 @@ if __name__ == "__main__":
         if not import_protein(argv[1]):
             print("Protein not found")
             exit(1)
+        else:
+            selected_protein = import_protein(argv[1])
 
     # Show proteins from csv file if found
     elif len(argv) == 1:
@@ -95,12 +96,27 @@ if __name__ == "__main__":
         if not import_protein(protein_number):
             print("Selected protein not found")
             exit(1)
+        else:
+            selected_protein = import_protein(protein_number)
 
-    # Check the selected protein
-    print(f"Selected protein: {Protein.protein}")
+    # Make new protein object
+    protein = Protein(selected_protein)
+
+    # Checkout the selected protein
+    print("")
+    print(f"Protein selected:   {protein.protein}")
+    print(f"Protein length:     {protein.length}")
+    print(f"Protein bonds:      {protein.bonds}")
+    protein.get_totals(protein.protein)
+    print(f"Total H:            {protein.total_h}")
+    print(f"Total P:            {protein.total_p}")
+    print(f"Total C:            {protein.total_c}")
+    print("")
+
+    Folder(protein)
 
     # Test result export
     foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
     score = -2
     export_protein(foldingsteps, score)
-    print("Results can be found in output.csv")
+    print("Results can be found in output.csv\n")
