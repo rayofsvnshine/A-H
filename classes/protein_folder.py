@@ -39,7 +39,6 @@ class Folder(object):
         self.Best_fold = the optimal generated fold of a protein with coordinates and score
         """
         self.Protein = Protein
-        self.Grid = self.make_grid()
         self.Folds = self.make_folds()
         
     def make_folds(self) -> list:
@@ -74,7 +73,7 @@ class Folder(object):
         # needs to return a fold
             
         # make grid and set starting point
-        grid = self.make_grid()
+        # grid = self.make_grid()
         starting_point = (0,0)
         
         # make list for coordinates
@@ -83,7 +82,7 @@ class Folder(object):
         
         # put aminoacids down until end of protein
         for aminoacid in self.Protein.length:
-            options = self.check_directions(starting_point)
+            options = self.check_directions(starting_point, coordinates)
             if options == None:
                 return None
             
@@ -114,33 +113,34 @@ class Folder(object):
         
         return best_fold
             
-    def make_grid(self) -> list:
-        """
-        Creates a grid with coordinates according to the size of self.Protein.
-        The x-axis and y-axis extend in positive and negative direction
-        as far as the length of the protein.
+    # def make_grid(self) -> list:
+    #     """
+    #     Creates a grid with coordinates according to the size of self.Protein.
+    #     The x-axis and y-axis extend in positive and negative direction
+    #     as far as the length of the protein.
         
-        Returns:
-        -----
-        gridspace = list of lists with coordinate tuples
-        """
-        # makes grid
-        gridspace = []
-        gridsize = range(-(len(self.Protein.length)), (len(self.Protein.length) + 1))
-        for y in gridsize:
-            for x in gridsize:
-                coordinate = ((y), (x))
-                gridspace.append(coordinate)
+    #     Returns:
+    #     -----
+    #     gridspace = list of lists with coordinate tuples
+    #     """
+    #     # makes grid
+    #     gridspace = []
+    #     gridsize = range(-(len(self.Protein.length)), (len(self.Protein.length) + 1))
+    #     for y in gridsize:
+    #         for x in gridsize:
+    #             coordinate = ((y), (x))
+    #             gridspace.append(coordinate)
             
-        return gridspace
+    #     return gridspace
             
-    def check_direction(self, starting_point) -> tuple:
+    def check_direction(self, starting_point, coordinates) -> tuple:
         """
         Determines the coordinate where the following aminoacid will be placed.
         
         Parameters:
         -----
         starting_point = previous coordinate
+        coordinates = previous route
         
         Returns:
         -----
@@ -154,7 +154,15 @@ class Folder(object):
         
         # goes to the coordinate right to the previous point
         x, y = starting_point
+        # orientations = ["up", "down", "right", "left"]
+        
+        
         next_point = ((x + 1), y)
+        
+        if next_point in coordinates:
+            # move on to next option
+            pass
+        
         return next_point
     
     def choose_direction(self, starting_point, options):
