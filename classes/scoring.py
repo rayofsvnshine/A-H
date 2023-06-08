@@ -41,43 +41,81 @@ class Score:
                                 score += -1
                             if current_coordinate[1] - 1 in coordinates:
                                 score += -1
+
                         if next_coordinate[1] > current_coordinate[1]: # hij gaat naar beneden
-                            if current_coordinates[0] + 1 in coordinates:
+                            if current_coordinate[0] + 1 in coordinates:
                                 score += -1
                             if current_coordinate[1] + 1 in coordinates:
                                 score += -1
+
                         if next_coordinate[1] < current_coordinate[1]: # hij gaat naar beneden
                             if current_coordinate[0] + 1 in coordinates:
                                 score += -1
                             if current_coordinate[1] + 1 in coordinates
 
+
                     if last_coordinate[0] < current_coordinate[0]: # hij komt van links
                         if next_coordinate[0] > current_coordinate[0]: # hij gaat naar links
-                            if current_coordinates[1] - 1 in coordinates:
+                            if current_coordinate[1] - 1 in coordinates:
                                 score += -1
-                            if current_coordinates[1] + 1 in coordinates:
-                                score += -1 
+                            if current_coordinate[1] + 1 in coordinates:
+                                score += -1
+
                         if next_coordinate[1] > current_coordinate[1]: # hij gaat naar beneden
-                            if current_coordinates[0] + 1 in coordinates:
+                            if current_coordinate[0] + 1 in coordinates:
                                 score += -1
+                            if current_coordinte[1] + 1 in coordinates:
+                                score += -1
+
                         if next_coordinate[1] < current_coordinate[1]: # hij gaat naar boven
-                            if current_coordinates[0] + 1 in coordinates:
+                            if current_coordinate[0] + 1 in coordinates:
                                 score += -1
+                            if current_coordinate[1] + 1 in coordinates:
+                                score += -1
+
 
                     if last_coordinate[1] > current_coordinate [1]: # hij komt van onder
-                        if next_coordinate[0] < current_coordinate[0]:
-                        if next_coordinate[0] > current_coordinate[0]:
-                        if next_coordinate[1] < current_coordinate[1]:
+                        if next_coordinate[0] < current_coordinate[0]: # hij gaat naar links
+                            if current_coordinate[0] - 1 in coordinates:
+                                score += -1
+                            if current_coordinate[1] - 1 in coordinates:
+                                score += -1
+
+                        if next_coordinate[0] > current_coordinate[0]: # hij gaat naar rechts
+                            if current_coordinate[0] - 1 in coordinates:
+                                score += -1
+                            if current_coordinate[1] + 1 in coordinates:
+                                score += -1
+
+                        if next_coordinate[1] < current_coordinate[1]: # hij gaat naar beneden
+                            if current_coordinate[0] + 1 in coordinates:
+                                score += -1
+                            if current_coordinate[0] - 1 in coordinates:
+                                score += -1
+
 
                     if last_coordinate[1] < current_coordinate [1]: # hij komt van boven
-                        if next_coordinate[0] < current_coordinate[0]:
-                        if next_coordinate[0] > current_coordinate[0]:
-                        if next_coordinate[1] > current_coordinate[1]:
+                        if next_coordinate[0] > current_coordinate[0]: # hij gaat naar boven
+                            if current_coordinate[0] + 1 in coordinates:
+                                score += -1
+                            if current_coordinate[0] - 1 in coordinates:
+                                score += -1
+
+                        if next_coordinate[1] < current_coordinate[1]: # hij gaat naar links
+                            if current_coordinate[0] + 1 in coordinates:
+                                score += -1
+                            if current_coordinate[1] - 1 in coordinates:
+                                score += -1
+
+                        if next_coordinate[1] > current_coordinate[1]: # hij gaat naar rechts
+                            if current_coordinate[0] - 1 in coordinates:
+                                score += -1
+                            if current_coordinate[1] - 1 in coordinates:
+                                score += -1
             else:
                 continue
 
         last_coordinate = coordinate
-
         return score
 
     def best_fold(valid_folds):
