@@ -1,5 +1,6 @@
 """
 main.py
+
 * Imports the protein from the proteins.csv file
 * Puts protein in Protein class
 * Output of Folder in Scoring class
