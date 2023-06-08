@@ -1,5 +1,5 @@
 """
-properties.py
+protein.py
 
 * Stores length of the protein.
 * Stores total amount of bindings.

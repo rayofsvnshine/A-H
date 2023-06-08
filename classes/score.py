@@ -12,8 +12,8 @@ Post:
     Returns a int score for the optimal protein folding steps.
 """
 
-from .protein_folder import Folder
-from .folded_protein import Fold
+from .algorithm import Folder
+from .aminoacid import Fold
 
 class Score:
     """Collection of all functions regarding the score."""

@@ -1,5 +1,5 @@
 """
-protein_folder.py
+algorithm.py
 
 * folds protein according to certain criteria:
     * no overlap on 2D grid.
@@ -14,8 +14,8 @@ protein_folder.py
 
 from random import choice
 # import numpy as np
-from .folded_protein import Fold
-from .scoring import Score
+from .aminoacid import Fold
+from .score import Score
 
 class Folder(object):
     """
