@@ -27,6 +27,9 @@ class Score:
         Returns the score retrieved from this aminoacid."""
         score = 0
 
+        for coordinate in coordinates:
+            
+
 
 
         # for coordinate in coordinates:
