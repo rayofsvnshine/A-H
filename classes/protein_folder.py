@@ -15,8 +15,8 @@ protein_folder.py
 
 from random import choice
 # import numpy as np
-from classes.folded_protein import Fold
-from classes.scoring import Score
+from folded_protein import Fold
+from scoring import Score
 
 class Folder(object):
     """
@@ -41,7 +41,6 @@ class Folder(object):
         self.Protein = Protein
         self.Grid = self.make_grid()
         self.Folds = self.make_folds()
-        self.Best_fold = self.find_best_fold()
         
     def make_folds(self) -> list:
         """
@@ -62,7 +61,7 @@ class Folder(object):
             
         return valid_folds
         
-    def fold_protein(self) -> (Fold | None):
+    def fold_protein(self):
         """
         Attempts to fold the protein
         
@@ -80,21 +79,25 @@ class Folder(object):
         
         # make list for coordinates
         coordinates = [(0,0)]
+        directions = []
         
         # put aminoacids down until end of protein
         for aminoacid in self.Protein.length:
             options = self.check_directions(starting_point)
             if options == None:
                 return None
-            starting_point = choice(options)
+            
+            # reassign starting point and append to coordinate list
+            starting_point, direction = self.choose_direction(starting_point, options)
             coordinates.append(starting_point)
+            directions.append(direction)
             
         # if fold was completed, return
-        new_fold = Fold(coordinates)
+        new_fold = Fold(coordinates, directions)
         return new_fold
             
             
-    def find_best_fold(self) -> Fold:
+    def find_best_fold(self) -> object:
         """
         Looks at each fold and calculates the score
         
@@ -108,6 +111,7 @@ class Folder(object):
             current_fold.store_score(score)
         # find best fold and return
         best_fold = Score.best_fold(self.Folds)
+        
         return best_fold
             
     def make_grid(self) -> list:
@@ -120,16 +124,13 @@ class Folder(object):
         -----
         gridspace = list of lists with coordinate tuples
         """
-        # makes (an ugly:( ) grid
+        # makes grid
         gridspace = []
         gridsize = range(-(len(self.Protein.length)), (len(self.Protein.length) + 1))
-        index_counter = 0
         for y in gridsize:
-            gridspace.append([])
             for x in gridsize:
                 coordinate = ((y), (x))
-                gridspace[index_counter].append(coordinate)
-            index_counter += 1
+                gridspace.append(coordinate)
             
         return gridspace
             
@@ -156,9 +157,19 @@ class Folder(object):
         next_point = ((x + 1), y)
         return next_point
     
-    def place_aminoacid(self, coordinate):
-        pass
-        
+    def choose_direction(self, starting_point, options):
+        next_point = choice(options)
+        # if there's a difference in y-coordinate, direction is -2 or 2
+        if starting_point[0] == next_point[0]:
+            # calculate if movement is in positive or negative direction
+            direction = next_point[1] - starting_point[1]
+            direction = 2 * direction
+        # if there's a difference in x-coordinate, direction is -1 or 1
+        elif starting_point[1] == next_point[1]:
+            # calculate if movement is in positive or negative direction
+            direction = next_point[0] - starting_point[0]
+            
+        return next_point, direction
 
 
 """
@@ -166,15 +177,12 @@ This is to test out the different grid functions
 """
 # if __name__ == "__main__":
     
-    # gridspace = []
-    # gridsize = range(-5, 6)
-    # i = 0
-    # for y in gridsize:
-    #     gridspace.append([])
-    #     for x in gridsize:
-    #         coordinate = ((y), (x))
-    #         gridspace[i].append(coordinate)
-    #     i += 1
+#     gridspace = []
+#     gridsize = range(-5, 6)
+#     for y in gridsize:
+#         for x in gridsize:
+#             coordinate = ((y), (x))
+#             gridspace.append(coordinate)
     
     # new_grid = np.array(gridspace)
     
@@ -182,5 +190,5 @@ This is to test out the different grid functions
     # new_grid = np.meshgrid(line, indexing="xy")
     # new_grid = np.array(line)
     
-    # grid = new_grid
+    # grid = gridspace
     # print(grid)
