@@ -8,7 +8,7 @@
 # Import classes and used libraries
 # from classes.folded_protein import Fold
 from classes.properties import Protein
-from classes.protein_folder import Folder
+# from classes.protein_folder import Folder
 # from classes.scoring import Score
 from sys import argv
 import csv
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     print(f"Total cysteine:     {protein.total_c}  ({round(protein.total_c / protein.length * 100)}%)")
     print("")
 
-    new_protein_fold = Folder(protein)
+    # new_protein_fold = Folder(protein)
 
     # Test result export
     foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
