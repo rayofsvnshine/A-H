@@ -1,23 +1,24 @@
+"""
+properties.py
+
+* Stores length of the protein.
+* Stores total amount of bindings.
+* Stores total amount of polar aminoacids (P).
+* Stores total amount of hydrophobic aminoacids (H).
+* Stores total amount of Cysteines.
+
+Pre:
+    Protein chain (str).
+Post:
+    Initialises the different properties of the protein.
+"""
+
 class Protein(object):
-    """
-    Parameters:
-    ------
-    Protein chain (String)
+    """Protein object"""
 
-    Returns:
-    ------
-    The different properties of the protein
-
-    ------
-    * Stores length of the protein
-    * Stores total amount of bindings
-    * Stores total amount of polar aminoacids (P)
-    * Stores total amount of hydrophobic aminoacids (H)
-    * Stores total amount of Cysteines
-    """
-
-    def __init__(self, protein):
+    def __init__(self, protein: str):
         """Initializer"""
+
         self.protein = protein
         self.length = len(self.protein)
         self.bonds = self.length - 1
@@ -25,25 +26,20 @@ class Protein(object):
         self.total_p = 0
         self.total_c = 0
 
-    # def get_length(self, protein_string):
-    #     """Gets a string containing the aminoacids of the protein.
-    #     Returns an interger of the length of the protein."""
-    #     length_protein = protein_string.len()
-    #     return length_protein
 
-    # def get_bindings(self, length_protein):
-    #     """ Gets a length from a protein. Returns the amount of covalent bonds it makes."""
-    #     protein_bonds = length_protein - 1
-    #     return protein_bonds
-
-    def get_totals(self, protein_string):
+    def get_totals(self, protein: str) -> bool:
         """ Gets a string containing H, P or C aminoacids and counts their amounts."""
-        for element in protein_string:
+
+        for element in protein:
+
             if element == 'H':
                 self.total_h += 1
+
             elif element == 'P':
                 self.total_p += 1
+
             elif element == 'C':
                 self.total_c += 1
+
             else:
                 return False

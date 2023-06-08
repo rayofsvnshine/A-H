@@ -6,8 +6,10 @@ scoring.py
 * gives a total score for each fold
 * compares total scores of different proteins to determine the optimal fold
 
-Uses a list of tuples with directions.
-Returns a int score for the optimal protein folding steps.
+Pre:
+    Uses a list of tuples with directions.
+Post:
+    Returns a int score for the optimal protein folding steps.
 """
 
 from .protein_folder import Folder
