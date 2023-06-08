@@ -169,7 +169,6 @@ class Folder(object):
             # calculate if movement is in positive or negative direction
             direction = next_point[0] - starting_point[0]
             
-        return next_point, direction
 
 
 """
