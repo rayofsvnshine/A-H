@@ -25,7 +25,7 @@ class Fold(object):
         """
         self.coordinatesandtype = {}
         self.coordinates = coordinates
-        self.scores = score
+        self.score = score
 
 
     def store_coordinates(self, coordinate, a_type):

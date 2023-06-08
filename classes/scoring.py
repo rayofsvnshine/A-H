@@ -29,17 +29,26 @@ class Score:
         for coordinate in coordinates:
             if "2" in last_chosen_direction:
                 if "-" in last_chosen_direction:
-                    if coordinate == current_coordinate[0] - 1 || coordinate == current_coordinate[0] + 1 || coordinate == current_coordinate[1] - 1:
+                    if coordinate == current_coordinate[0] - 1 or coordinate == current_coordinate[0] + 1 or coordinate == current_coordinate[1] - 1:
                     score += -1
                 else:
-                    if coordinate == current_coordinate[0] - 1 || coordinate == current_coordinate[0] + 1 || coordinate == current_coordinate[1] + 1:
+                    if coordinate == current_coordinate[0] - 1 or coordinate == current_coordinate[0] + 1 or coordinate == current_coordinate[1] + 1:
                         score += -1
             elif "1" in last_chosen_direction:
                 if "-" in last_chosen_direction:
-                    if coordinate == current_coordinate[1] - 1 || coordinate == current_coordinate[1] + 1 || coordinate == current_coordinate[1] - 1:
+                    if coordinate == current_coordinate[1] - 1 or coordinate == current_coordinate[1] + 1 or coordinate == current_coordinate[1] - 1:
                         score += -1
                 else:
-                    if coordinate == current_coordinate[1] - 1 || coordinate == current_coordinate[1] + 1 || coordinate == current_coordinate[1] + 1:
+                    if coordinate == current_coordinate[1] - 1 or coordinate == current_coordinate[1] + 1 or coordinate == current_coordinate[1] + 1:
                         score += -1
 
         return score
+
+    def best_fold():
+        """ Function checks all the scores of the made folds and picks the fold with the best score."""
+        max_score = 0
+        for fold in Folder.valid_folds:
+            if fold.score > max_score:
+                max_score = fold.score
+
+        return max_score 
