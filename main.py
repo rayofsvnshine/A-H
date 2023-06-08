@@ -6,10 +6,10 @@
 """
 
 # Import classes and used libraries
-from classes.folded_protein import Fold
+# from classes.folded_protein import Fold
 from classes.properties import Protein
-from classes.protein_folder import Folder
-from classes.scoring import Score
+# from classes.protein_folder import Folder
+# from classes.scoring import Score
 from sys import argv
 import csv
 
