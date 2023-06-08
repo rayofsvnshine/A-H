@@ -30,7 +30,7 @@ class Score:
             if "2" in last_chosen_direction:
                 if "-" in last_chosen_direction:
                     if coordinate == current_coordinate[0] - 1 or coordinate == current_coordinate[0] + 1 or coordinate == current_coordinate[1] - 1:
-                    score += -1
+                        score += -1
                 else:
                     if coordinate == current_coordinate[0] - 1 or coordinate == current_coordinate[0] + 1 or coordinate == current_coordinate[1] + 1:
                         score += -1
