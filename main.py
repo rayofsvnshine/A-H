@@ -1,4 +1,5 @@
 """
+main.py
 * Imports the protein from the proteins.csv file
 * Puts protein in Protein class
 * Output of Folder in Scoring class
@@ -8,8 +9,8 @@
 # Import classes and used libraries
 # from classes.folded_protein import Fold
 from classes.properties import Protein
-# from classes.protein_folder import Folder
-# from classes.scoring import Score
+from classes.protein_folder import Folder
+from classes.scoring import Score
 from sys import argv
 import csv
 

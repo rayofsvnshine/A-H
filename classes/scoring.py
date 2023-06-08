@@ -1,41 +1,58 @@
+"""
+scoring.py
+
+* counts the scores for each H-connection
+* counts the scores for each C-connection (if present)
+* gives a total score for each fold
+* compares total scores of different proteins to determine the optimal fold
+
+Uses a list of tuples with directions.
+Returns a int score for the optimal protein folding steps.
+"""
+
 from .protein_folder import Folder
 from .folded_protein import Fold
 
 class Score:
-    """
-    Parameters:
-    -------
-    List of tuples with directions
+    """Collection of all functions regarding the score."""
 
-    Returns:
-    -------
-    CSV with optimal protein coordinates (tuples) and score
 
-    -------
-    * counts the scores for each H-connection
-    * counts the scores for each C-connection (if present)
-    * gives a total score for each fold
-    * compares total scores of different proteins to determine the optimal fold
-    """
     def __init__(self, coordinates):
         """Initializer"""
+
         self.coordinates = coordinates
 
 
-    def __make_list_of_H(coordinatesandtype):
-        """ Function makes list of all the coordinates that are occupied by H aminoacids."""
-        list_of_H = []
+    def select_only_H(coordinatesandtype):
+        """
+        Function makes list of all the coordinates that are occupied by H aminoacids.
+
+        Pre:
+            ...
+        Post:
+            Returns a list of only the H coordinates.
+        """
+
+        only_H = []
+
         for i in coordinatesandtype:
             if coordinatesandtype.values[i] == "H":
-                    list_of_H.append(coordinates.keys[i])
+                    only_H.append(coordinates.keys[i])
 
-        return list_of_H
+        return only_H
 
 
     def calculate_score(self, coordinates):
-        """ Function loops over the existing list of used coordinates to see if the
+        """
+        Function loops over the existing list of used coordinates to see if the
         given coordinate of the H aminoacid sides another H, if so, -1 is added to the score.
-        Returns the score retrieved from this aminoacid."""
+
+        Pre:
+            ...
+        Post:
+            Returns the score retrieved from this aminoacid.
+        """
+
         score = 0
         last_coordinate = None
         current_coordinate = None
