@@ -8,7 +8,7 @@
 # Import classes and used libraries
 # from classes.folded_protein import Fold
 from classes.properties import Protein
-from classes.protein_folder import Folder
+# from classes.protein_folder import Folder
 # from classes.scoring import Score
 from sys import argv
 import csv
@@ -90,7 +90,7 @@ if __name__ == "__main__":
         print(select_protein())
 
         # Ask user to select a protein
-        protein_number = input("Select a protein: ")
+        protein_number = input("Protein number:   ")
 
         # Import protein if found
         if not import_protein(protein_number):
@@ -104,16 +104,16 @@ if __name__ == "__main__":
 
     # Checkout the selected protein
     print("")
-    print(f"Protein selected:   {protein.protein}")
-    print(f"Protein length:     {protein.length}")
-    print(f"Protein bonds:      {protein.bonds}")
+    print(f"Selected protein:   {protein.protein}")
+    print("")
+    print(f"Total amino acids:  {protein.length}")
     protein.get_totals(protein.protein)
-    print(f"Total H:            {protein.total_h}")
-    print(f"Total P:            {protein.total_p}")
-    print(f"Total C:            {protein.total_c}")
+    print(f"Total hydrofobe:    {protein.total_h}  ({round(protein.total_h / protein.length * 100)}%)")
+    print(f"Total polair:       {protein.total_p}  ({round(protein.total_p / protein.length * 100)}%)")
+    print(f"Total cysteine:     {protein.total_c}  ({round(protein.total_c / protein.length * 100)}%)")
     print("")
 
-    Folder(protein)
+    # Folder(protein)
 
     # Test result export
     foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]

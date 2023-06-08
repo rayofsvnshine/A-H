@@ -32,8 +32,8 @@ class Score:
         index = 0
         for coordinate, index in coordinates:
             current_coordinate = coordinate
-            for n_coordinate + 1 in coordinates:
-                next_coordinate = n_coordinate
+            for coordinate + 1 in coordinates:
+                next_coordinate = coordinate
                 if index != 0:
                     if last_coordinate[0] > current_coordinate[0]:  # hij komt van rechts
                         if next_coordinate[0] < current_coordinate[0]: # hij gaat naar rechts
@@ -64,7 +64,7 @@ class Score:
                         if next_coordinate[1] > current_coordinate[1]: # hij gaat naar beneden
                             if current_coordinate[0] + 1 in coordinates:
                                 score += -1
-                            if current_coordinte[1] + 1 in coordinates:
+                            if current_coordinate[1] + 1 in coordinates:
                                 score += -1
 
                         if next_coordinate[1] < current_coordinate[1]: # hij gaat naar boven
