@@ -25,26 +25,7 @@ class Score:
         self.coordinates = coordinates
 
 
-    def select_only_H(coordinatesandtype):
-        """
-        Function makes list of all the coordinates that are occupied by H aminoacids.
-
-        Pre:
-            ...
-        Post:
-            Returns a list of only the H coordinates.
-        """
-
-        only_H = []
-
-        for i in coordinatesandtype:
-            if coordinatesandtype.values[i] == "H":
-                    only_H.append(coordinates.keys[i])
-
-        return only_H
-
-
-    def calculate_score(self, coordinates):
+    def calculate_score(self, Fold):
         """
         Function loops over the existing list of used coordinates to see if the
         given coordinate of the H aminoacid sides another H, if so, -1 is added to the score.
@@ -54,139 +35,42 @@ class Score:
         Post:
             Returns the score retrieved from this aminoacid.
         """
-
         score = 0
-        last_coordinate = None
-        current_coordinate = None
-        next_coordinate = None
-        index = range(len(coordinates) - 1)
+        index = Fold.Aminoacid[0].id
+        for Aminoacid in Fold.Aminoacids:
+            neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
 
-        for i in index:
-            current_coordinate = coordinates[i]
-            next_coordinate = coordinates[i + 1]
-
-            if index != 0 and index != 1:
-                if last_coordinate[0] > current_coordinate[0]:  # hij komt van rechts
-                    if next_coordinate[0] < current_coordinate[0]: # hij gaat naar rechts
-                        if current_coordinate[1] + 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] - 1 in coordinates:
-                            score += -1
-
-                    if next_coordinate[1] > current_coordinate[1]: # hij gaat naar beneden
-                        if current_coordinate[0] + 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] + 1 in coordinates:
-                            score += -1
-
-                    if next_coordinate[1] < current_coordinate[1]: # hij gaat naar beneden
-                        if current_coordinate[0] + 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] + 1 in coordinates:
-                            score += -1
-
-
-                if last_coordinate[0] < current_coordinate[0]: # hij komt van links
-                    if next_coordinate[0] > current_coordinate[0]: # hij gaat naar links
-                        if current_coordinate[1] - 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] + 1 in coordinates:
-                            score += -1
-
-                    if next_coordinate[1] > current_coordinate[1]: # hij gaat naar beneden
-                        if current_coordinate[0] + 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] + 1 in coordinates:
-                            score += -1
-
-                    if next_coordinate[1] < current_coordinate[1]: # hij gaat naar boven
-                        if current_coordinate[0] + 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] + 1 in coordinates:
-                            score += -1
-
-
-                if last_coordinate[1] > current_coordinate [1]: # hij komt van onder
-                    if next_coordinate[0] < current_coordinate[0]: # hij gaat naar links
-                        if current_coordinate[0] - 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] - 1 in coordinates:
-                            score += -1
-
-                    if next_coordinate[0] > current_coordinate[0]: # hij gaat naar rechts
-                        if current_coordinate[0] - 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] + 1 in coordinates:
-                            score += -1
-
-                    if next_coordinate[1] < current_coordinate[1]: # hij gaat naar beneden
-                        if current_coordinate[0] + 1 in coordinates:
-                            score += -1
-                        if current_coordinate[0] - 1 in coordinates:
-                            score += -1
-
-
-                if last_coordinate[1] < current_coordinate [1]: # hij komt van boven
-                    if next_coordinate[0] > current_coordinate[0]: # hij gaat naar boven
-                        if current_coordinate[0] + 1 in coordinates:
-                            score += -1
-                        if current_coordinate[0] - 1 in coordinates:
-                            score += -1
-
-                    if next_coordinate[1] < current_coordinate[1]: # hij gaat naar links
-                        if current_coordinate[0] + 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] - 1 in coordinates:
-                            score += -1
-
-                    if next_coordinate[1] > current_coordinate[1]: # hij gaat naar rechts
-                        if current_coordinate[0] - 1 in coordinates:
-                            score += -1
-                        if current_coordinate[1] - 1 in coordinates:
-                            score += -1
-            else:
-                continue
-
-            last_coordinate = current_coordinate
-
-        # look at last coordinate
-        current_coordinate = coordinates[-1]
-        if last_coordinate[0] < current_coordinate[0]: # komt van rechts
-            if current_coordinate[0] - 1 in coordinates:
-                score += -1
-            elif current_coordinate[1] + 1 in coordinates:
-                score += -1
-            elif current_coordinate[1] - 1 in coordinates:
-                score += 1
-
-        elif last_coordinate[1] < current_coordinate[1]: # komt van beneden
-            if current_coordinate[1] + 1 in coordinates:
-                score += -1
-            elif current_coordinate[0] + 1 in coordinates:
-                score += 1
-            elif current_coordinate[0] - 1 in coordinates:
-                score += 1
-
-        elif last_coordinate[0] > current_coordinate[0]: # komt van links
-            if current_coordinate[0] + 1 not in coordinates:
-                score += -1
-            if current_coordinate[0] - 1 in coordinates:
-                score += -1
-            elif current_score[1] + 1 in coordinates:
-                score += -1
-            elif current_score[1] - 1 in coordinates:
-                score += -1
-        elif last_coordinate[1] > current_coordinate[1]: # komt van boven
-            if current_coordinate[1] + 1 not in coordinates:
-                score += -1
-
+            for neighbour in neighbours:
+                if neighbour in Fold.coordinates:
+                    if Aminoacid.type == 'H':
+                        if neighbour.id + 1 != Aminoacid.id | neighbour.id -1 != Aminoacid.id:
+                                score -= 1
+            index += 1
         return score
+
+    def check_surrounding_coordinates(self, current_coordinate, Fold):
+        """ Gets coordinate and checks the surrounding coordinates """
+        neighbours = []
+        for coordinate in Fold.coordinates:
+            if current_coordinate[0] + 1 == coordinate:
+                neighbours.append(coordinate)
+            elif current_coordinate[0] - 1 == coordinate:
+                neighbours.append(coordinate)
+            elif current_coordinate[1] + 1 == coordinate:
+                neighbours.append(coordinate)
+            elif current_coordinate[1] - 1 == coordinate:
+                neighbours.append(coordinate)
+
+        return neighbours
+
 
     def best_fold(valid_folds):
         """ Function checks all the scores of the made folds and picks the fold with the best score."""
         max_score = 0
+        best_fold = 0
         for fold in valid_folds:
             if fold.score > max_score:
                 max_score = fold.score
+                best_fold = fold
 
-        return max_score
+        return best_fold
