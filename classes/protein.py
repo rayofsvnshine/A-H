@@ -22,6 +22,12 @@ class Protein(object):
         self.protein = protein
         self.length = len(self.protein)
         self.bonds = self.length - 1
+        self.aminoacids = load_aminoacids()
+
+
+    def load_aminoacids(self):
+        """ Makes list of the aminoacids objects."""
+         
 
 
     def get_totals(self, protein: str) -> bool:
