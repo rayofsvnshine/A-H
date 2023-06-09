@@ -13,11 +13,11 @@ Post:
 """
 
 # Import classes and used libraries
-from classes.protein import Protein
-from classes.aminoacid import Aminoacid
-# from classes.score import Score
-# from classes.fold import Fold
-# from classes.algorithm import Folder
+from .code.classes.protein import Protein
+from .code.classes.aminoacid import Aminoacid
+from .code.classes.score import Score
+from .code.classes.fold import Fold
+from .code.algorithms.algorithm import Folder
 
 from sys import argv
 import csv

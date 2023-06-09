@@ -13,9 +13,9 @@ algorithm.py
 """
 
 from random import choice
-from .fold import Fold
-from .score import Score
-from .aminoacid import Aminoacid
+from ..classes.fold import Fold
+from ..classes.score import Score
+from ..classes.aminoacid import Aminoacid
 
 class Folder(object):
     """
