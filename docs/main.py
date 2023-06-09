@@ -20,7 +20,7 @@ from classes.aminoacid import Aminoacid
 # from classes.algorithm import Folder
 
 from sys import argv
-import csv  
+import csv
 
 
 def select_protein() -> str:
