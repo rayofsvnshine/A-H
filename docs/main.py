@@ -42,22 +42,7 @@ def select_protein() -> str:
         return overview
 
 
-def import_protein(protein_number: int) -> bool:
-    """Loads the selected protein into the protein class."""
-
-    with open("data/proteins.csv", "r") as csvfile:
-
-        # Read input file
-        proteins = csv.reader(csvfile)
-
-        # Select protein
-        for row in proteins:
-            if row[0] == protein_number:
-                return row[1]
-        return False
-
-
-def export_protein(foldingsteps: list, score: int) -> None:
+def export_result(foldingsteps: list, score: int) -> None:
     """Exports results to the output.csv file."""
 
     with open('data/output.csv', 'w') as csvfile:
@@ -85,11 +70,11 @@ if __name__ == "__main__":
 
     # Import protein if found
     elif len(argv) == 2:
-        if not import_protein(argv[1]):
+        if not Protein.import_protein(argv[1]):
             print("Protein not found")
             exit(1)
         else:
-            selected_protein = import_protein(argv[1])
+            Protein.import_protein(argv[1])
 
     # Show proteins from csv file if found
     elif len(argv) == 1:
@@ -102,14 +87,11 @@ if __name__ == "__main__":
         protein_number = input("Protein number:     ")
 
         # Import protein if found
-        if not import_protein(protein_number):
+        if not Protein.import_protein(protein_number):
             print("Selected protein not found")
             exit(1)
         else:
-            selected_protein = import_protein(protein_number)
-
-    # Make new protein object
-    protein = Protein(selected_protein)
+            Protein.import_protein(protein_number)
 
     # Checkout the selected protein
     print("")
@@ -126,5 +108,5 @@ if __name__ == "__main__":
     # Test result export
     foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
     score = -2
-    export_protein(foldingsteps, score)
+    export_result(foldingsteps, score)
     print("Results can be found in data/output.csv\n")

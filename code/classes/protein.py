@@ -13,6 +13,7 @@ Post:
     Initialises the different properties of the protein.
 """
 from .aminoacid import Aminoacid
+import csv
 
 class Protein(object):
     """Protein object"""
@@ -24,6 +25,22 @@ class Protein(object):
         self.length = len(self.protein)
         self.bonds = self.length - 1
         self.aminoacids = {}
+
+
+    def import_protein(self, protein_number: int) -> bool:
+        """Loads the selected protein into the protein class."""
+
+        with open("data/proteins.csv", "r") as csvfile:
+
+            # Read input file
+            proteins = csv.reader(csvfile)
+
+            # Select protein
+            for row in proteins:
+                if row[0] == protein_number:
+                    self.protein = row[1]
+                    return True
+            return False
 
 
     def load_aminoacids(self):
