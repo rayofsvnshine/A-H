@@ -1,39 +1,39 @@
 """
-folded_protein.py
+aminoacid.py
 
-* coordinates of animoacids
-* score of fold
+* ...
 
 Pre:
-    Stores all used coordinates and the score of the fold.
+    Stores all properties of a aminoacod.
 Post:
     Properties of the folded protein.
 """
 
-class Fold(object):
-    """Fold object"""
+class Aminoacid(object):
+    """Aminoacid object"""
 
-    def __init__(self, score, coordinates):
+    def __init__(self, amino_id, aminotype):
         """
-        Initializer:
-            self.coordinatesandtype = dict that stores coordinates and type of aminoacid.
-            self.coordinates = list of all the used coordinates of the fold.
-            self.scores = stores the score of the fold.
+        Initializer
         """
 
-        self.coordinatesandtype = {}
-        self.coordinates = coordinates
-        self.score = score
+        self.amino_id = amino_id
+        self.aminotype = aminotype
 
 
-    def store_coordinates(self, coordinate, a_type):
+    def set_origin_direction(self, direction):
+        """..."""
+
+        self.origin_direction = direction
+
+
+    def set_target_direction(self, direction):
+        """..."""
+
+        self.target_direction = direction
+
+
+    def store_coordinates(self, coordinate):
         """Gets the type of aminoacid (H, P, C) and the coordinates and stores them together."""
 
-        self.coordinatesandtype[coordinate].append(a_type)
-        self.coordinates.append(coordinate)
-
-
-    def store_score(self, protein_score):
-        """Gets the score of a fold to store it in the fold object."""
-
-        self.score = protein_score
+        self.coordinate = coordinate

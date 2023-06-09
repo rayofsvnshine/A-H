@@ -22,13 +22,14 @@ class Protein(object):
         self.protein = protein
         self.length = len(self.protein)
         self.bonds = self.length - 1
-        self.total_h = 0
-        self.total_p = 0
-        self.total_c = 0
 
 
     def get_totals(self, protein: str) -> bool:
         """ Gets a string containing H, P or C aminoacids and counts their amounts."""
+
+        self.total_h = 0
+        self.total_p = 0
+        self.total_c = 0
 
         for element in protein:
 
