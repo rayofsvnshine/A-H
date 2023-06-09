@@ -14,7 +14,7 @@ Post:
 
 # Import classes and used libraries
 from classes.protein import Protein
-from classes.fold import Aminoacid
+from classes.aminoacid import Aminoacid
 from classes.score import Score
 from classes.fold import Fold
 from classes.algorithm import Folder

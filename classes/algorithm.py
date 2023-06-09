@@ -13,7 +13,7 @@ algorithm.py
 """
 
 from random import choice
-from .aminoacid import Fold
+from .fold import Fold
 from .score import Score
 from .aminoacid import Aminoacid
 
