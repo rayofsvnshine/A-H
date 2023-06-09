@@ -1,3 +1,9 @@
+# Protein folding algorithm
+
+Course: Algorithms and Heuristics  
+Case: Protein Pow(d)er  
+Team: The Folding Brigade  
+
 ## Order of business
 1. main loads in csv
 2. stores string of protein in Protein class

@@ -15,9 +15,9 @@ Post:
 # Import classes and used libraries
 from classes.protein import Protein
 from classes.aminoacid import Aminoacid
-from classes.score import Score
-from classes.fold import Fold
-from classes.algorithm import Folder
+# from classes.score import Score
+# from classes.fold import Fold
+# from classes.algorithm import Folder
 
 from sys import argv
 import csv
@@ -26,7 +26,7 @@ import csv
 def select_protein() -> str:
     """Gives an overview of the available proteins in the csv file."""
 
-    with open("proteins.csv", "r") as csvfile:
+    with open("data/proteins.csv", "r") as csvfile:
 
         # Read input file
         proteins = [row for row in csv.reader(csvfile)]
@@ -45,7 +45,7 @@ def select_protein() -> str:
 def import_protein(protein_number: int) -> bool:
     """Loads the selected protein into the protein class."""
 
-    with open("proteins.csv", "r") as csvfile:
+    with open("data/proteins.csv", "r") as csvfile:
 
         # Read input file
         proteins = csv.reader(csvfile)
@@ -60,7 +60,7 @@ def import_protein(protein_number: int) -> bool:
 def export_protein(foldingsteps: list, score: int) -> None:
     """Exports results to the output.csv file."""
 
-    with open('output.csv', 'w') as csvfile:
+    with open('data/output.csv', 'w') as csvfile:
 
         # Create output file
         output = csv.writer(csvfile)
@@ -94,7 +94,7 @@ if __name__ == "__main__":
     # Show proteins from csv file if found
     elif len(argv) == 1:
         if not select_protein():
-            print("No proteins found in proteins.csv")
+            print("No proteins found in data/proteins.csv")
             exit(1)
         print(select_protein())
 
@@ -121,10 +121,10 @@ if __name__ == "__main__":
     print(f"Total cysteine:     {protein.total_c}  ({round(protein.total_c / protein.length * 100)}%)")
     print("")
 
-    # new_protein_fold = Folder(protein)
+    Aminoacid.load_aminoacids()
 
     # Test result export
     foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
     score = -2
     export_protein(foldingsteps, score)
-    print("Results can be found in output.csv\n")
+    print("Results can be found in data/output.csv\n")

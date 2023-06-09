@@ -12,7 +12,7 @@ Post:
 class Aminoacid(object):
     """Aminoacid object"""
 
-    def __init__(self, amino_id, aminotype):
+    def __init__(self, id, aminotype):
         """
         Initializer
         """

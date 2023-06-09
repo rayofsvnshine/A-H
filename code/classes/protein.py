@@ -12,6 +12,7 @@ Pre:
 Post:
     Initialises the different properties of the protein.
 """
+from .aminoacid import Aminoacid
 
 class Protein(object):
     """Protein object"""
@@ -22,12 +23,26 @@ class Protein(object):
         self.protein = protein
         self.length = len(self.protein)
         self.bonds = self.length - 1
-        self.aminoacids = load_aminoacids()
+        self.aminoacids = {}
 
 
     def load_aminoacids(self):
         """ Makes list of the aminoacids objects."""
-         
+
+        # Start with the first aminoacid in the protein string
+        amino_id = 1
+
+        # Loop over all aminoacids the protein string
+        for aminoacid in self.protein:
+
+            # Create a new aminoacid object using the aminoacids from the protein string
+            new_aminoacid = Aminoacid(id = amino_id, aminotype = aminoacid)
+
+            # Add the aminoacid to self.aminoacids, mapping id to the aminoacid object
+            self.aminoacids.update({new_aminoacid.id: new_aminoacid.aminotype})
+
+            # Move to the next aminoacid id
+            amino_id += 1
 
 
     def get_totals(self, protein: str) -> bool:
