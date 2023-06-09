@@ -17,7 +17,7 @@ class Aminoacid(object):
         Initializer
         """
 
-        self.amino_id = amino_id
+        self.amino_id = id
         self.aminotype = aminotype
 
 

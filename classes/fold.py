@@ -13,24 +13,14 @@ Post:
 class Fold(object):
     """Fold object"""
 
-    def __init__(self, score, coordinates):
+    def __init__(self, id: int, aminoacids: list, coordinates: list, directions: list):
         """
-        Initializer:
-            self.coordinatesandtype = dict that stores coordinates and type of aminoacid.
-            self.coordinates = list of all the used coordinates of the fold.
-            self.scores = stores the score of the fold.
+        Initializer
         """
-
-        self.coordinatesandtype = {}
+        self.id = id
+        self.aminoacids = aminoacids
         self.coordinates = coordinates
-        self.score = score
-
-
-    def store_coordinates(self, coordinate, a_type):
-        """Gets the type of aminoacid (H, P, C) and the coordinates and stores them together."""
-
-        self.coordinatesandtype[coordinate].append(a_type)
-        self.coordinates.append(coordinate)
+        self.directions = directions
 
 
     def store_score(self, protein_score):
