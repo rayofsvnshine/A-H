@@ -23,6 +23,7 @@ class Fold(object):
         self.directions = directions
         self.output_list = self.make_list()
 
+
     def make_list(self):
         """ Makes list with aminoacids and directions."""
 
