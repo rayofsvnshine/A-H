@@ -13,11 +13,11 @@ Post:
 """
 
 # Import classes and used libraries
-from .code.classes.protein import Protein
-from .code.classes.aminoacid import Aminoacid
-from .code.classes.score import Score
-from .code.classes.fold import Fold
-from .code.algorithms.algorithm import Folder
+from code import Protein
+from code import Aminoacid
+from code import Score
+from code import Fold
+from code import Folder
 
 from sys import argv
 import csv
@@ -40,6 +40,21 @@ def select_protein() -> str:
         for row in proteins:
             overview += "   ".join(row) + "\n"
         return overview
+
+
+def import_protein(protein_number: int) -> bool:
+        """Loads the selected protein into the protein class."""
+
+        with open("data/proteins.csv", "r") as csvfile:
+
+            # Read input file
+            proteins = csv.reader(csvfile)
+
+            # Select protein
+            for row in proteins:
+                if row[0] == protein_number:
+                    return row[1]
+            return False
 
 
 def export_result(foldingsteps: list, score: int) -> None:
@@ -70,11 +85,10 @@ if __name__ == "__main__":
 
     # Import protein if found
     elif len(argv) == 2:
-        if not Protein.import_protein(argv[1]):
+        selected_protein = import_protein(argv[1])
+        if not selected_protein:
             print("Protein not found")
             exit(1)
-        else:
-            Protein.import_protein(argv[1])
 
     # Show proteins from csv file if found
     elif len(argv) == 1:
@@ -87,11 +101,13 @@ if __name__ == "__main__":
         protein_number = input("Protein number:     ")
 
         # Import protein if found
-        if not Protein.import_protein(protein_number):
+        selected_protein = import_protein(protein_number)
+        if not selected_protein:
             print("Selected protein not found")
             exit(1)
-        else:
-            Protein.import_protein(protein_number)
+
+    # Make new protein object
+    protein = Protein(selected_protein)
 
     # Checkout the selected protein
     print("")
@@ -103,7 +119,21 @@ if __name__ == "__main__":
     print(f"Total cysteine:     {protein.total_c}  ({round(protein.total_c / protein.length * 100)}%)")
     print("")
 
-    Aminoacid.load_aminoacids()
+    # Test for Aminoacid object
+    print("TEST")
+    print(f"First amino_id:     {protein.aminoacids[0].id}")
+    print(f"First aminotype:    {protein.aminoacids[0].aminotype}")
+    last_aminoacid = len(protein.aminoacids) - 1
+    print(f"Last amino_id:      {protein.aminoacids[last_aminoacid].id}")
+    print(f"Last aminotype:     {protein.aminoacids[last_aminoacid].aminotype}")
+    print("")
+
+    # make random algoritm
+    # random_algorithm = Folder(protein)
+
+    # print(len(random_algoritm.Folds))
+    # valid_folds = random_algoritm.Folds
+    # best_fold = Score.best_score(valid_folds)
 
     # Test result export
     foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]

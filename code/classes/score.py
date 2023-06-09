@@ -48,6 +48,7 @@ class Score:
             index += 1
         return score
 
+
     def check_surrounding_coordinates(self, current_coordinate, Fold):
         """ Gets coordinate and checks the surrounding coordinates """
         neighbours = []

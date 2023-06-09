@@ -17,8 +17,9 @@ class Aminoacid(object):
         Initializer
         """
 
-        self.amino_id = id
+        self.id = id
         self.aminotype = aminotype
+        self.coordinate = ()
 
 
     def set_origin_direction(self, direction):

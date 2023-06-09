@@ -83,11 +83,11 @@ class Folder(object):
         amino_amigos = []
         origin_direction = None
         
-        # create aminoacids to use in Fold
-        for aminoacid in self.Protein.protein:
-            new_amino = Aminoacid(self.amino_counter, aminoacid)
-            amino_amigos.append(new_amino)
-            self.amino_counter += 1
+        # # create aminoacids to use in Fold
+        # for aminoacid in self.Protein.protein:
+        #     new_amino = Aminoacid(self.amino_counter, aminoacid)
+        #     amino_amigos.append(new_amino)
+        #     self.amino_counter += 1
 
         
         # put aminoacids down until end of protein
@@ -96,7 +96,11 @@ class Folder(object):
             if options == []:
                 return None
             
-            # reassign starting point and append to coordinate list
+            # reassign starting point # create aminoacids to use in Fold
+        # for aminoacid in self.Protein.protein:
+        #     new_amino = Aminoacid(self.amino_counter, aminoacid)
+        #     amino_amigos.append(new_amino)
+        #     self.amino_counter += 1and append to coordinate list
             starting_point, direction = self.choose_direction(starting_point, options)
             aminoacid.set_target_direction(direction) # set target direction
             aminoacid.set_origin_direction(origin_direction) # set origin direction

@@ -20,7 +20,14 @@ class Fold(object):
         self.id = id
         self.aminoacids = aminoacids
         self.coordinates = coordinates
-        self.directions = directions #directions 
+        self.directions = directions
+        self.output_dict = self.make_dict(self.aminoacids, self.directions)
+
+    def make_dict(aminoacids, directions):
+        """ Makes dict with aminoacids and directions."""
+        for i in range(self.aminoacids):
+            self.output_dict.update({"aminoacids": directions})
+        
 
 
     def store_score(self, protein_score):
