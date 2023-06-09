@@ -13,9 +13,9 @@ algorithm.py
 """
 
 from random import choice
-# import numpy as np
 from .aminoacid import Fold
 from .score import Score
+from .aminoacid import Aminoacid
 
 class Folder(object):
     """
@@ -39,6 +39,8 @@ class Folder(object):
         """
         self.Protein = Protein
         self.Folds = self.make_folds()
+        self.amino_counter = 0
+        self.fold_counter = 0
         
     def make_folds(self) -> list:
         """
@@ -75,23 +77,39 @@ class Folder(object):
         # grid = self.make_grid()
         starting_point = (0,0)
         
-        # make list for coordinates
+        # make list for coordinates and aminoacids
         coordinates = [(0,0)]
         directions = []
+        amino_amigos = []
+        origin_direction = None
+        
+        # create aminoacids to use in Fold
+        for aminoacid in self.Protein.protein:
+            new_amino = Aminoacid(self.amino_counter, aminoacid)
+            amino_amigos.append(new_amino)
+            self.amino_counter += 1
+
         
         # put aminoacids down until end of protein
-        for aminoacid in self.Protein.length:
+        for aminoacid in amino_amigos:
             options = self.check_directions(starting_point, coordinates)
-            if options == None:
+            if options == []:
                 return None
             
             # reassign starting point and append to coordinate list
             starting_point, direction = self.choose_direction(starting_point, options)
-            coordinates.append(starting_point)
-            directions.append(direction)
+            aminoacid.set_target_direction(direction) # set target direction
+            aminoacid.set_origin_direction(origin_direction) # set origin direction
+            # change origin direction to prev direction
+            origin_direction = -1 * direction
+            
+            # store coordinates and directions
+            coordinates.append(starting_point) # store coordinate
+            directions.append(direction) # store direction
             
         # if fold was completed, return
-        new_fold = Fold(coordinates, directions)
+        new_fold = Fold(self.fold_counter, amino_amigos, coordinates, directions)
+        self.fold_counter += 1
         return new_fold
             
             
@@ -132,7 +150,7 @@ class Folder(object):
             
     #     return gridspace
             
-    def check_direction(self, starting_point, coordinates) -> tuple:
+    def check_directions(self, starting_point, coordinates) -> list:
         """
         Determines the coordinate where the following aminoacid will be placed.
         
@@ -143,7 +161,7 @@ class Folder(object):
         
         Returns:
         -----
-        next_point = tuple with coordinates
+        options = list with possible coordinates
         """
         
         # things it should do:
@@ -151,18 +169,19 @@ class Folder(object):
         # returns list of possible coordinates
         # if no options possible, return None
         
-        # goes to the coordinate right to the previous point
         x, y = starting_point
-        # orientations = ["up", "down", "right", "left"]
+        orientations = [(0,1), (0,-1), (1,0), (-1,0)]
+        options = []
         
+        for plus_x, plus_y in orientations:
+            new_x = x + plus_x
+            new_y = y + plus_y
+            if (new_x, new_y) in coordinates:
+                continue
+            else:
+                options.append(((x + new_x), (y + new_y)))
         
-        next_point = ((x + 1), y)
-        
-        if next_point in coordinates:
-            # move on to next option
-            pass
-        
-        return next_point
+        return options
     
     def choose_direction(self, starting_point, options):
         next_point = choice(options)
@@ -176,25 +195,3 @@ class Folder(object):
             # calculate if movement is in positive or negative direction
             direction = next_point[0] - starting_point[0]
             
-
-
-"""
-This is to test out the different grid functions
-"""
-# if __name__ == "__main__":
-    
-#     gridspace = []
-#     gridsize = range(-5, 6)
-#     for y in gridsize:
-#         for x in gridsize:
-#             coordinate = ((y), (x))
-#             gridspace.append(coordinate)
-    
-    # new_grid = np.array(gridspace)
-    
-    # line = np.linspace(-5,5, 11)
-    # new_grid = np.meshgrid(line, indexing="xy")
-    # new_grid = np.array(line)
-    
-    # grid = gridspace
-    # print(grid)
