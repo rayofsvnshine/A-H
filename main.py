@@ -3,13 +3,9 @@ main.py
 
 * Imports the protein from the proteins.csv file
 * Puts protein in Protein class
-* Output of Folder in Scoring class
+* Runs algorithm
+* Output of folded protein in Score class
 * Exports results to the output.csv file
-
-Pre:
-    proteins.csv
-Post:
-    output.csv
 """
 
 # Import classes and used libraries
@@ -18,13 +14,21 @@ from code import Aminoacid
 from code import Score
 from code import Fold
 from code import Folder
-
 from sys import argv
 import csv
 
 
 def select_protein() -> str:
-    """Gives an overview of the available proteins in the csv file."""
+    """
+    Gives an overview of the available proteins.
+
+    Pre:
+        The data directory contains a csv file called proteins.
+    Post:
+        Returns a string showing an overview of all proteins
+        that can be found in the data/proteins.csv file. If
+        there are no proteins in the file, False is returned.
+    """
 
     with open("data/proteins.csv", "r") as csvfile:
 
@@ -39,26 +43,47 @@ def select_protein() -> str:
         overview = "\n"
         for row in proteins:
             overview += "   ".join(row) + "\n"
+        
+        # Returns an overview of all available proteins
         return overview
 
 
-def import_protein(protein_number: int) -> bool:
-        """Loads the selected protein into the protein class."""
+def import_protein(protein_number: int) -> bool | str:
+    """
+    Loads the selected protein into the protein class.
+    
+    Pre:
+        The protein_number is a integer representing the
+        selected protein from the data/proteins.csv file.
+    Post:
+        Returns the selected protein in a string or returns
+        false if the protein is not found.
+    """
 
-        with open("data/proteins.csv", "r") as csvfile:
+    with open("data/proteins.csv", "r") as csvfile:
 
-            # Read input file
-            proteins = csv.reader(csvfile)
+        # Read input file
+        proteins = csv.reader(csvfile)
 
-            # Select protein
-            for row in proteins:
-                if row[0] == protein_number:
-                    return row[1]
-            return False
+        # Select protein
+        for row in proteins:
+            if row[0] == protein_number:
+                return row[1]
+        
+        # Returns false if protein is not found
+        return False
 
 
-def export_result(foldingsteps: list, score: int) -> None:
-    """Exports results to the output.csv file."""
+def export_result(foldingsteps: list[tuple], score: int) -> None:
+    """
+    Exports results to the output.csv file.
+    
+    Pre:
+        Foldingsteps is a list of tuples with the amino acid as
+        string and the step as integer and score is an integer.
+    Post:
+        Writes the results in the data/output.csv file.
+    """
 
     with open('data/output.csv', 'w') as csvfile:
 

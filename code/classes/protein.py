@@ -6,12 +6,8 @@ protein.py
 * Stores total amount of polar aminoacids (P).
 * Stores total amount of hydrophobic aminoacids (H).
 * Stores total amount of Cysteines.
-
-Pre:
-    Protein chain (str).
-Post:
-    Initialises the different properties of the protein.
 """
+
 from .aminoacid import Aminoacid
 import csv
 
@@ -19,17 +15,30 @@ class Protein(object):
     """Protein object"""
 
     def __init__(self, protein: str):
-        """Initializer"""
+        """
+        Initializer
+        """
 
         self.protein = protein
         self.length = len(self.protein)
         self.bonds = self.length - 1
         self.aminoacids = self.load_aminoacids()
+        self.total_h = 0
+        self.total_p = 0
+        self.total_c = 0
 
 
     def load_aminoacids(self):
-        """ Makes list of the aminoacids objects."""
+        """
+        Makes a list of aminoacid objects.
+
+        Post:
+            Loads all amino acids into aminoacids objects and returns them as a list.
+        """
+
+        # Create an empty list
         aminoacids = []
+
         # Start with the first aminoacid in the protein string
         amino_id = 1
 
@@ -47,22 +56,26 @@ class Protein(object):
         
         return aminoacids
 
+
     def get_totals(self, protein: str) -> bool:
-        """ Gets a string containing H, P or C aminoacids and counts their amounts."""
+        """
+        Counts all H, P and C amino acids in the protein.
 
-        self.total_h = 0
-        self.total_p = 0
-        self.total_c = 0
+        Pre:
+            Protein is a string containing H, P or C amino acids.
+        Post:
+            Updates the totals of H, P and C.
+        """
 
-        for element in protein:
+        for aminoacid in protein:
 
-            if element == 'H':
+            if aminoacid == 'H':
                 self.total_h += 1
 
-            elif element == 'P':
+            elif aminoacid == 'P':
                 self.total_p += 1
 
-            elif element == 'C':
+            elif aminoacid == 'C':
                 self.total_c += 1
 
             else:

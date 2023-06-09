@@ -5,27 +5,25 @@ score.py
 * counts the scores for each C-connection (if present)
 * gives a total score for each fold
 * compares total scores of different proteins to determine the optimal fold
-
-Pre:
-    Uses a list of tuples with directions.
-Post:
-    Returns a int score for the optimal protein folding steps.
 """
 
 from .fold import Fold
 from .aminoacid import Aminoacid
 
 class Score:
-    """Collection of all functions regarding the score."""
-
+    """
+    Collection of all functions regarding the score.
+    """
 
     def __init__(self, coordinates):
-        """Initializer"""
+        """
+        Initializer
+        """
 
         self.coordinates = coordinates
 
 
-    def calculate_score(self, Fold):
+    def calculate_score(self, Fold) -> int:
         """
         Function loops over the existing list of used coordinates to see if the
         given coordinate of the H aminoacid sides another H, if so, -1 is added to the score.
@@ -35,6 +33,7 @@ class Score:
         Post:
             Returns the score retrieved from this aminoacid.
         """
+
         score = 0
         index = Fold.aminoacids[1].id
         for Aminoacid in Fold.aminoacids:
@@ -49,8 +48,16 @@ class Score:
         return score
 
 
-    def check_surrounding_coordinates(self, current_coordinate, Fold):
-        """ Gets coordinate and checks the surrounding coordinates """
+    def check_surrounding_coordinates(self, current_coordinate, Fold) -> list:
+        """
+        Gets coordinate and checks the surrounding coordinates.
+
+        Pre:
+            ...
+        Post:
+            ...
+        """
+
         neighbours = []
         for coordinate in Fold.coordinates:
             if current_coordinate[0] + 1 == coordinate:
@@ -65,8 +72,16 @@ class Score:
         return neighbours
 
 
-    def best_fold(valid_folds):
-        """ Function checks all the scores of the made folds and picks the fold with the best score."""
+    def best_fold(valid_folds) -> int:
+        """
+        Function checks all the scores of the made folds and picks the fold with the best score.
+
+        Pre:
+            ...
+        Post:
+            ...
+        """
+
         max_score = 0
         best_fold = 0
         for fold in valid_folds:
