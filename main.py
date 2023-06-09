@@ -121,19 +121,18 @@ if __name__ == "__main__":
 
     # Test for Aminoacid object
     print("TEST")
-    print(f"First amino_id:     {protein.aminoacids[0].id}")
-    print(f"First aminotype:    {protein.aminoacids[0].aminotype}")
     last_aminoacid = len(protein.aminoacids) - 1
+    print(f"First amino_id:     {protein.aminoacids[0].id}")
     print(f"Last amino_id:      {protein.aminoacids[last_aminoacid].id}")
+    print(f"First aminotype:    {protein.aminoacids[0].aminotype}")
     print(f"Last aminotype:     {protein.aminoacids[last_aminoacid].aminotype}")
     print("")
 
     # make random algoritm
     # random_algorithm = Folder(protein)
-
-    # print(len(random_algoritm.Folds))
-    # valid_folds = random_algoritm.Folds
-    # best_fold = Score.best_score(valid_folds)
+   
+    # valid_folds = random_algorithm.Folds
+    # best_fold = Score.best_fold(valid_folds)
 
     # Test result export
     foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]

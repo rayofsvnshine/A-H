@@ -1,5 +1,5 @@
 """
-folded_protein.py
+fold.py
 
 * coordinates of animoacids
 * score of fold
@@ -21,16 +21,15 @@ class Fold(object):
         self.aminoacids = aminoacids
         self.coordinates = coordinates
         self.directions = directions
-        self.output_dict = self.make_dict(self.aminoacids, self.directions)
+        self.output_list = self.make_list()
 
-    def make_dict(aminoacids, directions):
-        """ Makes dict with aminoacids and directions."""
-        for i in range(self.aminoacids):
-            self.output_dict.update({"aminoacids": directions})
-        
+    def make_list(self):
+        """ Makes list with aminoacids and directions."""
+
+        for i in range(len(self.aminoacids)):
+            self.output_list.append((self.aminoacids[i], self.directions[i]))
 
 
     def store_score(self, protein_score):
         """Gets the score of a fold to store it in the fold object."""
-
         self.score = protein_score

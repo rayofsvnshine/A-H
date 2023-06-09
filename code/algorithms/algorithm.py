@@ -38,9 +38,10 @@ class Folder(object):
         self.Best_fold = the optimal generated fold of a protein with coordinates and score
         """
         self.Protein = Protein
-        self.Folds = self.make_folds()
         self.amino_counter = 0
         self.fold_counter = 0
+        self.Folds = self.make_folds()
+        
         
     def make_folds(self) -> list:
         """
@@ -76,11 +77,12 @@ class Folder(object):
         # make grid and set starting point
         # grid = self.make_grid()
         starting_point = (0,0)
+        fold_score = 0
         
         # make list for coordinates and aminoacids
         coordinates = [(0,0)]
         directions = []
-        amino_amigos = []
+        amino_amigos = self.Protein.protein
         origin_direction = None
         
         # # create aminoacids to use in Fold
@@ -113,6 +115,8 @@ class Folder(object):
             
         # if fold was completed, return
         new_fold = Fold(self.fold_counter, amino_amigos, coordinates, directions)
+        fold_score = Score.calculate_score(self, new_fold)
+        new_fold.store_score(fold_score)
         self.fold_counter += 1
         return new_fold
             

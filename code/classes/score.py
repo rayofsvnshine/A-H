@@ -1,5 +1,5 @@
 """
-scoring.py
+score.py
 
 * counts the scores for each H-connection
 * counts the scores for each C-connection (if present)
@@ -36,8 +36,8 @@ class Score:
             Returns the score retrieved from this aminoacid.
         """
         score = 0
-        index = Fold.Aminoacid[0].id
-        for Aminoacid in Fold.Aminoacids:
+        index = Fold.aminoacids[1].id
+        for Aminoacid in Fold.aminoacids:
             neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
 
             for neighbour in neighbours:
