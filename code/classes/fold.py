@@ -20,7 +20,7 @@ class Fold(object):
         self.id = id
         self.aminoacids = aminoacids
         self.coordinates = coordinates
-        self.directions = directions
+        self.directions = directions #directions 
 
 
     def store_score(self, protein_score):
