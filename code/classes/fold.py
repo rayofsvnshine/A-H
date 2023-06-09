@@ -21,14 +21,14 @@ class Fold(object):
         self.aminoacids = aminoacids
         self.coordinates = coordinates
         self.directions = directions
-        self.output_list = self.make_list()
+        self.results = self.make_list()
 
 
-    def make_list(self):
+    def store_results(self):
         """ Makes list with aminoacids and directions."""
 
         for i in range(len(self.aminoacids)):
-            self.output_list.append((self.aminoacids[i], self.directions[i]))
+            self.results.append((self.aminoacids[i], self.directions[i]))
 
 
     def store_score(self, protein_score):

@@ -135,7 +135,7 @@ if __name__ == "__main__":
     # best_fold = Score.best_fold(valid_folds)
 
     # Test result export
-    foldingsteps = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
+    results = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
     score = -2
-    export_result(foldingsteps, score)
+    export_result(results, score)
     print("Results can be found in data/output.csv\n")
