@@ -43,7 +43,7 @@ def select_protein() -> str:
         overview = "\n"
         for row in proteins:
             overview += "   ".join(row) + "\n"
-        
+
         # Returns an overview of all available proteins
         return overview
 
@@ -69,7 +69,7 @@ def import_protein(protein_number: int):
         for row in proteins:
             if row[0] == protein_number:
                 return row[1]
-        
+
         # Returns false if protein is not found
         return False
 
@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
     # make random algoritm
     random_algorithm = Folder(protein)
-   
+
     valid_folds = random_algorithm.Folds
     best_fold = Score.best_fold(valid_folds)
     results = best_fold.results
