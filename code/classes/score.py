@@ -85,7 +85,7 @@ class Score:
         max_score = 0
         best_fold = 0
         for fold in valid_folds:
-            if fold.score > max_score:
+            if fold.score < max_score:
                 max_score = fold.score
                 best_fold = fold
 

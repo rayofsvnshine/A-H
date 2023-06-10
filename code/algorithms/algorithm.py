@@ -82,15 +82,9 @@ class Folder(object):
         # make list for coordinates and aminoacids
         coordinates = [(0,0)]
         directions = []
+        amino_list = []
         amino_amigos = self.Protein.protein
         origin_direction = None
-        
-        # # create aminoacids to use in Fold
-        # for aminoacid in self.Protein.protein:
-        #     new_amino = Aminoacid(self.amino_counter, aminoacid)
-        #     amino_amigos.append(new_amino)
-        #     self.amino_counter += 1
-
         
         # put aminoacids down until end of protein
         for aminoacid in amino_amigos:
@@ -98,23 +92,24 @@ class Folder(object):
             if options == []:
                 return None
             
-            # reassign starting point # create aminoacids to use in Fold
-        # for aminoacid in self.Protein.protein:
-        #     new_amino = Aminoacid(self.amino_counter, aminoacid)
-        #     amino_amigos.append(new_amino)
-        #     self.amino_counter += 1and append to coordinate list
+            # create aminoacid to use
+            new_amino = Aminoacid(self.amino_counter, aminoacid)
+            amino_list.append(new_amino)
+            self.amino_counter += 1
+         
+            # reassign starting point and append to coordinate list
+            new_amino.set_previous_coordinate(starting_point) # set origin direction
             starting_point, direction = self.choose_direction(starting_point, options)
-            aminoacid.set_target_direction(direction) # set target direction
-            aminoacid.set_origin_direction(origin_direction) # set origin direction
+            new_amino.set_next_direction(starting_point) # set target direction
             # change origin direction to prev direction
-            origin_direction = -1 * direction
+            # origin_direction = -1 * direction
             
             # store coordinates and directions
             coordinates.append(starting_point) # store coordinate
             directions.append(direction) # store direction
             
         # if fold was completed, return
-        new_fold = Fold(self.fold_counter, amino_amigos, coordinates, directions)
+        new_fold = Fold(self.fold_counter, amino_list, coordinates, directions)
         fold_score = Score.calculate_score(self, new_fold)
         new_fold.store_score(fold_score)
         self.fold_counter += 1
@@ -176,19 +171,18 @@ class Folder(object):
         # checks which directions line can go
         # returns list of possible coordinates
         # if no options possible, return None
-        
-        x, y = starting_point
         orientations = [(0,1), (0,-1), (1,0), (-1,0)]
         options = []
         
         for plus_x, plus_y in orientations:
+            x, y = starting_point
             new_x = x + plus_x
             new_y = y + plus_y
             if (new_x, new_y) in coordinates:
                 continue
             else:
-                options.append(((x + new_x), (y + new_y)))
-        
+                options.append(((new_x), (new_y)))
+                
         return options
     
     def choose_direction(self, starting_point, options):
@@ -201,5 +195,7 @@ class Folder(object):
         # if there's a difference in x-coordinate, direction is -1 or 1
         elif starting_point[1] == next_point[1]:
             # calculate if movement is in positive or negative direction
-            direction = next_point[0] - starting_point[0]
+            direction = next_point[0] - starting_point[0]    
+            
+        return next_point, direction
             

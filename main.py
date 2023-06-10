@@ -48,7 +48,7 @@ def select_protein() -> str:
         return overview
 
 
-def import_protein(protein_number: int) -> bool | str:
+def import_protein(protein_number: int):
     """
     Loads the selected protein into the protein class.
     
@@ -74,7 +74,7 @@ def import_protein(protein_number: int) -> bool | str:
         return False
 
 
-def export_result(foldingsteps: list[tuple], score: int) -> None:
+def export_result(foldingsteps: list, score: int) -> None:
     """
     Exports results to the output.csv file.
     
@@ -154,13 +154,15 @@ if __name__ == "__main__":
     print("")
 
     # make random algoritm
-    # random_algorithm = Folder(protein)
+    random_algorithm = Folder(protein)
    
-    # valid_folds = random_algorithm.Folds
-    # best_fold = Score.best_fold(valid_folds)
+    valid_folds = random_algorithm.Folds
+    best_fold = Score.best_fold(valid_folds)
+    results = best_fold.results
+    score = best_fold.score
 
     # Test result export
-    results = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
-    score = -2
+    # results = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
+    # score = -2
     export_result(results, score)
     print("Results can be found in data/output.csv\n")
