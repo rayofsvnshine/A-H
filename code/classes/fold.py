@@ -33,7 +33,7 @@ class Fold(object):
         """
 
         for i in range(len(self.aminoacids)):
-            self.results.append((self.aminoacids[i], self.directions[i]))
+            self.results.append((self.aminoacids[i].aminotype, self.directions[i]))
 
 
     def store_score(self, protein_score: int) -> None:
