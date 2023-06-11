@@ -80,14 +80,16 @@ class Folder(object):
         fold_score = 0
         
         # make list for coordinates and aminoacids
-        coordinates = [(0,0)]
+        coordinates = []
         directions = []
         amino_list = []
         amino_amigos = self.Protein.protein
-        origin_direction = None
+        previous_coordinate = None
+        previous_amino = None
         
         # put aminoacids down until end of protein
         for aminoacid in amino_amigos:
+            coordinates.append(starting_point) # store coordinate
             options = self.check_directions(starting_point, coordinates)
             if options == []:
                 return None
@@ -98,19 +100,23 @@ class Folder(object):
             self.amino_counter += 1
          
             # reassign starting point and append to coordinate list
-            new_amino.set_previous_coordinate(starting_point) # set origin direction
+            new_amino.set_previous_coordinate(previous_coordinate) # set origin direction
             starting_point, direction = self.choose_direction(starting_point, options)
-            new_amino.set_next_direction(starting_point) # set target direction
-            # change origin direction to prev direction
-            # origin_direction = -1 * direction
+            new_amino.store_coordinates(starting_point)
+            
+            if previous_amino != None:
+                previous_amino.set_next_direction(starting_point)
             
             # store coordinates and directions
-            coordinates.append(starting_point) # store coordinate
             directions.append(direction) # store direction
+            previous_coordinate = starting_point
+            previous_amino = new_amino
             
         # if fold was completed, return
         new_fold = Fold(self.fold_counter, amino_list, coordinates, directions)
-        fold_score = Score.calculate_score(self, new_fold)
+        # create scoring object (maybe put this somewhere else??)
+        score_obj = Score(coordinates)
+        fold_score = score_obj.calculate_score(new_fold)
         new_fold.store_score(fold_score)
         self.fold_counter += 1
         return new_fold
@@ -166,11 +172,7 @@ class Folder(object):
         -----
         options = list with possible coordinates
         """
-        
-        # things it should do:
-        # checks which directions line can go
         # returns list of possible coordinates
-        # if no options possible, return None
         orientations = [(0,1), (0,-1), (1,0), (-1,0)]
         options = []
         

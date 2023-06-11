@@ -18,7 +18,8 @@ class Fold(object):
         self.aminoacids = aminoacids
         self.coordinates = coordinates
         self.directions = directions
-        # self.results = self.make_list()
+        self.results = []
+        self.store_results()
 
 
     def store_results(self) -> None:

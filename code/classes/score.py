@@ -41,11 +41,17 @@ class Score:
 
             for neighbour in neighbours:
                 if neighbour in Fold.coordinates:
-                    if Aminoacid.type == 'H':
-                        if neighbour.id + 1 != Aminoacid.id | neighbour.id -1 != Aminoacid.id:
+                    if Aminoacid.aminotype == 'H':
+                        neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
+                        if neighbour_obj.id + 1 != Aminoacid.id | neighbour_obj.id -1 != Aminoacid.id:
                                 score -= 1
             index += 1
         return score
+    
+    def get_neighbour_obj(self, coordinate, Fold):
+        ind = Fold.coordinates.index(coordinate)
+        neighbour_obj = Fold.aminoacids[ind]
+        return neighbour_obj
 
 
     def check_surrounding_coordinates(self, current_coordinate, Fold) -> list:
@@ -60,14 +66,29 @@ class Score:
 
         neighbours = []
         for coordinate in Fold.coordinates:
-            if current_coordinate[0] + 1 == coordinate:
+            # new code adjusted for x/y
+            x = coordinate[0]
+            y = coordinate[1]
+            current_x = current_coordinate[0]
+            current_y = current_coordinate[1]
+            if current_x + 1 == x:
                 neighbours.append(coordinate)
-            elif current_coordinate[0] - 1 == coordinate:
+            elif current_x - 1 == x:
                 neighbours.append(coordinate)
-            elif current_coordinate[1] + 1 == coordinate:
+            elif current_y + 1 == y:
                 neighbours.append(coordinate)
-            elif current_coordinate[1] - 1 == coordinate:
+            elif current_y - 1 == y:
                 neighbours.append(coordinate)
+            
+            # old code
+            # if current_coordinate[0] + 1 == coordinate:
+            #     neighbours.append(coordinate)
+            # elif current_coordinate[0] - 1 == coordinate:
+            #     neighbours.append(coordinate)
+            # elif current_coordinate[1] + 1 == coordinate:
+            #     neighbours.append(coordinate)
+            # elif current_coordinate[1] - 1 == coordinate:
+            #     neighbours.append(coordinate)
 
         return neighbours
 
