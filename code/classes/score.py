@@ -35,6 +35,7 @@ class Score:
         """
 
         score = 0
+        teller = 0 
         index = Fold.aminoacids[1].id
         for Aminoacid in Fold.aminoacids:
             neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
@@ -43,9 +44,17 @@ class Score:
                 if neighbour in Fold.coordinates:
                     if Aminoacid.aminotype == 'H':
                         neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
-                        if neighbour_obj.id + 1 != Aminoacid.id | neighbour_obj.id -1 != Aminoacid.id:
+                        if neighbour_obj.aminotype == 'H':
+                            if neighbour_obj.id + 1 != Aminoacid.id | neighbour_obj.id - 1 != Aminoacid.id:
                                 score -= 1
+                                print(neighbour_obj.id, Aminoacid.id)
+                    elif Aminoacid.aminotype == 'C':
+                        neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
+                        if neighbour_obj.aminotype == 'C':
+                            if neighbour_obj.id + 1 != Aminoacid.id | neighbour_obj.id - 1 != Aminoacid.id:
+                              score -= 5      
             index += 1
+            teller += 1
         return score
     
     def get_neighbour_obj(self, coordinate, Fold):

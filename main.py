@@ -14,6 +14,7 @@ from code import Aminoacid
 from code import Score
 from code import Fold
 from code import Folder
+from code import *
 from sys import argv
 import csv
 
@@ -101,6 +102,69 @@ def export_result(foldingsteps: list, score: int) -> None:
         output.writerow(["score", score])
 
 
+def protein_info_in_terminal(protein: object) -> str:
+    """
+    Shows information about the protein in the terminal.
+
+    Post:
+        Returns a string with information about the protein to print in the main.
+    """
+
+    protein.get_totals(protein.protein)
+    percentage_h = round(protein.total_h / protein.length * 100)
+    percentage_p = round(protein.total_p / protein.length * 100)
+    percentage_c = round(protein.total_c / protein.length * 100)
+
+    info = "\n"
+    info += "Selected protein:" + " " * 3 + f"{protein.protein}" +"\n"
+    info += "Total amino acids:" + " " * 2 + f"{protein.length}" +"\n"
+
+    if protein.total_h > 9:
+        info += "Total hydrofobe:" + " " * 4 + f"{protein.total_h}" + " " * 2 + f"{percentage_h}%" + "\n"
+    else:
+        info += "Total hydrofobe:" + " " * 4 + f"{protein.total_h}" + " " * 3 + f"{percentage_h}%" + "\n"
+
+    if protein.total_p > 9:
+        info += "Total polair:" + " " * 7 + f"{protein.total_p}" + " " * 2 + f"{percentage_p}%" + "\n"
+    else:
+        info += "Total polair:" + " " * 7 + f"{protein.total_p}" + " " * 3 + f"{percentage_p}%" + "\n"
+
+    if protein.total_c > 9:
+        info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 2 + f"{percentage_c}%" + "\n"
+    else:
+        info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 3 + f"{percentage_c}%" + "\n"
+
+    return info
+
+
+def results_in_terminal(foldingsteps: list, score: int) -> str:
+    """
+    Check the results in the terminal.
+
+    Pre:
+        Foldingsteps is a list of tuples with the amino acid as
+        string and the step as integer and score is an integer.
+    Post:
+        Returns a string with the results to print in the main.
+    """
+
+    results = "Foldingsteps:" + " " * 7
+
+    for tuple in foldingsteps:
+        direction = tuple[1]
+        if direction < 0:
+            results += "".join(tuple[0]) + " " * 2 + "".join(str(direction)) + "\n" + " " * 20
+        else:
+            results += "".join(tuple[0]) + " " * 3 + "".join(str(direction)) + "\n" + " " * 20
+
+    if score < 0:
+        results += "\n" + "Score:" + " " * 13 + "".join(str(score)) + "\n"
+    else:
+        results += "\n" + "Score:" + " " * 14 + "".join(str(score)) + "\n"
+
+    return results
+
+
 if __name__ == "__main__":
 
     # Check command line arguments
@@ -134,35 +198,21 @@ if __name__ == "__main__":
     # Make new protein object
     protein = Protein(selected_protein)
 
-    # Checkout the selected protein
-    print("")
-    print(f"Selected protein:   {protein.protein}")
-    print(f"Total amino acids:  {protein.length}")
-    protein.get_totals(protein.protein)
-    print(f"Total hydrofobe:    {protein.total_h}  ({round(protein.total_h / protein.length * 100)}%)")
-    print(f"Total polair:       {protein.total_p}  ({round(protein.total_p / protein.length * 100)}%)")
-    print(f"Total cysteine:     {protein.total_c}  ({round(protein.total_c / protein.length * 100)}%)")
-    print("")
-
-    # Test for Aminoacid object
-    print("TEST")
-    last_aminoacid = len(protein.aminoacids) - 1
-    print(f"First amino_id:     {protein.aminoacids[0].id}")
-    print(f"Last amino_id:      {protein.aminoacids[last_aminoacid].id}")
-    print(f"First aminotype:    {protein.aminoacids[0].aminotype}")
-    print(f"Last aminotype:     {protein.aminoacids[last_aminoacid].aminotype}")
-    print("")
+    # Show information about the protein
+    print(protein_info_in_terminal(protein))
 
     # make random algoritm
     random_algorithm = Folder(protein)
 
     valid_folds = random_algorithm.Folds
     best_fold = Score.best_fold(valid_folds)
+    make_plot(best_fold)
     results = best_fold.results
     score = best_fold.score
 
-    # Test result export
-    # results = [("H", 1), ("H", 2), ("P", -1), ("H", -1), ("P", 2), ("P", 2), ("P", 1), ("P", -2), ("H", 0)]
-    # score = -2
-    export_result(results, score)
-    print("Results can be found in data/output.csv\n")
+    # Show results in terminal
+    print(results_in_terminal(results, score))
+
+    # Export results
+    # export_result(results, score)
+    # print("Results can be found in data/output.csv\n")
