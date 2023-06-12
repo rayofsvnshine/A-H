@@ -206,12 +206,14 @@ if __name__ == "__main__":
 
     valid_folds = random_algorithm.Folds
     best_fold = Score.best_fold(valid_folds)
-    make_plot(best_fold)
     results = best_fold.results
     score = best_fold.score
 
     # Show results in terminal
     print(results_in_terminal(results, score))
+
+    # Create a visualisation of the protein
+    make_plot(best_fold)
 
     # Export results
     # export_result(results, score)

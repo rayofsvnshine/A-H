@@ -47,7 +47,7 @@ class Score:
                         if neighbour_obj.aminotype == 'H':
                             if neighbour_obj.id + 1 != Aminoacid.id | neighbour_obj.id - 1 != Aminoacid.id:
                                 score -= 1
-                                print(neighbour_obj.id, Aminoacid.id)
+                                # print(neighbour_obj.id, Aminoacid.id)
                     elif Aminoacid.aminotype == 'C':
                         neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
                         if neighbour_obj.aminotype == 'C':

@@ -12,37 +12,46 @@ def make_plot(best_fold):
     #    print(txt)
     #    plt.plot(best_fold.coordinates[i], color = 'blue')
     #    plt.annotate(txt, best_fold.coordinates[i])
-
     # plt.plot(best_fold.coordinates)
     # txt = best_fold.aminoacids.aminotype
     # plt.annotate(txt, best_fold.coordinates)
     # plt.title('Protein fold')
     # plt.show()
 
+    # for coordinate in best_fold.coordinates:
+    #     print(best_fold.coordinates)
+    #     break
 
-    # Creating an empty plot
+    # creating an empty canvas
     fig = plt.figure()
 
-    # Defining the axes as a 3D axes so that we can plot 3D data into it
+    # defining the axes with the projection as 3D so as to plot 3D graphs
     ax = plt.axes(projection="3d")
 
-    X = [1,2,3]
-    Y = [1,2,2]
-    Z = [1,2,3]
+    # creating a wide range of points x,y,z
+    x = [0,1,1,2,2,3,3,4,4,5,5]
+    y = [0,0,1,1,2,2,3,3,4,4,5]
+    z = [0,0,0,0,0,0,0,0,0,0,0]
 
-    ax.scatter(X, Y, Z)
+    # for coordinate 
+    # x = [0,1,1,2,2,3,3,4,4,5,5]
+    # y = [0,0,1,1,2,2,3,3,4,4,5]
+    # z = [0,0,0,0,0,0,0,0,0,0,0]
 
-    # Showing the above plot
+    # plotting a 3D line graph with X-coordinate, Y-coordinate and Z-coordinate respectively
+    ax.plot3D(x, y, z, "k")
+
+    # plotting a scatter plot with X-coordinate, Y-coordinate and Z-coordinate respectively
+    # and defining the points color as cividis and defining c as z which basically is a
+    # definition of 2D array in which rows are RGB or RGBA
+    ax.scatter3D(x, y, z, c=z, cmap="Dark2_r", edgecolor="k", s = 2000);
+
+    #get current axes
+    ax = plt.gca()
+
+    # Hide axes and borders
+    plt.axis("off")
+
+    # Showing the plot
+    plt.title(f"Optimum protein fold")
     plt.show()
-
-
-    # fig = plt.figure()
-    # ax = fig.add_subplot(111, projection="3d")
-
-    # X = [1,2,3,4,5,6,7,8,9,10]
-    # Y = [1,2,2,4,5,2,7,8,1,4]
-    # Z = [1,2,3,4,5,6,7,8,9,10]
-
-    # ax.scatter(X, Y, Z, c="r", marker="o")
-
-    # plt.show()
