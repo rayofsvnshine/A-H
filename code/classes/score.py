@@ -36,7 +36,7 @@ class Score:
 
         score = 0
         teller = 0 
-        index = Fold.aminoacids[1].id
+        index = Fold.aminoacids[4].id
         for Aminoacid in Fold.aminoacids:
             neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
 
@@ -89,15 +89,6 @@ class Score:
             elif current_y - 1 == y:
                 neighbours.append(coordinate)
             
-            # old code
-            # if current_coordinate[0] + 1 == coordinate:
-            #     neighbours.append(coordinate)
-            # elif current_coordinate[0] - 1 == coordinate:
-            #     neighbours.append(coordinate)
-            # elif current_coordinate[1] + 1 == coordinate:
-            #     neighbours.append(coordinate)
-            # elif current_coordinate[1] - 1 == coordinate:
-            #     neighbours.append(coordinate)
 
         return neighbours
 
