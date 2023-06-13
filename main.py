@@ -17,6 +17,7 @@ from code import Folder
 from code import *
 from sys import argv
 import csv
+from code.visualisation.visualisation import *
 
 
 def select_protein() -> str:
