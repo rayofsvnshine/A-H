@@ -85,7 +85,7 @@ class Folder(object):
         amino_list = []
         amino_amigos = self.Protein.protein
         previous_coordinate = None
-        previous_amino = None
+        # previous_amino = None
         
         # put aminoacids down until end of protein
         for aminoacid in amino_amigos:
@@ -101,16 +101,15 @@ class Folder(object):
          
             # reassign starting point and append to coordinate list
             new_amino.set_previous_coordinate(previous_coordinate) # set origin direction
-            starting_point, direction = self.choose_direction(starting_point, options)
             new_amino.store_coordinates(starting_point)
+            starting_point, direction = self.choose_direction(starting_point, options)
+            new_amino.set_next_direction(starting_point)
             
-            if previous_amino != None:
-                previous_amino.set_next_direction(starting_point)
             
             # store coordinates and directions
             directions.append(direction) # store direction
             previous_coordinate = starting_point
-            previous_amino = new_amino
+            # previous_amino = new_amino
             
         # if fold was completed, return
         new_fold = Fold(self.fold_counter, amino_list, coordinates, directions)
