@@ -98,7 +98,7 @@ class Score:
         Output:
         -----
         neighbours = a list of coordinates that gives the
-        (non-diagonal) neighbours of the current_coordinate
+        (Von-Neumann) neighbours of the current_coordinate
         """
         # create neighbour list
         neighbours = []
@@ -124,7 +124,7 @@ class Score:
         return neighbours
 
 
-    def best_fold(valid_folds) -> object:
+    def best_fold(self, valid_folds) -> object:
         """
         Function checks all the scores of the made folds and picks the fold with the best score.
 
@@ -142,6 +142,9 @@ class Score:
         
         # loop over folds
         for fold in valid_folds:
+            # determine score for Fold
+            score = self.calculate_score(fold)
+            fold.store_score(score)
             # if score lower than best score, assign new best fold
             if fold.score < max_score:
                 max_score = fold.score

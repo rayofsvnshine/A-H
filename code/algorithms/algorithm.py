@@ -77,7 +77,7 @@ class Folder(object):
         # make grid and set starting point
         # grid = self.make_grid()
         starting_point = (0,0)
-        fold_score = 0
+        # fold_score = 0
         
         # make list for coordinates and aminoacids
         coordinates = []
@@ -109,34 +109,34 @@ class Folder(object):
             # store coordinates and directions
             directions.append(direction) # store direction
             previous_coordinate = starting_point
-            # previous_amino = new_amino
             
         # if fold was completed, return
         new_fold = Fold(self.fold_counter, amino_list, coordinates, directions)
         # create scoring object (maybe put this somewhere else??)
-        score_obj = Score()
-        fold_score = score_obj.calculate_score(new_fold)
-        new_fold.store_score(fold_score)
+        # score_obj = Score()
+        # fold_score = score_obj.calculate_score(new_fold)
+        # new_fold.store_score(fold_score)
         self.fold_counter += 1
+        
         return new_fold
             
             
-    def find_best_fold(self) -> object:
-        """
-        Looks at each fold and calculates the score
+    # def find_best_fold(self) -> object:
+    #     """
+    #     Looks at each fold and calculates the score
         
-        Returns:
-        -----
-        best_fold = Fold object with highest Score attribute
-        """
-        # calculate score per fold
-        for current_fold in self.Folds:
-            score = Score.calculate_score(current_fold)
-            current_fold.store_score(score)
-        # find best fold and return
-        best_fold = Score.best_fold(self.Folds)
+    #     Returns:
+    #     -----
+    #     best_fold = Fold object with highest Score attribute
+    #     """
+    #     # calculate score per fold
+    #     for current_fold in self.Folds:
+    #         score = Score.calculate_score(current_fold)
+    #         current_fold.store_score(score)
+    #     # find best fold and return
+    #     best_fold = Score.best_fold(self.Folds)
         
-        return best_fold
+    #     return best_fold
             
     # def make_grid(self) -> list:
     #     """

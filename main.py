@@ -205,7 +205,8 @@ if __name__ == "__main__":
     random_algorithm = Folder(protein)
 
     valid_folds = random_algorithm.Folds
-    best_fold = Score.best_fold(valid_folds)
+    scorer = Score()
+    best_fold = scorer.best_fold(valid_folds)
     results = best_fold.results
     score = best_fold.score
 
