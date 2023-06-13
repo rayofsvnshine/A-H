@@ -114,7 +114,7 @@ class Folder(object):
         # if fold was completed, return
         new_fold = Fold(self.fold_counter, amino_list, coordinates, directions)
         # create scoring object (maybe put this somewhere else??)
-        score_obj = Score(coordinates)
+        score_obj = Score()
         fold_score = score_obj.calculate_score(new_fold)
         new_fold.store_score(fold_score)
         self.fold_counter += 1
