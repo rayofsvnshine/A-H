@@ -213,10 +213,7 @@ if __name__ == "__main__":
     print(results_in_terminal(results, score))
 
     # Create a visualisation of the protein
-    # visualize_protein(best_fold)
-
-    # Create a dynamic visualisation of the protein
-    visualize_dymanic_protein(best_fold)
+    make_plot(best_fold)
 
     # Export results
     # export_result(results, score)
