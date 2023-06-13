@@ -14,7 +14,6 @@ algorithm.py
 
 from random import choice
 from ..classes.fold import Fold
-from ..classes.score import Score
 from ..classes.aminoacid import Aminoacid
 
 class Folder(object):
@@ -54,13 +53,14 @@ class Folder(object):
         # stop making folds after 5 valid folds are found
         valid_folds = []
         
-        while len(valid_folds) < 4:
+        while len(valid_folds) < 5:
             new_fold = self.fold_protein()
             if new_fold == None:
                 continue
             valid_folds.append(new_fold)
             
         return valid_folds
+    
         
     def fold_protein(self):
         """
@@ -74,23 +74,23 @@ class Folder(object):
         """
         # needs to return a fold
             
-        # make grid and set starting point
-        # grid = self.make_grid()
+        # set starting point
         starting_point = (0,0)
-        # fold_score = 0
         
-        # make list for coordinates and aminoacids
+        # make list for coordinates, directions, and aminoacids
         coordinates = []
         directions = []
         amino_list = []
+        # get all aminoacids in string
         amino_amigos = self.Protein.protein
+        # set previous coordinate
         previous_coordinate = None
-        # previous_amino = None
         
         # put aminoacids down until end of protein
         for aminoacid in amino_amigos:
-            coordinates.append(starting_point) # store coordinate
+            # determine next possible coordinates
             options = self.check_directions(starting_point, coordinates)
+            # if no next possible steps, return None for incomplete fold
             if options == []:
                 return None
             
@@ -99,64 +99,26 @@ class Folder(object):
             amino_list.append(new_amino)
             self.amino_counter += 1
          
-            # reassign starting point and append to coordinate list
-            new_amino.set_previous_coordinate(previous_coordinate) # set origin direction
+            # store aminoacid's current position in coordinate list and object
+            coordinates.append(starting_point)
             new_amino.store_coordinates(starting_point)
+            # set aminoacid's previous coordinate
+            new_amino.set_previous_coordinate(previous_coordinate)
+            # decide direction and next point of aminoacid chain
             starting_point, direction = self.choose_direction(starting_point, options)
+            # save next direction in aminoacid
             new_amino.set_next_direction(starting_point)
             
-            
-            # store coordinates and directions
-            directions.append(direction) # store direction
+            # store direction and change previous coordinate to current coordinate
+            directions.append(direction)
             previous_coordinate = starting_point
             
-        # if fold was completed, return
+        # if fold was completed, store in Fold object
         new_fold = Fold(self.fold_counter, amino_list, coordinates, directions)
-        # create scoring object (maybe put this somewhere else??)
-        # score_obj = Score()
-        # fold_score = score_obj.calculate_score(new_fold)
-        # new_fold.store_score(fold_score)
         self.fold_counter += 1
         
         return new_fold
-            
-            
-    # def find_best_fold(self) -> object:
-    #     """
-    #     Looks at each fold and calculates the score
-        
-    #     Returns:
-    #     -----
-    #     best_fold = Fold object with highest Score attribute
-    #     """
-    #     # calculate score per fold
-    #     for current_fold in self.Folds:
-    #         score = Score.calculate_score(current_fold)
-    #         current_fold.store_score(score)
-    #     # find best fold and return
-    #     best_fold = Score.best_fold(self.Folds)
-        
-    #     return best_fold
-            
-    # def make_grid(self) -> list:
-    #     """
-    #     Creates a grid with coordinates according to the size of self.Protein.
-    #     The x-axis and y-axis extend in positive and negative direction
-    #     as far as the length of the protein.
-        
-    #     Returns:
-    #     -----
-    #     gridspace = list of lists with coordinate tuples
-    #     """
-    #     # makes grid
-    #     gridspace = []
-    #     gridsize = range(-(len(self.Protein.length)), (len(self.Protein.length) + 1))
-    #     for y in gridsize:
-    #         for x in gridsize:
-    #             coordinate = ((y), (x))
-    #             gridspace.append(coordinate)
-            
-    #     return gridspace
+    
             
     def check_directions(self, starting_point, coordinates) -> list:
         """
