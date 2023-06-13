@@ -35,26 +35,27 @@ class Score:
         """
 
         score = 0
-        teller = 0 
-        index = Fold.aminoacids[4].id
+        # print(Fold.aminoacids)
         for Aminoacid in Fold.aminoacids:
-            neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
-
-            for neighbour in neighbours:
-                if neighbour in Fold.coordinates:
-                    if Aminoacid.aminotype == 'H':
-                        neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
-                        if neighbour_obj.aminotype == 'H':
-                            if neighbour_obj.id + 1 != Aminoacid.id | neighbour_obj.id - 1 != Aminoacid.id:
-                                score -= 1
-                                # print(neighbour_obj.id, Aminoacid.id)
-                    elif Aminoacid.aminotype == 'C':
-                        neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
+            if Aminoacid.aminotype == 'H':
+                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
+                for neighbour in neighbours:
+                    neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
+                    if neighbour_obj.aminotype == 'H':
+                        
+                        
+                        if neighbour_obj.id >= Aminoacid.id + 2:
+                            score -= 1
+                            
+                                    
+            elif Aminoacid.aminotype == 'C':
+                    neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
+                    for neighbour in neighbours:
+                        # print('hij gaat de C in')
                         if neighbour_obj.aminotype == 'C':
-                            if neighbour_obj.id + 1 != Aminoacid.id | neighbour_obj.id - 1 != Aminoacid.id:
-                              score -= 5      
-            index += 1
-            teller += 1
+                            if neighbour_obj.id >= Aminoacid.id + 2:
+                                score -= 5      
+        # print("einde fold")
         return score
     
     def get_neighbour_obj(self, coordinate, Fold):
@@ -80,13 +81,13 @@ class Score:
             y = coordinate[1]
             current_x = current_coordinate[0]
             current_y = current_coordinate[1]
-            if current_x + 1 == x:
+            if current_x + 1 == x and current_y == y:
                 neighbours.append(coordinate)
-            elif current_x - 1 == x:
+            elif current_x - 1 == x and current_y == y:
                 neighbours.append(coordinate)
-            elif current_y + 1 == y:
+            elif current_y + 1 == y and current_x == x:
                 neighbours.append(coordinate)
-            elif current_y - 1 == y:
+            elif current_y - 1 == y and current_x == x:
                 neighbours.append(coordinate)
             
 
