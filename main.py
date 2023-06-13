@@ -214,6 +214,7 @@ if __name__ == "__main__":
     print(results_in_terminal(results, score))
 
     # Create a visualisation of the protein
+    visualize_protein(best_fold)
     visualize_dymanic_protein(best_fold)
 
     # Export results
