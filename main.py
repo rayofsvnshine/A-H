@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
     # Check command line arguments
     if len(argv) >= 3:
-        print("Usage: python main.py <protein number>")
+        print("Usage: python main.py [protein number]")
         exit(1)
 
     # Import protein if found
@@ -188,7 +188,7 @@ if __name__ == "__main__":
         print(select_protein())
 
         # Ask user to select a protein
-        protein_number = input("Protein number:     ")
+        protein_number = input("SELECT PROTEIN:     ")
 
         # Import protein if found
         selected_protein = import_protein(protein_number)
@@ -202,21 +202,44 @@ if __name__ == "__main__":
     # Show information about the protein
     print(protein_info_in_terminal(protein))
 
-    # make random algoritm
-    random_algorithm = Folder(protein)
+    # Ask user to select an algorithm
+    print("1    Random algorithm")
+    print("2    ? algorithm")
+    print("3    ? algorithm\n")
+    algorithm_number = input("SELECT ALGORITHM:   ")
 
-    valid_folds = random_algorithm.Folds
-    scorer = Score()
-    best_fold = scorer.best_fold(valid_folds)
-    results = best_fold.results
-    score = best_fold.score
+    # Run random algoritm
+    if algorithm_number == "1":
+        print("\nRunning random algorithm...\n")
+        random_algorithm = Folder(protein)
+        valid_folds = random_algorithm.Folds
+        scorer = Score()
+        best_fold = scorer.best_fold(valid_folds)
+        results = best_fold.results
+        score = best_fold.score
+
+    # Run ? algoritm
+    elif algorithm_number == "2":
+        print("\nRunning ? algorithm...\n")
+
+    # Run ? algoritm
+    elif algorithm_number == "3":
+        print("\nRunning ? algorithm...\n")
+
+    else:
+        print("Selected algorithm not found")
+        exit(1)
 
     # Show results in terminal
-    print(results_in_terminal(results, score))
+    show_results = input("Done. Show results? [y/n] \n")
+    if show_results == "y":
+        print(results_in_terminal(results, score))
 
-    # Create a visualisation of the protein
-    visualize_protein(best_fold)
+    # Create a visualisation of the best fold
+    show_visual = input("Done. Show visualisation? [y/n] ")
+    if show_visual == "y":
+        visualize_protein(best_fold)
 
     # Export results
     # export_result(results, score)
-    # print("Results can be found in data/output.csv\n")
+    print("\nResults can be found in data/output.csv\n")

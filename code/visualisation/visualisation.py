@@ -4,9 +4,6 @@ visualisation.py
 * Creates a visualization of the protein
 """
 
-# Import main
-from main import *
-
 # Imports for matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
