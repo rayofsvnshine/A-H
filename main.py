@@ -217,6 +217,7 @@ if __name__ == "__main__":
         best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results
         score = best_fold.score
+        print("Done!\n")
 
     # Run ? algoritm
     elif algorithm_number == "2":
@@ -231,12 +232,13 @@ if __name__ == "__main__":
         exit(1)
 
     # Show results in terminal
-    show_results = input("Done. Show results? [y/n] \n")
+    show_results = input("Show results? [y/n] ")
+    print("")
     if show_results == "y":
         print(results_in_terminal(results, score))
 
     # Create a visualisation of the best fold
-    show_visual = input("Done. Show visualisation? [y/n] ")
+    show_visual = input("Show visualisation? [y/n] ")
     if show_visual == "y":
         visualize_protein(best_fold)
 
