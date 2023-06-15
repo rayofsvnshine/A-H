@@ -131,25 +131,24 @@ def protein_info_in_terminal(protein: object) -> str:
         info += "Total polair:" + " " * 7 + f"{protein.total_p}" + " " * 3 + f"{percentage_p}%" + "\n"
 
     if protein.total_c > 9:
-        info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 2 + f"{percentage_c}%" + "\n"
+        info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 2 + f"{percentage_c}%"
     else:
-        info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 3 + f"{percentage_c}%" + "\n"
+        info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 3 + f"{percentage_c}%"
 
     return info
 
 
-def results_in_terminal(foldingsteps: list, score: int) -> str:
+def foldingsteps_in_terminal(foldingsteps: list) -> str:
     """
-    Check the results in the terminal.
+    Check the foldingsteps in the terminal.
 
     Pre:
-        Foldingsteps is a list of tuples with the amino acid as
-        string and the step as integer and score is an integer.
+        Foldingsteps is a list of tuples with the amino acid as string.
     Post:
-        Returns a string with the results to print in the main.
+        Returns a string with the foldingsteps to print in the main.
     """
 
-    results = "Foldingsteps:" + " " * 7
+    results = "\n" + "Foldingsteps:" + " " * 7
 
     for tuple in foldingsteps:
         direction = tuple[1]
@@ -157,11 +156,6 @@ def results_in_terminal(foldingsteps: list, score: int) -> str:
             results += "".join(tuple[0]) + " " * 2 + "".join(str(direction)) + "\n" + " " * 20
         else:
             results += "".join(tuple[0]) + " " * 3 + "".join(str(direction)) + "\n" + " " * 20
-
-    if score < 0:
-        results += "\n" + "Score:" + " " * 13 + "".join(str(score)) + "\n"
-    else:
-        results += "\n" + "Score:" + " " * 14 + "".join(str(score)) + "\n"
 
     return results
 
@@ -196,46 +190,84 @@ if __name__ == "__main__":
             print("Selected protein not found")
             exit(1)
 
-    # Make new protein object
-    protein = Protein(selected_protein)
-
-    # Show information about the protein
-    print(protein_info_in_terminal(protein))
-
     # Ask user to select an algorithm
-    print("1    Random algorithm")
-    print("2    ? algorithm")
-    print("3    ? algorithm\n")
+    print("\n1    Random algorithm")
+    print("2    ???")
+    print("3    ???\n")
     algorithm_number = input("SELECT ALGORITHM:   ")
 
     # Run random algoritm
     if algorithm_number == "1":
-        print("\nRunning random algorithm...\n")
+
+        # Make new protein object
+        print("\nAnalysing protein...")
+        protein = Protein(selected_protein)
+
+        # Run algorithm
+        print("Running algorithm...")
         random_algorithm = Folder(protein)
+
+        # Calculate score
+        print("Calculating score...")
         valid_folds = random_algorithm.Folds
         scorer = Score()
         best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results
         score = best_fold.score
-        print("Done!\n")
 
-    # Run ? algoritm
+        print("Done!")
+
+    # Run ???
     elif algorithm_number == "2":
-        print("\nRunning ? algorithm...\n")
 
-    # Run ? algoritm
+        # Make new protein object
+        print("\nAnalysing protein...")
+        protein = Protein(selected_protein)
+
+        # Run algorithm
+        print("Running algorithm...")
+        # todo
+
+        # Calculate score
+        print("Calculating score...")
+        # todo
+
+        print("Done!")
+
+    # Run ???
     elif algorithm_number == "3":
-        print("\nRunning ? algorithm...\n")
+
+        # Make new protein object
+        print("\nAnalysing protein...")
+        protein = Protein(selected_protein)
+
+        # Run algorithm
+        print("Running algorithm...")
+        # todo
+
+        # Calculate score
+        print("Calculating score...")
+        # todo
+
+        print("Done!")
 
     else:
         print("Selected algorithm not found")
         exit(1)
 
-    # Show results in terminal
-    show_results = input("Show results? [y/n] ")
-    print("")
-    if show_results == "y":
-        print(results_in_terminal(results, score))
+    # Show information about the protein
+    print(protein_info_in_terminal(protein))
+
+    # Show score
+    if score < 0:
+        print("Score:" + " " * 13 + "".join(str(score)) + "\n")
+    else:
+        print("Score:" + " " * 14 + "".join(str(score)) + "\n")
+
+    # Show foldingsteps in terminal
+    show_foldingsteps = input("Show foldingsteps? [y/n] ")
+    if show_foldingsteps == "y":
+        print(foldingsteps_in_terminal(results))
 
     # Create a visualisation of the best fold
     show_visual = input("Show visualisation? [y/n] ")
