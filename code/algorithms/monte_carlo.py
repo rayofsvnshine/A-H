@@ -68,7 +68,7 @@ def make_random_elongations(self, length_elongation, n):
             options = self.check_directions(starting_point, coordinates)
             if options == []:
                 return None 
-
+git
             # make new aminoacid 
             new_amino = Aminoacid(self.amino_counter, aminoacid)
             amino_list.append(new_amino)
