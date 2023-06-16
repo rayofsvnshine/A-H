@@ -16,7 +16,7 @@ from random import choice
 from ..classes.fold import Fold
 from ..classes.aminoacid import Aminoacid
 
-class Folder(object):
+class Random(object):
     """
     Creates a Folder object that can:
     * create randomly generated folds for a given protein

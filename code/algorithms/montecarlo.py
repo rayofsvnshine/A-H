@@ -7,10 +7,10 @@ Vera Spek
 
 from ..classes.fold import Fold
 from ..classes.aminoacid import Aminoacid 
-from .elongation import Elongation
+from ..classes.elongation import Elongation
 import random
 
-class Monte_Carlo(object):
+class Montecarlo(object):
     """
     Monte Carlo class 
     * Algorithm that uses the addition of parts of the aminosequence with a random length

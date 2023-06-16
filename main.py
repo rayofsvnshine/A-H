@@ -10,8 +10,8 @@ main.py
 
 from code.classes.protein import Protein
 from code.classes.score import Score
-from code.algorithms.algorithm import Folder
-from code.algorithms.monte_carlo import Monte_Carlo
+from code.algorithms.random import Random
+from code.algorithms.montecarlo import Montecarlo
 
 from sys import argv
 import csv
@@ -205,7 +205,7 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running algorithm...")
-        random_algorithm = Folder(protein)
+        random_algorithm = Random(protein)
 
         # Calculate score
         print("Calculating score...")
@@ -226,7 +226,7 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running Monte Carlo Simulation")
-        valid_folds = Monte_Carlo(protein)
+        valid_folds = Montecarlo(protein)
 
         # Calculate score
         print("Calculating score...")
