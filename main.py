@@ -17,9 +17,6 @@ from code.visualisation.visualisation import Visualisation
 from sys import argv
 import csv
 
-# from tqdm import tqdm
-# from alive_progress import alive_bar; import time
-
 
 def select_protein() -> str:
     """
@@ -234,7 +231,7 @@ if __name__ == "__main__":
         scorer = Score()
         best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results 
-        score = best_fold.score 
+        score = best_fold.score
 
         print("Done!")
 
