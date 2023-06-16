@@ -15,64 +15,75 @@ def __init__(self, Protein):
     """Initializer"""
     self.protein = Protein.protein
     self.protein_length = Protein.length
+    self.starting_point = (0,0)
     self.Folds = make_folds()
 
 def make_folds():
     """Function that runs the algorithm by calling all the other functions."""
     valid_folds = []
-    possible_length_elongation = random.randint(0, self.protein_length)
-    
+    random_length_elongations = random.randint(0, self.protein_length)
     new_elongation = None 
 
-    while valid_folds < 5: 
-        for i in range(self.protein_length):  #This range can be changed to how many folds want to be made
-            new_elongation = make_random_elongation(possible_length_elongation)
-            select_elongation(new_elongation)
-    
-        if addition_possible():
-            adding_elongation()
-            possible_length_elongation = random.randint(0, (self.protein_length - possible_length_elongation))
-            if possible_length_elongation == 0:
+    while valid_folds < 5: # loop for number of folds 
+        random_length_elongation = random.randint(0, self.protein_length)
+        for i in range(self.protein_length): # loop for making the elongations (max is the length of the protein) 
+            new_elongation = self.make_random_elongations(random_length_elongations)
+            self.select_elongation(self.elongations)
+            if self.addition_possible():
+                self.adding_elongation()
+                random_length_elongations = random.randint(0, (self.protein_length - random_length_elongations))
+                if random_length_elongations == 0:
+                    break
+        
+            else:
                 break
-        
-        else:
-            break
 
 
-def make_random_elongation(self,n):
+def make_random_elongations(self, length_elongation):
     """Function makes a random elongation of aminoacids with different lengths."""
-    self.elongations = []
-    starting_point = (0,0)
-    coordinates = []
-    directions = []
-    previous_coordinate = None 
-    for aminoacid in self.protein:
-        options = self.check_directions(starting_point, coordinates)
-        if options == []:
-            return None 
-        
-        # make new aminoacid 
-        new_amino = Aminoacid(self.amino_counter, aminoacid)
-        amino_list.append(new_amino)
-        self.amino_counter += 1
-        
-        # store aminoacid's current position in coordinate list and object
-        coordinates.append(starting_point)
-        new_amino.store_coordinates(starting_point)
-        # set aminoacid's previous coordinate
-        new_amino.set_previous_coordinate(previous_coordinate)
-        # decide direction and next point of aminoacid chain
-        starting_point, direction = self.choose_direction(starting_point, options)
-        # save next direction in aminoacid
-        new_amino.set_next_direction(starting_point)
-        
-        # store direction and change previous coordinate to current coordinate
-        directions.append(direction)
-        previous_coordinate = starting_point
-        
-    new_elongation = elongation(coordinates, directions, n)
+    for i in range(n): # loop for the amount of elongation per time want to be made (and checked for the best score)
+        self.elongations = []
+        coordinates = []
+        directions = []
+        amino_counter = 0
+        previous_coordinate = None 
 
-    self.elongations.append(new_elongation)
+        # iterate over the aminoacids with the chosen length as range 
+        for aminoacid in self.protein:
+            ind = 0
+            options = self.check_directions(starting_point, coordinates)
+            if options == []:
+                return None 
+
+            # make new aminoacid 
+            new_amino = Aminoacid(self.amino_counter, aminoacid)
+            amino_list.append(new_amino)
+            self.amino_counter += 1
+
+            # store aminoacid's current position in coordinate list and object
+            coordinates.append(starting_point)
+            new_amino.store_coordinates(starting_point)
+            # set aminoacid's previous coordinate
+            new_amino.set_previous_coordinate(previous_coordinate)
+            # decide direction and next point of aminoacid chain
+            starting_point, direction = self.choose_direction(starting_point, options)
+            # save next direction in aminoacid
+            new_amino.set_next_direction(starting_point)
+
+            # store direction and change previous coordinate to current coordinate
+            directions.append(direction)
+            previous_coordinate = starting_point
+
+            # set aminocounter for the next id
+            amino_counter += 1 
+
+            # check if length of elongation is reached 
+            if ind == length_elongation:
+                # make an object of the newly made elongation storing coordinates, directions and the length
+                new_elongation = elongation(coordinates, directions, length_elongation)
+                self.elongations.append(new_elongation)
+                break
+    
 
 def check_directions(self, starting_point, coordinates) -> list:
         """
@@ -136,8 +147,10 @@ def adding_elongation(self):
 
 def addition_possible(self):
     """Function checks whether the selected aminoacid sequence can be added to the existing protein conformation."""
-    pass
+    for coordinate in self.elongation.coordinates:
+        if coordinate in 
 
-def set_beginning_coordinate(self):
+def set_beginning_coordinate(self, last_coordinate):
     """Function stores the new starting coordinate for the rest of the elongation after the last aminoacid sequence is correctly added."""
-    pass 
+    self.starting_point == last_coordinate
+     

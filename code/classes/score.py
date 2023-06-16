@@ -151,3 +151,35 @@ class Score:
                 best_fold = fold
 
         return best_fold
+    
+    def calculate_score_monte_carlo(self, Elongation):
+        """Function loops over the list of coordinates in the elongation object and calculates the score
+        by checking if there are non covalent bound H's next to eachother (-1 point) or if there are 
+        non-covalent bound C's next to eachother (-5)."""
+         # set score to 0
+        score = 0
+        
+        # loop over all aminoacids
+        for Aminoacid in Elongation.aminoacids:
+            # for H aminoacids, get neighbours (surrounding aminoacids)
+            if Aminoacid.aminotype == 'H':
+                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
+                # for each neighbour, check if it is also an H aminoacid
+                for neighbour in neighbours:
+                    neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
+                    if neighbour_obj.aminotype == 'H':
+                        # if both H aminoacids are not already connected or counted, add -1 for H-bond
+                        if neighbour_obj.id >= Aminoacid.id + 2:
+                            score -= 1
+                            
+            # for C aminoacids, get neighbours (surrounding aminoacids)
+            elif Aminoacid.aminotype == 'C':
+                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
+                # for each neighbour, check if it is also a C aminoacid
+                for neighbour in neighbours:
+                    neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
+                    for neighbour in neighbours:
+                        if neighbour_obj.aminotype == 'C':
+                            # if both C aminoacids are not already connected or counted, add -5 for C-bond
+                            if neighbour_obj.id >= Aminoacid.id + 2:
+                                score -= 5  
