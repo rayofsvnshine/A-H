@@ -12,39 +12,6 @@ import plotly.express as px
 
 class Visualisation:
 
-    def visualize_protein_plotly_2d(bestfold):
-        """
-        Creates a 2D visualization of the protein using plotly.
-
-        Pre:
-            Uses a list of tuples with all the coordinates of the best fold.
-        Post:
-            Returns a dynamic visualization of the best fold.
-        """
-
-        # creating x,y dimension
-        x = []
-        y = []
-
-        # Insert the coordinate into the protein plot
-        for coordinate in bestfold.coordinates:
-            x.append(coordinate[0])
-            y.append(coordinate[1])
-
-        # Create 2D plot
-        fig = px.line(x = x, y = y, markers = True)
-
-        # Hide x and y axis
-        # fig.update_xaxes(visible = False)
-        # fig.update_yaxes(visible = False)
-
-        # Remove background
-        # fig.update_layout(template = "simple_white")
-
-        # Show protein
-        fig.show()
-
-
     def visualize_protein_plotly_3d(bestfold):
         """
         Creates a 3D visualization of the protein using plotly.
@@ -79,6 +46,39 @@ class Visualisation:
         # fig.update_layout(template = "simple_white") x
         # fig.update_layout(plot_bgcolor = "#fff") x
         # fig.update_layout(newselection_line_color="#000000") x
+
+        # Show protein
+        fig.show()
+
+
+    def visualize_protein_plotly_2d(bestfold):
+        """
+        Creates a 2D visualization of the protein using plotly.
+
+        Pre:
+            Uses a list of tuples with all the coordinates of the best fold.
+        Post:
+            Returns a dynamic visualization of the best fold.
+        """
+
+        # creating x,y dimension
+        x = []
+        y = []
+
+        # Insert the coordinate into the protein plot
+        for coordinate in bestfold.coordinates:
+            x.append(coordinate[0])
+            y.append(coordinate[1])
+
+        # Create 2D plot
+        fig = px.line(x = x, y = y, markers = True)
+
+        # Hide x and y axis
+        # fig.update_xaxes(visible = False)
+        # fig.update_yaxes(visible = False)
+
+        # Remove background
+        # fig.update_layout(template = "simple_white")
 
         # Show protein
         fig.show()

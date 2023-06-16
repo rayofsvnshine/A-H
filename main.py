@@ -12,6 +12,7 @@ from code.classes.protein import Protein
 from code.classes.score import Score
 from code.algorithms.random import Random
 from code.algorithms.montecarlo import Montecarlo
+from code.visualisation.visualisation import Visualisation
 
 from sys import argv
 import csv
@@ -192,8 +193,8 @@ if __name__ == "__main__":
 
     # Ask user to select an algorithm
     print("\n1    Random algorithm")
-    print("2    ???")
-    print("3    ???\n")
+    print("2    Monte Carlo simulation")
+    print("3    Dijkstra's algorithm\n")
     algorithm_number = input("SELECT ALGORITHM:   ")
 
     # Run random algoritm
@@ -225,7 +226,7 @@ if __name__ == "__main__":
         protein = Protein(selected_protein)
 
         # Run algorithm
-        print("Running Monte Carlo Simulation")
+        print("Running Monte Carlo simulation")
         valid_folds = Montecarlo(protein)
 
         # Calculate score
@@ -275,10 +276,9 @@ if __name__ == "__main__":
     # Create a visualisation of the best fold
     show_visual = input("Show visualisation? [y/n] ")
     if show_visual == "y":
-        pass
+        Visualisation.visualize_protein_plotly_3d(best_fold)
         # visualize_protein_matplotlib(best_fold)
-        # visualize_protein_plotly_2d(best_fold)
-        # visualize_protein_plotly_3d(best_fold)
+        # Visualisation.visualize_protein_plotly_2d(best_fold)
 
     # Export results
     # export_result(results, score)
