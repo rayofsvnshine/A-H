@@ -9,7 +9,7 @@ class Elongation(object):
     made in the Monte Carlo simulation. 
     """
 
-    def __init__(self, coordinates:list, directions:list, length_elongation:int ):
+    def __init__(self, coordinates:list, directions:list, length_elongation:int):
         """Initializer"""
         self.coordinates = coordinates
         self.directions = directions 
