@@ -8,16 +8,17 @@ main.py
 * Exports results to the output.csv file
 """
 
-# Import classes and used libraries
 from code import Protein
 from code import Aminoacid
 from code import Score
 from code import Fold
 from code import Folder
 from code import *
+from code.visualisation.visualisation import visualize_protein_matplotlib, visualize_protein_plotly_2d, visualize_protein_plotly_3d
+
 from sys import argv
 import csv
-from code.visualisation.visualisation import visualize_protein
+from tqdm import tqdm
 
 
 def select_protein() -> str:
@@ -272,7 +273,9 @@ if __name__ == "__main__":
     # Create a visualisation of the best fold
     show_visual = input("Show visualisation? [y/n] ")
     if show_visual == "y":
-        visualize_protein(best_fold)
+        # visualize_protein_matplotlib(best_fold)
+        visualize_protein_plotly_2d(best_fold)
+        visualize_protein_plotly_3d(best_fold)
 
     # Export results
     # export_result(results, score)
