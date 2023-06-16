@@ -7,7 +7,7 @@ visualisation.py
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.express as px
-from dash import Dash, dcc, html, Input, Output
+# from dash import Dash, dcc, html, Input, Output
 
 
 def visualize_protein_plotly_2d(bestfold):
@@ -39,9 +39,6 @@ def visualize_protein_plotly_2d(bestfold):
     # Remove background
     # fig.update_layout(template = "simple_white")
 
-    # Set aspect ratio
-    fig.update_layout(scene_aspectmode='cube')
-
     # Show protein
     fig.show()
 
@@ -70,11 +67,16 @@ def visualize_protein_plotly_3d(bestfold):
     # Create 3D plot
     fig = px.line_3d(x = x, y = y, z = z, markers = True)
 
-    # Remove background
-    fig.update_layout(template = "simple_white")
-
     # Set aspect ratio
-    fig.update_layout(scene_aspectmode='cube')
+    # fig.update_layout(scene3_aspectmode='data')
+    # fig.update_layout(grid_ygap = 1)
+    # fig.update_layout(grid_xgap = 1)
+
+    # Set background color
+    # fig.update_layout(paper_bgcolor = "#000000")
+    # fig.update_layout(template = "simple_white") x
+    # fig.update_layout(plot_bgcolor = "#fff") x
+    # fig.update_layout(newselection_line_color="#000000") x
 
     # Show protein
     fig.show()

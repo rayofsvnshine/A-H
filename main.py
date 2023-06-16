@@ -18,7 +18,8 @@ from code.visualisation.visualisation import visualize_protein_matplotlib, visua
 
 from sys import argv
 import csv
-from tqdm import tqdm
+# from tqdm import tqdm
+# from alive_progress import alive_bar; import time
 
 
 def select_protein() -> str:
