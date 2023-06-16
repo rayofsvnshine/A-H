@@ -9,33 +9,35 @@ from ..classes.fold import Fold
 from ..classes.aminoacid import Aminoacid 
 from ..classes.score import Score 
 import random
-from elongation.py import elongation
+from algorithms.elongation import Elongation
 
 def __init__(self, Protein):
     """Initializer"""
     self.protein = Protein.protein
     self.protein_length = Protein.length
     self.starting_point = (0,0)
+    self.conformation_coordinates = []
+    self.conformation_directions = []
     self.Folds = make_folds()
+    
 
 def make_folds():
     """Function that runs the algorithm by calling all the other functions."""
     valid_folds = []
-    random_length_elongations = random.randint(0, self.protein_length)
-    new_elongation = None 
-
+    
     while valid_folds < 5: # loop for number of folds 
-        random_length_elongation = random.randint(0, self.protein_length)
+        random_length_elongations = random.randint(0, self.protein_length)
         for i in range(self.protein_length): # loop for making the elongations (max is the length of the protein) 
-            new_elongation = self.make_random_elongations(random_length_elongations)
-            self.select_elongation(self.elongations)
-            if self.addition_possible():
-                self.adding_elongation()
-                random_length_elongations = random.randint(0, (self.protein_length - random_length_elongations))
-                if random_length_elongations == 0:
-                    break
-        
-            else:
+            # make different folded elongations of the same length
+            self.make_random_elongations(random_length_elongations)
+            # select the elongation with the lowest (best) score & checks if elongation can be added to existing conformation
+            best_elongation = self.select_elongation(self.elongations)
+            # add the best elongation to the existing conformation
+            self.adding_elongation(best_elongation)
+            # generate a new length for the next random folded elongations 
+            random_length_elongations = random.randint(0, (self.protein_length - random_length_elongations))
+            # check if the length of the protein is reached, if so, end loop and save the Fold 
+            if random_length_elongations == 0:
                 break
 
 
@@ -48,7 +50,7 @@ def make_random_elongations(self, length_elongation):
         amino_counter = 0
         previous_coordinate = None 
 
-        # iterate over the aminoacids with the chosen length as range 
+        # make different elongations of the same length in different folds  
         for aminoacid in self.protein:
             ind = 0
             options = self.check_directions(starting_point, coordinates)
@@ -80,7 +82,7 @@ def make_random_elongations(self, length_elongation):
             # check if length of elongation is reached 
             if ind == length_elongation:
                 # make an object of the newly made elongation storing coordinates, directions and the length
-                new_elongation = elongation(coordinates, directions, length_elongation)
+                new_elongation = Elongation(coordinates, directions, length_elongation)
                 self.elongations.append(new_elongation)
                 break
     
@@ -137,20 +139,31 @@ def select_elongation(self):
         elongation.store_score(score)
 
         if elongation.score > max_score:
-            max_score = elongation.score 
-            best_elongation = elongation        
+            if self.addition_possible():
+                max_score = elongation.score 
+                best_elongation = elongation 
+
+    return best_elongation       
 
 
-def adding_elongation(self):
+def adding_elongation(self, coordinates, directions):
     """Function gets the aminoacid sequence with the highest score and adds this to the existing protein conformation"""
-    pass 
+    self.conformation_coordinates = coordinates
+    self.conformation_directions = directions 
 
 def addition_possible(self):
     """Function checks whether the selected aminoacid sequence can be added to the existing protein conformation."""
     for coordinate in self.elongation.coordinates:
-        if coordinate in 
+        if coordinate in self.conformation_coordinates:
+            return False 
+        else:
+            return True 
 
 def set_beginning_coordinate(self, last_coordinate):
     """Function stores the new starting coordinate for the rest of the elongation after the last aminoacid sequence is correctly added."""
     self.starting_point == last_coordinate
+
+# def store_conformation_coordinates(self):
+#     """Function stores the coordinates that are definetly part of the protein conformation in a list.
+#     Can later be used to add to the Fold object."""
      
