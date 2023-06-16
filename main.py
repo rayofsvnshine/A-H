@@ -8,16 +8,14 @@ main.py
 * Exports results to the output.csv file
 """
 
-from code import Protein
-from code import Aminoacid
-from code import Score
-from code import Fold
-from code import Folder
-from code import *
-from code.visualisation.visualisation import visualize_protein_matplotlib, visualize_protein_plotly_2d, visualize_protein_plotly_3d
+from code.classes.protein import Protein
+from code.classes.score import Score
+from code.algorithms.algorithm import Folder
+from code.algorithms.monte_carlo import Monte_Carlo
 
 from sys import argv
 import csv
+
 # from tqdm import tqdm
 # from alive_progress import alive_bar; import time
 
@@ -219,7 +217,7 @@ if __name__ == "__main__":
 
         print("Done!")
 
-    # Run ???
+    # Run Monte Carlo Simulation 
     elif algorithm_number == "2":
 
         # Make new protein object
@@ -227,12 +225,15 @@ if __name__ == "__main__":
         protein = Protein(selected_protein)
 
         # Run algorithm
-        print("Running algorithm...")
-        # todo
+        print("Running Monte Carlo Simulation")
+        valid_folds = Monte_Carlo(protein)
 
         # Calculate score
         print("Calculating score...")
-        # todo
+        scorer = Score()
+        best_fold = scorer.best_fold(valid_folds)
+        results = best_fold.results 
+        score = best_fold.score 
 
         print("Done!")
 
@@ -274,9 +275,10 @@ if __name__ == "__main__":
     # Create a visualisation of the best fold
     show_visual = input("Show visualisation? [y/n] ")
     if show_visual == "y":
+        pass
         # visualize_protein_matplotlib(best_fold)
-        visualize_protein_plotly_2d(best_fold)
-        visualize_protein_plotly_3d(best_fold)
+        # visualize_protein_plotly_2d(best_fold)
+        # visualize_protein_plotly_3d(best_fold)
 
     # Export results
     # export_result(results, score)
