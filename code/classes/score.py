@@ -7,6 +7,7 @@ score.py
 * compares total scores of different proteins to determine the optimal fold
 """
 
+from .fold import Fold
 
 class Score:
     """

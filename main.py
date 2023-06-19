@@ -8,16 +8,14 @@ main.py
 * Exports results to the output.csv file
 """
 
-# Import classes and used libraries
-from code import Protein
-from code import Aminoacid
-from code import Score
-from code import Fold
-from code import Folder
-from code import *
+from code.classes.protein import Protein
+from code.classes.score import Score
+from code.algorithms.random import Random
+from code.algorithms.montecarlo import Montecarlo
+from code.visualisation.visualisation import Visualisation
+
 from sys import argv
 import csv
-from code.visualisation.visualisation import visualize_protein
 
 
 def select_protein() -> str:
@@ -192,8 +190,8 @@ if __name__ == "__main__":
 
     # Ask user to select an algorithm
     print("\n1    Random algorithm")
-    print("2    ???")
-    print("3    ???\n")
+    print("2    Monte Carlo simulation")
+    print("3    Dijkstra's algorithm\n")
     algorithm_number = input("SELECT ALGORITHM:   ")
 
     # Run random algoritm
@@ -205,7 +203,7 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running algorithm...")
-        random_algorithm = Folder(protein)
+        random_algorithm = Random(protein)
 
         # Calculate score
         print("Calculating score...")
@@ -217,7 +215,7 @@ if __name__ == "__main__":
 
         print("Done!")
 
-    # Run ???
+    # Run Monte Carlo Simulation 
     elif algorithm_number == "2":
 
         # Make new protein object
@@ -225,12 +223,15 @@ if __name__ == "__main__":
         protein = Protein(selected_protein)
 
         # Run algorithm
-        print("Running algorithm...")
-        # todo
+        print("Running Monte Carlo simulation")
+        valid_folds = Montecarlo(protein)
 
         # Calculate score
         print("Calculating score...")
-        # todo
+        scorer = Score()
+        best_fold = scorer.best_fold(valid_folds)
+        results = best_fold.results 
+        score = best_fold.score
 
         print("Done!")
 
@@ -272,7 +273,9 @@ if __name__ == "__main__":
     # Create a visualisation of the best fold
     show_visual = input("Show visualisation? [y/n] ")
     if show_visual == "y":
-        visualize_protein(best_fold)
+        Visualisation.visualize_protein_plotly_3d(best_fold)
+        # visualize_protein_matplotlib(best_fold)
+        # Visualisation.visualize_protein_plotly_2d(best_fold)
 
     # Export results
     # export_result(results, score)
