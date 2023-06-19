@@ -8,6 +8,7 @@ Vera Spek
 from ..classes.fold import Fold
 from ..classes.aminoacid import Aminoacid 
 from ..classes.elongation import Elongation
+from ..classes.score import Score
 import random
 
 class Montecarlo(object):
@@ -27,6 +28,7 @@ class Montecarlo(object):
         self.conformation_coordinates = []
         self.conformation_directions = []
         self.conformation_aminoacids = []
+        self.elongations = []
         self.n = n
         self.Folds = self.make_folds(self.n)
         
@@ -35,14 +37,14 @@ class Montecarlo(object):
         """Function that runs the algorithm by calling all the other functions."""
         valid_folds = []
         
-        while valid_folds < 5: # loop for number of folds 
+        while len(valid_folds) < 5: # loop for number of folds 
             fold_id = 0
             random_length_elongations = random.randint(0, self.protein_length)
             for i in range(self.protein_length): # loop for making the elongations (max is the length of the protein) 
                 # make different folded elongations of the same length
                 self.make_random_elongations(random_length_elongations, n)
                 # select the elongation with the lowest (best) score & checks if elongation can be added to existing conformation
-                best_elongation = self.select_elongation(self.elongations)
+                best_elongation = self.select_elongation()
                 # add the best elongation to the existing conformation
                 self.adding_elongation(best_elongation)
                 # generate a new length for the next random folded elongations 
@@ -56,6 +58,7 @@ class Montecarlo(object):
             fold_id += 1 
             # add the new fold to the list of all the valid folds
             valid_folds.append(new_fold)
+            print(valid_folds)
         
         return valid_folds
 
@@ -63,24 +66,25 @@ class Montecarlo(object):
     def make_random_elongations(self, length_elongation, n):
         """Function makes a random elongation of aminoacids with different lengths."""
         for i in range(n): # loop for the amount of elongation per time want to be made (and checked for the best score)
-            self.elongations = []
             coordinates = []
             directions = []
-            amino_list = []
+            self.amino_list = []
             amino_counter = 0
+            starting_point = (0,0)
             previous_coordinate = None 
+            ind = 0
+
 
             # make different elongations of the same length in different folds  
             for aminoacid in self.protein:
-                ind = 0
                 options = self.check_directions(starting_point, coordinates)
                 if options == []:
                     return None 
     
                 # make new aminoacid 
-                new_amino = Aminoacid(self.amino_counter, aminoacid)
-                amino_list.append(new_amino)
-                self.amino_counter += 1
+                new_amino = Aminoacid(amino_counter, aminoacid)
+                self.amino_list.append(new_amino)
+                amino_counter += 1
 
                 # store aminoacid's current position in coordinate list and object
                 coordinates.append(starting_point)
@@ -98,14 +102,15 @@ class Montecarlo(object):
 
                 # set aminocounter for the next id
                 amino_counter += 1 
-
                 # check if length of elongation is reached 
                 if ind == length_elongation:
                     # make an object of the newly made elongation storing coordinates, directions and the length
-                    new_elongation = Elongation(coordinates, directions, length_elongation, amino_list)
+                    new_elongation = Elongation(coordinates, directions, length_elongation, self.amino_list)
                     # save the elongation in the list of possible elongations 
                     self.elongations.append(new_elongation)
                     break
+                
+                ind += 1
         
 
     def check_directions(self, starting_point, coordinates) -> list:
@@ -156,29 +161,37 @@ class Montecarlo(object):
         max_score = 0
         best_elongation = None 
         for elongation in self.elongations:
-            score = elongation.calculate_score_monte_carlo()
-            elongation.store_score(score)
+            score_obj = Score()
+            score_elongation = score_obj.calculate_score_monte_carlo(elongation)
+            elongation.store_score(score_elongation)
+            print(elongation.score)
 
-            if elongation.score > max_score:
-                if self.addition_possible():
+            if elongation.score < max_score:
+                print("ik ben de hoogste nu")
+                if self.addition_possible(elongation):
                     max_score = elongation.score 
                     best_elongation = elongation 
+        
+        if max_score == 0:
+            best_elongation = self.elongations[0]
 
         return best_elongation       
 
 
     def adding_elongation(self, best_elongation):
         """Function gets the aminoacid sequence with the highest score and adds this to the existing protein conformation"""
-        self.conformation_coordinates =best_elongation.coordinates
-        self.conformation_directions = best_elongation.directions
-        self.conformation_aminoacids = best_elongation.aminoacids
+        self.conformation_coordinates.extend(best_elongation.coordinates)
+        self.conformation_directions.extend(best_elongation.directions)
+        self.conformation_aminoacids.extend(best_elongation.aminoacids)
 
-    def addition_possible(self):
+    def addition_possible(self, elongation):
         """Function checks whether the selected aminoacid sequence can be added to the existing protein conformation."""
-        for coordinate in self.elongation.coordinates:
+        for coordinate in elongation.coordinates:
             if coordinate in self.conformation_coordinates:
+                print('Deze fold is niet goed')
                 return False 
             else:
+                print("Deze fold kan wel gebruikt worden")
                 return True 
 
     def set_beginning_coordinate(self, last_coordinate):

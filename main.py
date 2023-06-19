@@ -224,7 +224,7 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running Monte Carlo simulation")
-        valid_folds = Montecarlo(protein)
+        valid_folds = Montecarlo(protein, 10)
 
         # Calculate score
         print("Calculating score...")

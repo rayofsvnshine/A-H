@@ -141,6 +141,7 @@ class Score:
         max_score = 0
         best_fold = None
         
+        print(valid_folds)
         # loop over folds
         for fold in valid_folds:
             # determine score for Fold
@@ -164,10 +165,10 @@ class Score:
         for Aminoacid in Elongation.aminoacids:
             # for H aminoacids, get neighbours (surrounding aminoacids)
             if Aminoacid.aminotype == 'H':
-                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
+                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Elongation)
                 # for each neighbour, check if it is also an H aminoacid
                 for neighbour in neighbours:
-                    neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
+                    neighbour_obj = self.get_neighbour_obj(neighbour, Elongation)
                     if neighbour_obj.aminotype == 'H':
                         # if both H aminoacids are not already connected or counted, add -1 for H-bond
                         if neighbour_obj.id >= Aminoacid.id + 2:
@@ -175,12 +176,14 @@ class Score:
                             
             # for C aminoacids, get neighbours (surrounding aminoacids)
             elif Aminoacid.aminotype == 'C':
-                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
+                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Elongation)
                 # for each neighbour, check if it is also a C aminoacid
                 for neighbour in neighbours:
-                    neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
+                    neighbour_obj = self.get_neighbour_obj(neighbour, Elongation)
                     for neighbour in neighbours:
                         if neighbour_obj.aminotype == 'C':
                             # if both C aminoacids are not already connected or counted, add -5 for C-bond
                             if neighbour_obj.id >= Aminoacid.id + 2:
-                                score -= 5  
+                                score -= 5 
+
+        return score 
