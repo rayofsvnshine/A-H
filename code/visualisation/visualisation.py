@@ -7,7 +7,7 @@ visualisation.py
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.express as px
-# from dash import Dash, dcc, html, Input, Output
+import plotly.graph_objects as go
 
 
 class Visualisation:
@@ -27,28 +27,50 @@ class Visualisation:
         y = []
         z = []
 
-        # Insert the coordinate into the protein plot
+        # Insert all coordinates into the protein structure
         for coordinate in bestfold.coordinates:
             x.append(coordinate[0])
             y.append(coordinate[1])
             z.append(0)
 
-        # Create 3D plot
-        fig = px.line_3d(x = x, y = y, z = z, markers = True)
+        # Create 3D protein structure
+        structure = px.line_3d(x = x, y = y, z = z)
 
-        # Set aspect ratio
-        # fig.update_layout(scene3_aspectmode='data')
-        # fig.update_layout(grid_ygap = 1)
-        # fig.update_layout(grid_xgap = 1)
+        # creating x,y and z dimension for P
+        p_x = []
+        p_y = []
+        p_z = []
 
-        # Set background color
-        # fig.update_layout(paper_bgcolor = "#000000")
-        # fig.update_layout(template = "simple_white") x
-        # fig.update_layout(plot_bgcolor = "#fff") x
-        # fig.update_layout(newselection_line_color="#000000") x
+        # Insert the P coordinates into the protein structure
+        for coordinate in bestfold.coordinates:
+            x.append(coordinate[0])
+            y.append(coordinate[1])
+            z.append(0)
+
+        # Show amino acid locations for P
+        p = px.scatter_3d(x = p_x, y = p_y, z = p_z)
+
+        # creating x,y and z dimension for H
+        h_x = []
+        h_y = []
+        h_z = []
+
+        # Show amino acid locations for H
+        h = px.scatter_3d(x = h_x, y = h_y, z = h_z)
+
+        # creating x,y and z dimension for H
+        c_x = []
+        c_y = []
+        c_z = []
+
+        # Show amino acid locations for C
+        c = px.scatter_3d(x = c_x, y = c_y, z = c_z)
+
+        # Combine protein data
+        protein = go.Figure(data = structure.data + p.data + h.data + c.data)
 
         # Show protein
-        fig.show()
+        protein.show()
 
 
     def visualize_protein_plotly_2d(bestfold):
@@ -74,11 +96,11 @@ class Visualisation:
         fig = px.line(x = x, y = y, markers = True)
 
         # Hide x and y axis
-        # fig.update_xaxes(visible = False)
-        # fig.update_yaxes(visible = False)
+        fig.update_xaxes(visible = False)
+        fig.update_yaxes(visible = False)
 
         # Remove background
-        # fig.update_layout(template = "simple_white")
+        fig.update_layout(template = "simple_white")
 
         # Show protein
         fig.show()
@@ -132,3 +154,36 @@ class Visualisation:
 
         # Showing the plot
         plt.show()
+
+
+        # ----------------------------------------- PLOTLY LAYOUT -----------------------------------------
+        # Markers
+        # fig = go.Figure(data=go.Scatter3d(x=x, y=y, z=z, marker=dict(size=20, color="blue"),
+        #                                                  line=dict(
+        #                                                  color="black",
+        #                                                  width=5)))
+
+        # Layout
+        # fig.update_layout(scene = dict(xaxis = dict(color="white", showbackground=False),
+        #                                yaxis = dict(color="white", showbackground=False),
+        #                                zaxis = dict(color="white", showbackground=False)))
+
+        # fig.update_layout(scene = dict(
+        #             xaxis = dict(
+        #                  color="white",
+        #                  backgroundcolor="white",
+        #                  gridcolor="white",
+        #                  showbackground=True,
+        #                  zerolinecolor="white",),
+        #             yaxis = dict(
+        #                 color="white",
+        #                 backgroundcolor="white",
+        #                 gridcolor="white",
+        #                 showbackground=True,
+        #                 zerolinecolor="white"),
+        #             zaxis = dict(
+        #                 color="white",
+        #                 backgroundcolor="white",
+        #                 gridcolor="white",
+        #                 showbackground=True,
+        #                 zerolinecolor="white")))
