@@ -4,7 +4,7 @@ visualisation.py
 * Creates a visualization of the protein
 """
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
@@ -24,6 +24,7 @@ class Visualisation:
         self.p_coordinates = self.get_p_coordinates(bestfold)
         self.h_coordinates = self.get_h_coordinates(bestfold)
         self.c_coordinates = self.get_c_coordinates(bestfold)
+        self.hydrogen_bonds = self.get_hydrogen_bonds(bestfold)
 
 
     def get_p_coordinates(self, bestfold: object) -> list:
@@ -86,6 +87,63 @@ class Visualisation:
         return c_coordinates
 
 
+    def get_hydrogen_bonds(self, bestfold) -> list:
+        """
+        Finds the two coordinates of the hydrogen bond.
+
+        Pre:
+            ...
+        Post:
+            ...
+        """
+
+        # Make a list to store all hydrogen bonds
+        hydrogen_bonds = []
+        
+        # Loop over all aminoacids
+        for aminoacid in bestfold.aminoacids:
+
+            # Check the neighbours of all H and C amino acids
+            if aminoacid.aminotype == 'H' or aminoacid.aminotype == 'C':
+
+                # Create neighbour list
+                neighbours = []
+
+                # Get x and y of current coordinate
+                current_x = aminoacid.coordinate[0]
+                current_y = aminoacid.coordinate[1]
+
+                # Loop over all coordinates of the amino acids
+                for coordinate in bestfold.coordinates:
+                    x = coordinate[0]
+                    y = coordinate[1]
+            
+                    # If the coordinates are neighbouring, add them to neighbours
+                    if current_x + 1 == x and current_y == y:
+                        neighbours.append(coordinate)
+                    elif current_x - 1 == x and current_y == y:
+                        neighbours.append(coordinate)
+                    elif current_y + 1 == y and current_x == x:
+                        neighbours.append(coordinate)
+                    elif current_y - 1 == y and current_x == x:
+                        neighbours.append(coordinate)
+            
+                # Check if an H is next to an H and if an C is next to an C
+                for neighbour in neighbours:
+                    ind = bestfold.coordinates.index(neighbour)
+                    neighbour_obj = bestfold.aminoacids[ind]
+
+                # If both H or C aminoacids are not already checked, store coordinates for H-bond
+                if neighbour_obj.aminotype == 'H' or neighbour_obj.aminotype == 'C':
+                    if neighbour_obj.id >= aminoacid.id + 2:
+                        hydrogen_bond = []
+                        hydrogen_bond.append(aminoacid.coordinate)
+                        hydrogen_bond.append(neighbour_obj.coordinate)
+                        hydrogen_bonds.append(hydrogen_bond)
+
+        return hydrogen_bonds
+
+
     def visualize_protein_plotly_3d(self) -> None:
         """
         Creates a 3D visualization of the protein using plotly.
@@ -110,6 +168,9 @@ class Visualisation:
         structure = px.line_3d(x = x, y = y, z = z)
         structure.update_traces(line = dict(color = "black", width = 8))
 
+        # Add structure to data
+        all_data = structure.data
+
         # Load the x, y and z coordinates of the P amino acids
         p_x = []
         p_y = []
@@ -127,7 +188,10 @@ class Visualisation:
                                           name = "Polair (P)",
                                           marker = dict(size = 15,
                                                         color = "blue",
-                                                        opacity = 0.5)))
+                                                        opacity = 0.6)))
+
+        # Add P to data
+        all_data += p.data
 
         # Load the x, y and z coordinates of the H amino acids
         h_x = []
@@ -146,7 +210,10 @@ class Visualisation:
                                           name = "Hydrofobe (H)",
                                           marker = dict(size = 15,
                                                         color = "red",
-                                                        opacity = 0.5)))
+                                                        opacity = 0.6)))
+
+        # Add H to data
+        all_data += h.data
 
         # Load the x, y and z coordinates of the C amino acids
         c_x = []
@@ -165,30 +232,33 @@ class Visualisation:
                                           name = "Cysteine (C)",
                                           marker = dict(size = 15,
                                                         color = "green",
-                                                        opacity = 0.5)))
+                                                        opacity = 0.6)))
 
-        # Combine all protein data
-        protein = go.Figure(data = structure.data + p.data + h.data + c.data)
+        # Add C to data
+        all_data += c.data
 
-        # Layout
+        # Create coordinates to display hydrogen bonds
+        for hydrogen_bond in self.hydrogen_bonds:
+            hyd_x = []
+            hyd_y = []
+            hyd_z = []
+            for coordinate in hydrogen_bond:
+                hyd_x.append(coordinate[0])
+                hyd_y.append(coordinate[1])
+                hyd_z.append(0)
+
+            # Create 3D hydrogen bond and store to data
+            hyd_bond = px.line_3d(x = hyd_x, y = hyd_y, z = hyd_z)
+            hyd_bond.update_traces(line = dict(color = "black", width = 12, dash = "dot"))
+            all_data += hyd_bond.data
+
+        # Create a protein
+        protein = go.Figure(data = all_data)
         protein.update_layout(scene = dict(xaxis = dict(color="white", showbackground=False),
                                            yaxis = dict(color="white", showbackground=False),
                                            zaxis = dict(color="white", showbackground=False)),
                               legend_title = "Amino acid",
                               legend_font_size= 20)
-
-        # protein = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z)],
-        #                     layout=go.Layout(xaxis=dict(range=[0, 5], autorange=False),
-        #                                      yaxis=dict(range=[0, 5], autorange=False),
-        #                                      updatemenus=[dict(type="buttons",
-        #                                                        buttons=[dict(label="Create protein",
-        #                                                                      method="animate",
-        #                                                                      args=[None])])]),
-        #                     frames=[go.Frame(data=[go.Scatter3d(x=[x[0]], y=[y[0]], z=[z[0]])]),
-        #                             go.Frame(data=[go.Scatter3d(x=[x[1]], y=[y[1]], z=[z[1]])])
-        #                             ])
-
-        # Show protein
         protein.show()
 
 
@@ -224,52 +294,15 @@ class Visualisation:
     #     # Show protein
     #     fig.show()
 
-
-    # def visualize_protein_matplotlib(bestfold):
-    #     """
-    #     Creates a visualization of the protein using matplotlib.
-
-    #     Pre:
-    #         Uses a list of tuples with all the coordinates of the best fold.
-    #     Post:
-    #         Returns a visualization of the best fold.
-    #     """
-
-    #     # creating an empty canvas
-    #     fig = plt.figure()
-
-    #     # defining the axes with the projection as 3D so as to plot 3D graphs
-    #     ax = plt.axes(projection="3d")
-
-    #     # creating a x,y and z dimension
-    #     x = []
-    #     y = []
-    #     z = []
-
-    #     # Insert the coordinate into the protein plot
-    #     for coordinate in bestfold.coordinates:
-    #         x.append(coordinate[0])
-    #         y.append(coordinate[1])
-    #         z.append(0)
-
-    #     # plotting a 3D line graph with X-coordinate, Y-coordinate and Z-coordinate respectively
-    #     ax.plot3D(x, y, z, "k")
-
-    #     # plotting the protein
-    #     ax.scatter3D(x, y, z, c=z, cmap="Dark2_r", edgecolor="k", s = 2000);
-
-    #     #specify axis tick step sizes
-    #     plt.xticks(np.arange(min(x), max(x)+1, 1))
-    #     plt.yticks(np.arange(min(y), max(y)+1, 1))
-
-    #     #get current axes
-    #     ax = plt.gca()
-
-    #     # Hide axes and borders
-    #     plt.axis("off")
-
-    #     # Create title
-    #     plt.title(f"Best fold:")
-
-    #     # Showing the plot
-    #     plt.show()
+# ------------------------------------- PLOTLY ANIMATED -------------------------------------
+# protein = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z)],
+#                     layout=go.Layout(xaxis=dict(range=[0, 5], autorange=False),
+#                                      yaxis=dict(range=[0, 5], autorange=False),
+#                                      updatemenus=[dict(type="buttons",
+#                                                        buttons=[dict(label="Create protein",
+#                                                                      method="animate",
+#                                                                      args=[None])])]),
+#                     frames=[go.Frame(data=[go.Scatter3d(x=[x[0]], y=[y[0]], z=[z[0]])]),
+#                             go.Frame(data=[go.Scatter3d(x=[x[1]], y=[y[1]], z=[z[1]])])
+#                             ])
+# -------------------------------------------------------------------------------------------

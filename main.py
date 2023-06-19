@@ -266,7 +266,7 @@ if __name__ == "__main__":
         print("Score:" + " " * 14 + "".join(str(score)) + "\n")
 
     # Show foldingsteps in terminal
-    show_foldingsteps = input("Show foldingsteps? [y/n] ")
+    show_foldingsteps = input("Show foldingsteps?  [y/n] ")
     if show_foldingsteps == "y":
         print(foldingsteps_in_terminal(results))
 
