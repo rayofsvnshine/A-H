@@ -47,3 +47,12 @@ class Fold(object):
         """
 
         self.score = protein_score
+        
+    
+    def add_amino(self, aminoacid, coordinate, direction):
+        self.aminoacids.append(aminoacid)
+        self.coordinates.append(coordinate)
+        self.directions.append(direction)
+        
+    def add_score(self, score):
+        self.score += score

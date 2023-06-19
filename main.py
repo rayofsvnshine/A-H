@@ -273,9 +273,9 @@ if __name__ == "__main__":
     # Create a visualisation of the best fold
     show_visual = input("Show visualisation? [y/n] ")
     if show_visual == "y":
-        Visualisation.visualize_protein_plotly_3d(best_fold)
-        # visualize_protein_matplotlib(best_fold)
-        # Visualisation.visualize_protein_plotly_2d(best_fold)
+        visualisation = Visualisation(best_fold)
+        visualisation.visualize_protein_plotly_3d()
+        # visualisation.visualize_protein_plotly_2d()
 
     # Export results
     # export_result(results, score)
