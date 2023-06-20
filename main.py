@@ -202,9 +202,14 @@ if __name__ == "__main__":
         print("\nAnalysing protein...")
         protein = Protein(selected_protein)
 
+        # Select number of runs
+        print("")
+        number_of_runs = input("NUMBER OF RUNS:   ")
+        print("")
+
         # Run algorithm
         print("Running algorithm...")
-        random_algorithm = Random(protein)
+        random_algorithm = Random(protein, number_of_runs)
 
         # Calculate score
         print("Calculating score...")

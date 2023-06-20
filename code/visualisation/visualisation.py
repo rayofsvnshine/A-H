@@ -128,7 +128,7 @@ class Visualisation:
                     elif current_y - 1 == y and current_x == x:
                         neighbours.append(coordinate)
             
-                # Check if an H is next to an H and if an C is next to an C
+                # Check for aminoacid
                 for neighbour in neighbours:
                     ind = bestfold.coordinates.index(neighbour)
                     neighbour_obj = bestfold.aminoacids[ind]

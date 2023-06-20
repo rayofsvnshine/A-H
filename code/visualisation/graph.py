@@ -18,6 +18,21 @@ class Graph:
         """
 
         self.proteinfolds = proteinfolds
+        self.scores = []
+
+
+    def select_scores(self) -> None:
+        """
+        ...
+
+        Pre:
+            ...
+        Post:
+            ...
+        """
+
+        for score in self.proteinfolds.scores:
+            self.scores.append(score)
 
 
     def algorithm_performance(self) -> None:
@@ -30,7 +45,5 @@ class Graph:
             Shows a histogram.
         """
 
-        df = px.data.tips()
-        print(df)
-        performance = px.histogram(df, x="total_bill")
-        performance.show()
+        # histogram = px.histogram(x="total_bill")
+        # histogram.show()
