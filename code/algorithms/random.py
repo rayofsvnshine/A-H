@@ -25,7 +25,7 @@ class Random(object):
     * determine the best generated Fold
     """
 
-    def __init__(self, Protein: object):
+    def __init__(self, Protein: object, number_of_runs: int):
         """
         Initializes a Folder object
         
@@ -41,10 +41,10 @@ class Random(object):
         self.amino_counter = 0
         self.fold_counter = 0
         self.Score = Score()
-        self.Folds = self.make_folds()
+        self.Folds = self.make_folds(number_of_runs)
         
         
-    def make_folds(self) -> list:
+    def make_folds(self, number_of_runs: int) -> list:
         """
         Creates folds until certain number of folds is reached
         
@@ -52,10 +52,9 @@ class Random(object):
         ------
         a list of Fold objects
         """
-        # stop making folds after 5 valid folds are found
+        # stop making folds after number_of_runs are folded
         valid_folds = []
-        
-        while len(valid_folds) < 5:
+        while len(valid_folds) < number_of_runs:
             new_fold = self.fold_protein()
             if new_fold == None:
                 continue
