@@ -198,14 +198,12 @@ if __name__ == "__main__":
     # Run random algoritm
     if algorithm_number == "1":
 
+        # Select number of runs
+        number_of_runs = int(input("\nNUMBER OF RUNS:     "))
+
         # Make new protein object
         print("\nAnalysing protein...")
         protein = Protein(selected_protein)
-
-        # Select number of runs
-        print("")
-        number_of_runs = int(input("NUMBER OF RUNS:   "))
-        print("")
 
         # Run algorithm
         print("Running algorithm...")
@@ -272,18 +270,18 @@ if __name__ == "__main__":
         print("Score:" + " " * 14 + "".join(str(score)) + "\n")
 
     # Show foldingsteps in terminal
-    show_foldingsteps = input("Show foldingsteps?         [y/n] ")
+    show_foldingsteps = input("Show foldingsteps of best folded protein?   [y/n] ")
     if show_foldingsteps == "y":
         print(foldingsteps_in_terminal(results))
 
     # Create a visualisation of the best fold
-    show_visual = input("Show visualisation?        [y/n] ")
+    show_visual = input("Show visualisation of best folded protein?  [y/n] ")
     if show_visual == "y":
         visualisation = Visualisation(best_fold)
         visualisation.visualize_protein_plotly_3d()
 
     # Create a graph of the performnce of the algorithm
-    show_graph = input("Show performance graph?    [y/n] ")
+    show_graph = input("Show algorithm performance graph?           [y/n] ")
     if show_graph == "y":
         graph = Graph(valid_folds)
         graph.algorithm_performance()
