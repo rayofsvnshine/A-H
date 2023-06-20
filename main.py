@@ -13,6 +13,7 @@ from code.classes.score import Score
 from code.algorithms.random import Random
 from code.algorithms.montecarlo import Montecarlo
 from code.visualisation.visualisation import Visualisation
+from code.visualisation.graph import Graph
 
 from sys import argv
 import csv
@@ -275,7 +276,12 @@ if __name__ == "__main__":
     if show_visual == "y":
         visualisation = Visualisation(best_fold)
         visualisation.visualize_protein_plotly_3d()
-        # visualisation.visualize_protein_plotly_2d()
+
+    # Create a graph of the performnce of the algorithm
+    show_graph = input("Show performance graph? [y/n] ")
+    if show_visual == "y":
+        graph = Graph(valid_folds)
+        graph.algorithm_performance()
 
     # Export results
     # export_result(results, score)
