@@ -62,14 +62,13 @@ class Score:
                 # for each neighbour, check if it is also a C aminoacid
                 for neighbour in neighbours:
                     neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
-                    for neighbour in neighbours:
-                        if neighbour_obj.aminotype == 'C':
-                            # if both C aminoacids are not already connected or counted, add -5 for C-bond
-                            if neighbour_obj.id >= Aminoacid.id + 2:
-                                score -= 5      
-                        elif neighbour_obj.aminotype == 'H':
-                            if neighbour_obj.id >= Aminoacid.id + 2:
-                                score -= 1
+                    if neighbour_obj.aminotype == 'C':
+                        # if both C aminoacids are not already connected or counted, add -5 for C-bond
+                        if neighbour_obj.id >= Aminoacid.id + 2:
+                            score -= 5      
+                    elif neighbour_obj.aminotype == 'H':
+                        if neighbour_obj.id >= Aminoacid.id + 2:
+                            score -= 1
 
         return score
     
