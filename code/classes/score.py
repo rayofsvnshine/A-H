@@ -51,7 +51,7 @@ class Score:
                 # for each neighbour, check if it is also an H aminoacid
                 for neighbour in neighbours:
                     neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
-                    if neighbour_obj.aminotype == 'H':
+                    if neighbour_obj.aminotype == 'H' or neighbour_obj.aminotype == 'C':
                         # if both H aminoacids are not already connected or counted, add -1 for H-bond
                         if neighbour_obj.id >= Aminoacid.id + 2:
                             score -= 1
@@ -67,6 +67,9 @@ class Score:
                             # if both C aminoacids are not already connected or counted, add -5 for C-bond
                             if neighbour_obj.id >= Aminoacid.id + 2:
                                 score -= 5      
+                        elif neighbour_obj.aminotype == 'H':
+                            if neighbour_obj.id >= Aminoacid.id + 2:
+                                score -= 1
 
         return score
     
