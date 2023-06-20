@@ -15,6 +15,7 @@ algorithm.py
 from random import choice
 from ..classes.fold import Fold
 from ..classes.aminoacid import Aminoacid
+from ..classes.score import Score
 
 class Random(object):
     """
@@ -39,6 +40,7 @@ class Random(object):
         self.Protein = Protein
         self.amino_counter = 0
         self.fold_counter = 0
+        self.Score = Score()
         self.Folds = self.make_folds()
         
         
@@ -57,6 +59,8 @@ class Random(object):
             new_fold = self.fold_protein()
             if new_fold == None:
                 continue
+            fold_score = self.Score.calculate_score(new_fold)
+            new_fold.store_score(fold_score)
             valid_folds.append(new_fold)
             
         return valid_folds

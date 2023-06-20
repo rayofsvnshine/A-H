@@ -42,6 +42,7 @@ class Score:
         """
         # set score to 0
         score = 0
+        # print('New Fold!')
         
         # loop over all aminoacids
         for Aminoacid in Fold.aminoacids:
@@ -55,6 +56,7 @@ class Score:
                         # if both H aminoacids are not already connected or counted, add -1 for H-bond
                         if neighbour_obj.id >= Aminoacid.id + 2:
                             score -= 1
+                            # print('score 1 HH/HC!')
                             
             # for C aminoacids, get neighbours (surrounding aminoacids)
             elif Aminoacid.aminotype == 'C':
@@ -66,9 +68,11 @@ class Score:
                         # if both C aminoacids are not already connected or counted, add -5 for C-bond
                         if neighbour_obj.id >= Aminoacid.id + 2:
                             score -= 5      
+                            # print('score 5 CC!')
                     elif neighbour_obj.aminotype == 'H':
                         if neighbour_obj.id >= Aminoacid.id + 2:
                             score -= 1
+                            # print('score 1 CH!')
 
         return score
     
