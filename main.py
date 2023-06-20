@@ -224,12 +224,12 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running Monte Carlo simulation")
-        valid_folds = Montecarlo(protein, 10)
+        Monte_Carlo = Montecarlo(protein, 10)
 
         # Calculate score
         print("Calculating score...")
         scorer = Score()
-        best_fold = scorer.best_fold(valid_folds)
+        best_fold = scorer.best_fold(Monte_Carlo.Folds)
         results = best_fold.results 
         score = best_fold.score
 

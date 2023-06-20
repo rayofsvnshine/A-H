@@ -125,7 +125,7 @@ class Score:
         return neighbours
 
 
-    def best_fold(self, valid_folds) -> object:
+    def best_fold(self, valid_folds: list) -> object:
         """
         Function checks all the scores of the made folds and picks the fold with the best score.
 
@@ -141,7 +141,6 @@ class Score:
         max_score = 0
         best_fold = None
         
-        print(valid_folds)
         # loop over folds
         for fold in valid_folds:
             # determine score for Fold
