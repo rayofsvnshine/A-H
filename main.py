@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
         # Select number of runs
         print("")
-        number_of_runs = input("NUMBER OF RUNS:   ")
+        number_of_runs = int(input("NUMBER OF RUNS:   "))
         print("")
 
         # Run algorithm

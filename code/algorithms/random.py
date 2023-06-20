@@ -42,7 +42,7 @@ class Random(object):
         self.Folds = self.make_folds(number_of_runs)
         
         
-    def make_folds(self, number_of_runs) -> list:
+    def make_folds(self, number_of_runs: int) -> list:
         """
         Creates folds until certain number of folds is reached
         
@@ -52,7 +52,6 @@ class Random(object):
         """
         # stop making folds after number_of_runs are folded
         valid_folds = []
-        
         while len(valid_folds) < number_of_runs:
             new_fold = self.fold_protein()
             if new_fold == None:

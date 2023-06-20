@@ -45,5 +45,5 @@ class Graph:
             Shows a histogram.
         """
 
-        # histogram = px.histogram(x="total_bill")
-        # histogram.show()
+        histogram = px.histogram(x = self.scores)
+        histogram.show()
