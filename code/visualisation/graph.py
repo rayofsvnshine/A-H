@@ -25,11 +25,12 @@ class Graph:
         Displays a histogram to show the performance of the algorithm.
 
         Pre:
-            ...
+            Uses a list with all protein folds.
         Post:
             Shows a histogram.
         """
 
         df = px.data.tips()
-        fig = px.histogram(df, x="total_bill")
-        fig.show()
+        print(df)
+        performance = px.histogram(df, x="total_bill")
+        performance.show()

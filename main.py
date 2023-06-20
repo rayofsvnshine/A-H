@@ -279,7 +279,7 @@ if __name__ == "__main__":
 
     # Create a graph of the performnce of the algorithm
     show_graph = input("Show performance graph?    [y/n] ")
-    if show_visual == "y":
+    if show_graph == "y":
         graph = Graph(valid_folds)
         graph.algorithm_performance()
 
