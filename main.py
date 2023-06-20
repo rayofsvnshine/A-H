@@ -267,18 +267,18 @@ if __name__ == "__main__":
         print("Score:" + " " * 14 + "".join(str(score)) + "\n")
 
     # Show foldingsteps in terminal
-    show_foldingsteps = input("Show foldingsteps?  [y/n] ")
+    show_foldingsteps = input("Show foldingsteps?         [y/n] ")
     if show_foldingsteps == "y":
         print(foldingsteps_in_terminal(results))
 
     # Create a visualisation of the best fold
-    show_visual = input("Show visualisation? [y/n] ")
+    show_visual = input("Show visualisation?        [y/n] ")
     if show_visual == "y":
         visualisation = Visualisation(best_fold)
         visualisation.visualize_protein_plotly_3d()
 
     # Create a graph of the performnce of the algorithm
-    show_graph = input("Show performance graph? [y/n] ")
+    show_graph = input("Show performance graph?    [y/n] ")
     if show_visual == "y":
         graph = Graph(valid_folds)
         graph.algorithm_performance()

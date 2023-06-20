@@ -12,22 +12,22 @@ class Graph:
     Class containing functions to create performance graphs.
     """
 
-    def __init__(self):
+    def __init__(self, proteinfolds):
         """
         Initializer
         """
 
-        self.random = []
+        self.proteinfolds = proteinfolds
 
 
     def algorithm_performance(self) -> None:
         """
-        ...
+        Displays a histogram to show the performance of the algorithm.
 
         Pre:
             ...
         Post:
-            ...
+            Shows a histogram.
         """
 
         df = px.data.tips()
