@@ -86,3 +86,25 @@ class Fold(object):
         
     def add_to_score(self, score):
         self.score += score
+
+
+    def foldingsteps_in_terminal(self) -> str:
+        """
+        Check the foldingsteps in the terminal.
+
+        Pre:
+            Foldingsteps is a list of tuples with the amino acid as string.
+        Post:
+            Returns a string with the foldingsteps to print in the main.
+        """
+
+        results = "\n" + "Foldingsteps:" + " " * 7
+
+        for tuple in self.results:
+            direction = tuple[1]
+            if direction < 0:
+                results += "".join(tuple[0]) + " " * 2 + "".join(str(direction)) + "\n" + " " * 20
+            else:
+                results += "".join(tuple[0]) + " " * 3 + "".join(str(direction)) + "\n" + " " * 20
+
+        return results
