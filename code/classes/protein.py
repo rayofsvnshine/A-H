@@ -5,7 +5,8 @@ protein.py
 * Stores total amount of bindings.
 * Stores total amount of polar aminoacids (P).
 * Stores total amount of hydrophobic aminoacids (H).
-* Stores total amount of Cysteines.
+* Stores total amount of Cysteines (C).
+* Calculates and stores the theoretical lower bound.
 """
 
 from .aminoacid import Aminoacid
@@ -51,9 +52,10 @@ class Protein(object):
             # Add the aminoacid to self.aminoacids, mapping id to the aminoacid object
             aminoacids.append(new_aminoacid)
 
-            # Move to the next aminoacid id
+            # Move to the next amino acid id
             amino_id += 1
-        
+
+        # Return the list of amino acids
         return aminoacids
 
 
@@ -67,35 +69,44 @@ class Protein(object):
             Returns a string with information about the protein to print in the main.
         """
 
+        # Load all totals
         self.get_totals()
+
+        # Calculate the percentage for H, P and C
         percentage_h = round(self.total_h / self.length * 100)
         percentage_p = round(self.total_p / self.length * 100)
         percentage_c = round(self.total_c / self.length * 100)
 
+        # Create a string with the protein information
         info = "\n"
         info += "Selected protein:" + " " * 3 + f"{self.protein}" +"\n"
         info += "Total amino acids:" + " " * 2 + f"{self.length}" +"\n"
 
+        # Set correct spacing
         if self.total_h > 9:
             info += "Total hydrofobe:" + " " * 4 + f"{self.total_h}" + " " * 2 + f"{percentage_h}%" + "\n"
         else:
             info += "Total hydrofobe:" + " " * 4 + f"{self.total_h}" + " " * 3 + f"{percentage_h}%" + "\n"
 
+        # Set correct spacing
         if self.total_p > 9:
             info += "Total polair:" + " " * 7 + f"{self.total_p}" + " " * 2 + f"{percentage_p}%" + "\n"
         else:
             info += "Total polair:" + " " * 7 + f"{self.total_p}" + " " * 3 + f"{percentage_p}%" + "\n"
 
+        # Set correct spacing
         if self.total_c > 9:
             info += "Total cysteine:" + " " * 5 + f"{self.total_c}" + " " * 2 + f"{percentage_c}%" + "\n"
         else:
             info += "Total cysteine:" + " " * 5 + f"{self.total_c}" + " " * 3 + f"{percentage_c}%" + "\n"
 
+        # Set correct spacing
         if self.lower_bound < 0:
             info += "Theoretical LB:" + " " * 4 + f"{self.lower_bound}"
         else:
             info += "Theoretical LB:" + " " * 5 + f"{self.lower_bound}"
 
+        # Return the string with protein information
         return info
 
 
@@ -141,16 +152,13 @@ class Protein(object):
             Updates the totals of H, P and C.
         """
 
+        # Loop over all aminoacids in the protein string
         for aminoacid in self.protein:
 
+            # Count the H, P and C amino acids in the string
             if aminoacid == 'H':
                 self.total_h += 1
-
             elif aminoacid == 'P':
                 self.total_p += 1
-
             elif aminoacid == 'C':
                 self.total_c += 1
-
-            else:
-                return False

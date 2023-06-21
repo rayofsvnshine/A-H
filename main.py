@@ -103,65 +103,6 @@ def export_result(foldingsteps: list, score: int) -> None:
         output.writerow(["score", score])
 
 
-# def protein_info_in_terminal(protein: object) -> str:
-#     """
-#     Shows information about the protein in the terminal.
-
-#     Pre:
-#         Uses the protein object.
-#     Post:
-#         Returns a string with information about the protein to print in the main.
-#     """
-
-#     protein.get_totals(protein.protein)
-#     percentage_h = round(protein.total_h / protein.length * 100)
-#     percentage_p = round(protein.total_p / protein.length * 100)
-#     percentage_c = round(protein.total_c / protein.length * 100)
-
-#     info = "\n"
-#     info += "Selected protein:" + " " * 3 + f"{protein.protein}" +"\n"
-#     info += "Total amino acids:" + " " * 2 + f"{protein.length}" +"\n"
-
-#     if protein.total_h > 9:
-#         info += "Total hydrofobe:" + " " * 4 + f"{protein.total_h}" + " " * 2 + f"{percentage_h}%" + "\n"
-#     else:
-#         info += "Total hydrofobe:" + " " * 4 + f"{protein.total_h}" + " " * 3 + f"{percentage_h}%" + "\n"
-
-#     if protein.total_p > 9:
-#         info += "Total polair:" + " " * 7 + f"{protein.total_p}" + " " * 2 + f"{percentage_p}%" + "\n"
-#     else:
-#         info += "Total polair:" + " " * 7 + f"{protein.total_p}" + " " * 3 + f"{percentage_p}%" + "\n"
-
-#     if protein.total_c > 9:
-#         info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 2 + f"{percentage_c}%"
-#     else:
-#         info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 3 + f"{percentage_c}%"
-
-#     return info
-
-
-def foldingsteps_in_terminal(foldingsteps: list) -> str:
-    """
-    Check the foldingsteps in the terminal.
-
-    Pre:
-        Foldingsteps is a list of tuples with the amino acid as string.
-    Post:
-        Returns a string with the foldingsteps to print in the main.
-    """
-
-    results = "\n" + "Foldingsteps:" + " " * 7
-
-    for tuple in foldingsteps:
-        direction = tuple[1]
-        if direction < 0:
-            results += "".join(tuple[0]) + " " * 2 + "".join(str(direction)) + "\n" + " " * 20
-        else:
-            results += "".join(tuple[0]) + " " * 3 + "".join(str(direction)) + "\n" + " " * 20
-
-    return results
-
-
 if __name__ == "__main__":
 
     # Check command line arguments
@@ -293,7 +234,7 @@ if __name__ == "__main__":
         print("\nBye!\n")
         exit(1)
     if show_foldingsteps == "y":
-        print(foldingsteps_in_terminal(results))
+        print(best_fold.foldingsteps_in_terminal())
 
     # Create a visualisation of the best fold
     show_visual = input("Show visualisation of best folded protein?  [y/n] ")

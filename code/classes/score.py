@@ -144,9 +144,9 @@ class Score:
         best_fold = Fold object with best score
         """
 
-        max_score = 0
+        max_score = 1
         best_fold = None
-        
+
         # loop over folds
         for fold in valid_folds:
             # determine score for Fold
