@@ -8,6 +8,7 @@ from ..classes.fold import Fold
 from ..classes.aminoacid import Aminoacid
 from ..classes.score import Score
 import pickle
+import copy
 import os
 
 class Depth_first(object):
@@ -29,10 +30,9 @@ class Depth_first(object):
         self.Best_fold = the optimal generated fold of a protein with coordinates and score
         """
         self.Protein = Protein
-        self.amino_counter = 0
         self.fold_counter = 0
         self.Score = Score()
-        self.filename = '../../data/depth_first_pickle.pkl'
+        self.filename = 'data/depth_first_pickle.pkl'
         self.clear_results()
         self.make_folds()
         self.Best_fold = self.determine_best_fold()
@@ -54,7 +54,7 @@ class Depth_first(object):
     
     def create_offspring(self, parent):
         # make new children or store final folds
-        prev_coords = parent.coordinates
+        prev_coords = copy.deepcopy(parent.coordinates)
         # make sure there are options for next aminoacid
         options = self.check_directions(parent)
         if options == None:
@@ -77,12 +77,12 @@ class Depth_first(object):
         # make all possible children of parent
         for option in options:
             # store coordinates
-            coordinates = parent.coordinates
+            coordinates = copy.deepcopy(parent.coordinates)
             coordinates.append(option)
             # make new aminoacid
             new_amino = self.make_amino(parent, option)
             # append to amino list
-            aminoacids = parent.aminoacids
+            aminoacids = copy.deepcopy(parent.aminoacids)
             aminoacids.append(new_amino)
             
             # make complete Fold with score
@@ -107,6 +107,7 @@ class Depth_first(object):
         parent_amino = parent.aminoacids[-1]
         parent_amino_id = parent_amino.id
         own_id = parent_amino_id + 1
+        # print(self.Protein.protein, own_id)
         aminotype = self.Protein.protein[own_id]
         
         new_amino = Aminoacid(own_id, aminotype)
@@ -118,8 +119,8 @@ class Depth_first(object):
     
     def check_directions(self, parent):
         # goes over all possible options to put next aminoacid
-        coordinates = parent.coordinates
-        starting_point = parent.coordinates[-1]
+        coordinates = copy.deepcopy(parent.coordinates)
+        starting_point = coordinates[-1]
         
         # returns list of possible coordinates
         orientations = [(0,1), (0,-1), (1,0), (-1,0)]
@@ -175,5 +176,5 @@ class Depth_first(object):
         amino2.set_previous_coordinate(coordinate1)
         amino2.set_current_coordinate(coordinate2)
         
-        ancestor = Fold(self.fold_counter, [amino1, amino2], [coordinate1, coordinate2], [1])
+        ancestor = Fold(self.fold_counter, [amino1, amino2], [coordinate1, coordinate2])
         return ancestor
