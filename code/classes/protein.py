@@ -12,7 +12,9 @@ protein.py
 from .aminoacid import Aminoacid
 
 class Protein(object):
-    """Protein object"""
+    """
+    Protein object
+    """
 
     def __init__(self, protein: str):
         """
@@ -26,6 +28,7 @@ class Protein(object):
         self.total_h = 0
         self.total_p = 0
         self.total_c = 0
+        self.get_totals()
         self.lower_bound = self.theoretical_lower_bound()
 
 
@@ -59,6 +62,28 @@ class Protein(object):
         return aminoacids
 
 
+    def get_totals(self) -> None:
+        """
+        Counts all H, P and C amino acids in the protein.
+
+        Pre:
+            Protein is a string containing H, P or C amino acids.
+        Post:
+            Updates the totals of H, P and C.
+        """
+
+        # Loop over all aminoacids in the protein string
+        for aminoacid in self.protein:
+
+            # Count the H, P and C amino acids in the string
+            if aminoacid == 'H':
+                self.total_h += 1
+            elif aminoacid == 'P':
+                self.total_p += 1
+            elif aminoacid == 'C':
+                self.total_c += 1
+
+
     def protein_info_in_terminal(self) -> str:
         """
         Shows information about the protein in the terminal.
@@ -68,9 +93,6 @@ class Protein(object):
         Post:
             Returns a string with information about the protein to print in the main.
         """
-
-        # Load all totals
-        self.get_totals()
 
         # Calculate the percentage for H, P and C
         percentage_h = round(self.total_h / self.length * 100)
@@ -140,25 +162,3 @@ class Protein(object):
 
         # Return result
         return lowerbound
-
-
-    def get_totals(self) -> bool:
-        """
-        Counts all H, P and C amino acids in the protein.
-
-        Pre:
-            Protein is a string containing H, P or C amino acids.
-        Post:
-            Updates the totals of H, P and C.
-        """
-
-        # Loop over all aminoacids in the protein string
-        for aminoacid in self.protein:
-
-            # Count the H, P and C amino acids in the string
-            if aminoacid == 'H':
-                self.total_h += 1
-            elif aminoacid == 'P':
-                self.total_p += 1
-            elif aminoacid == 'C':
-                self.total_c += 1
