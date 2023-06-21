@@ -45,8 +45,9 @@ class Graph:
         histogram.update_xaxes(visible=False)
 
         # Update the layout
-        histogram.update_layout(title = "Protein folding scores using a random algorithm",
-                                font=dict(size = 22))
+        histogram.update_layout(title = "Protein folding scores",
+                                font = dict(size = 24),
+                                bargap = 0.1)
 
         # Display the histogram
         histogram.show()

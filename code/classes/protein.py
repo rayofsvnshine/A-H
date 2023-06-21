@@ -80,3 +80,53 @@ class Protein(object):
 
             else:
                 return False
+
+
+def theoretical_lower_bound(self) -> str:
+    """
+    Calculates the theoretical lower bound of the objective function.
+
+    Pre:
+        Uses the protein object.
+    Post:
+        Returns a string contaning the theoretical lower bound.
+    """
+
+    pass
+
+
+def protein_info_in_terminal(self) -> str:
+    """
+    Shows information about the protein in the terminal.
+
+    Pre:
+        Uses the protein object.
+    Post:
+        Returns a string with information about the protein to print in the main.
+    """
+
+    self.get_totals(self.protein)
+    percentage_h = round(self.total_h / self.length * 100)
+    percentage_p = round(self.total_p / self.length * 100)
+    percentage_c = round(self.total_c / self.length * 100)
+
+    info = "\n"
+    info += "Selected protein:" + " " * 3 + f"{self.protein}" +"\n"
+    info += "Total amino acids:" + " " * 2 + f"{self.length}" +"\n"
+
+    if self.total_h > 9:
+        info += "Total hydrofobe:" + " " * 4 + f"{self.total_h}" + " " * 2 + f"{percentage_h}%" + "\n"
+    else:
+        info += "Total hydrofobe:" + " " * 4 + f"{self.total_h}" + " " * 3 + f"{percentage_h}%" + "\n"
+
+    if self.total_p > 9:
+        info += "Total polair:" + " " * 7 + f"{self.total_p}" + " " * 2 + f"{percentage_p}%" + "\n"
+    else:
+        info += "Total polair:" + " " * 7 + f"{self.total_p}" + " " * 3 + f"{percentage_p}%" + "\n"
+
+    if self.total_c > 9:
+        info += "Total cysteine:" + " " * 5 + f"{self.total_c}" + " " * 2 + f"{percentage_c}%"
+    else:
+        info += "Total cysteine:" + " " * 5 + f"{self.total_c}" + " " * 3 + f"{percentage_c}%"
+
+    return info

@@ -254,9 +254,13 @@ class Visualisation:
 
         # Create a protein
         protein = go.Figure(data = all_data)
+
+        # Update the layout
         protein.update_layout(scene = dict(xaxis = dict(color="white", showbackground=False),
                                            yaxis = dict(color="white", showbackground=False),
                                            zaxis = dict(color="white", showbackground=False)),
                               legend_title = "Amino acid",
                               legend_font_size= 20)
+
+        # Show the protein
         protein.show()
