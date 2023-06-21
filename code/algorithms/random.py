@@ -82,7 +82,6 @@ class Random(object):
         
         # make list for coordinates, directions, and aminoacids
         coordinates = []
-        directions = []
         amino_list = []
         # get all aminoacids in string
         amino_amigos = self.Protein.protein
@@ -104,20 +103,19 @@ class Random(object):
          
             # store aminoacid's current position in coordinate list and object
             coordinates.append(starting_point)
-            new_amino.store_coordinates(starting_point)
+            new_amino.set_current_coordinate(starting_point)
             # set aminoacid's previous coordinate
             new_amino.set_previous_coordinate(previous_coordinate)
             # decide direction and next point of aminoacid chain
-            starting_point, direction = self.choose_direction(starting_point, options)
+            starting_point = self.choose_direction(options)
             # save next direction in aminoacid
-            new_amino.set_next_direction(starting_point)
+            new_amino.set_next_coordinate(starting_point)
             
             # store direction and change previous coordinate to current coordinate
-            directions.append(direction)
             previous_coordinate = starting_point
             
         # if fold was completed, store in Fold object
-        new_fold = Fold(self.fold_counter, amino_list, coordinates, directions)
+        new_fold = Fold(self.fold_counter, amino_list, coordinates)
         self.fold_counter += 1
         
         return new_fold
@@ -151,17 +149,8 @@ class Random(object):
                 
         return options
     
-    def choose_direction(self, starting_point, options):
-        next_point = choice(options)
-        # if there's a difference in y-coordinate, direction is -2 or 2
-        if starting_point[0] == next_point[0]:
-            # calculate if movement is in positive or negative direction
-            direction = next_point[1] - starting_point[1]
-            direction = 2 * direction
-        # if there's a difference in x-coordinate, direction is -1 or 1
-        elif starting_point[1] == next_point[1]:
-            # calculate if movement is in positive or negative direction
-            direction = next_point[0] - starting_point[0]    
+    def choose_direction(self, options):
+        next_point = choice(options) 
             
-        return next_point, direction
+        return next_point
             
