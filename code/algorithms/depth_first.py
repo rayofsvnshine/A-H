@@ -33,14 +33,13 @@ class Depth_first(object):
         self.fold_counter = 0
         self.Score = Score()
         self.filename = '../../data/depth_first_pickle.pkl'
-        self.results = self.clear_results()
-        self.Folds = self.make_folds()
+        self.clear_results()
+        self.make_folds()
+        self.Best_fold = self.determine_best_fold()
         
     def make_folds(self):
         # create first state of protein
-        amino1 = self.make_amino(self.Protein.protein[0], 0)
-        amino2 = self.make_amino(self.Protein.protein[1], 1)
-        ancestor = Fold(self.fold_counter, [amino1, amino2], [(0,0), [0,1]], [1])
+        ancestor = self.create_ancestor()
         children = [ancestor]
         
         # keep going until there are no more children in list
@@ -51,73 +50,78 @@ class Depth_first(object):
             # if new children are created, append to children
             if new_children:
                 children.extend(new_children)
-            
-        # get fold(s) with best scores and turn into Fold object
-        final_folds = self.to_fold()
         
-        return final_folds
     
     def create_offspring(self, parent):
         # make new children or store final folds
         prev_coords = parent.coordinates
+        # make sure there are options for next aminoacid
+        options = self.check_directions(parent)
+        if options == None:
+            return None
+        
         # if the protein has reached final length, create entry in results
         if len(prev_coords) == self.Protein.bonds:
-            self.store_results(parent)
-        # else keep creating children
+            self.make_children(parent, options, saving=True)
+            return None
+        # else create children to append
         else:
-            # create new children
-            new_children = self.make_children(parent)
+            new_children = self.make_children(parent, options)
             return new_children
+
+    
+    def make_children(self, parent, options, saving=False):
+        # get all possible directions
+        children = []
         
-        
-    def store_results(self, parent):
-        # store each possible child fold in the results
-        options = self.check_directions(parent)
-        
+        # make all possible children of parent
         for option in options:
-            # make new aminoacid
+            # store coordinates
             coordinates = parent.coordinates
             coordinates.append(option)
-            new_amino = self.make_amino(type, id)
-            new_amino.set_current_coordinate(coordinates[-1])
-            new_amino.set_previous_coordinate(coordinates[-2])
-            # append info to amino, coord, dir
+            # make new aminoacid
+            new_amino = self.make_amino(parent, option)
+            # append to amino list
             aminoacids = parent.aminoacids
             aminoacids.append(new_amino)
             
-            # make new result with score
-            new_fold = Fold(self.fold_counter, aminoacids, coordinates, directions)
+            # make complete Fold with score
+            new_fold = Fold(self.fold_counter, aminoacids, coordinates)
             self.fold_counter += 1
             score = self.Score.calculate_score(new_fold)
+            new_fold.store_score(score)
+            children.append(new_fold)
             
-            # write results to file
-            with open(self.filename, 'ab') as file:
-                pickle.dump(new_fold, file)
-                print(f'Object successfully saved to "{self.filename}"')
-    
-    def make_children(self, parent):
+            # if final fold, save to file
+            if saving == True:
+                with open(self.filename, 'ab') as file:
+                    pickle.dump(new_fold, file)
         
-        # MAKE SEPARATE AMINO FOR EACH CHILD
-        self.make_amino('H', 'parent_amino_id')
-        pass
+        if saving == False:
+            return children
+
         
+    def make_amino(self, parent, coordinate):
+        # makes aminoacid object
+        # get parent id and aminotype of child amino
+        parent_amino = parent.aminoacids[-1]
+        parent_amino_id = parent_amino.id
+        own_id = parent_amino_id + 1
+        aminotype = self.Protein.protein[own_id]
         
-    def to_fold(self):
-        # find best result(s) and turn into Fold objects
-        self.results
-            
-        
-    def make_amino(self, aminotype, parent_amino_id):
-        new_amino = Aminoacid(parent_amino_id, aminotype)
+        new_amino = Aminoacid(own_id, aminotype)
+        new_amino.set_previous_coordinate(parent.coordinates[-1])
+        new_amino.set_current_coordinate(coordinate)
         
         return new_amino
     
     
     def check_directions(self, parent):
+        # goes over all possible options to put next aminoacid
         coordinates = parent.coordinates
         starting_point = parent.coordinates[-1]
         
-                # returns list of possible coordinates
+        # returns list of possible coordinates
         orientations = [(0,1), (0,-1), (1,0), (-1,0)]
         options = []
         
@@ -138,3 +142,38 @@ class Depth_first(object):
             os.remove(self.filename)
         except OSError:
             pass
+        
+    
+    def determine_best_fold(self):
+        # read results file and return best folds
+        best_score = 0
+        best_fold = []
+        
+        with open(self.filename, 'rb') as file:
+            while True:
+                try:
+                    fold = pickle.load(file)
+                    if fold.score < best_score:
+                        best_fold = [fold]
+                    elif fold.score == best_score:
+                        best_fold.append(fold)
+                    else:
+                        continue
+                except EOFError:
+                    break
+                
+        return best_fold
+    
+    def create_ancestor(self):
+        # creates initial fold from which all other child folds are created
+        coordinate1 = (0,0)
+        coordinate2 = (0,1)
+        amino1 = Aminoacid(0, self.Protein.protein[0])
+        amino1.set_current_coordinate(coordinate1)
+        amino1.set_next_coordinate(coordinate2)
+        amino2 = Aminoacid(1, self.Protein.protein[1])
+        amino2.set_previous_coordinate(coordinate1)
+        amino2.set_current_coordinate(coordinate2)
+        
+        ancestor = Fold(self.fold_counter, [amino1, amino2], [coordinate1, coordinate2], [1])
+        return ancestor
