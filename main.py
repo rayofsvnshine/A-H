@@ -102,39 +102,41 @@ def export_result(foldingsteps: list, score: int) -> None:
         output.writerow(["score", score])
 
 
-def protein_info_in_terminal(protein: object) -> str:
-    """
-    Shows information about the protein in the terminal.
+# def protein_info_in_terminal(protein: object) -> str:
+#     """
+#     Shows information about the protein in the terminal.
 
-    Post:
-        Returns a string with information about the protein to print in the main.
-    """
+#     Pre:
+#         Uses the protein object.
+#     Post:
+#         Returns a string with information about the protein to print in the main.
+#     """
 
-    protein.get_totals(protein.protein)
-    percentage_h = round(protein.total_h / protein.length * 100)
-    percentage_p = round(protein.total_p / protein.length * 100)
-    percentage_c = round(protein.total_c / protein.length * 100)
+#     protein.get_totals(protein.protein)
+#     percentage_h = round(protein.total_h / protein.length * 100)
+#     percentage_p = round(protein.total_p / protein.length * 100)
+#     percentage_c = round(protein.total_c / protein.length * 100)
 
-    info = "\n"
-    info += "Selected protein:" + " " * 3 + f"{protein.protein}" +"\n"
-    info += "Total amino acids:" + " " * 2 + f"{protein.length}" +"\n"
+#     info = "\n"
+#     info += "Selected protein:" + " " * 3 + f"{protein.protein}" +"\n"
+#     info += "Total amino acids:" + " " * 2 + f"{protein.length}" +"\n"
 
-    if protein.total_h > 9:
-        info += "Total hydrofobe:" + " " * 4 + f"{protein.total_h}" + " " * 2 + f"{percentage_h}%" + "\n"
-    else:
-        info += "Total hydrofobe:" + " " * 4 + f"{protein.total_h}" + " " * 3 + f"{percentage_h}%" + "\n"
+#     if protein.total_h > 9:
+#         info += "Total hydrofobe:" + " " * 4 + f"{protein.total_h}" + " " * 2 + f"{percentage_h}%" + "\n"
+#     else:
+#         info += "Total hydrofobe:" + " " * 4 + f"{protein.total_h}" + " " * 3 + f"{percentage_h}%" + "\n"
 
-    if protein.total_p > 9:
-        info += "Total polair:" + " " * 7 + f"{protein.total_p}" + " " * 2 + f"{percentage_p}%" + "\n"
-    else:
-        info += "Total polair:" + " " * 7 + f"{protein.total_p}" + " " * 3 + f"{percentage_p}%" + "\n"
+#     if protein.total_p > 9:
+#         info += "Total polair:" + " " * 7 + f"{protein.total_p}" + " " * 2 + f"{percentage_p}%" + "\n"
+#     else:
+#         info += "Total polair:" + " " * 7 + f"{protein.total_p}" + " " * 3 + f"{percentage_p}%" + "\n"
 
-    if protein.total_c > 9:
-        info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 2 + f"{percentage_c}%"
-    else:
-        info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 3 + f"{percentage_c}%"
+#     if protein.total_c > 9:
+#         info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 2 + f"{percentage_c}%"
+#     else:
+#         info += "Total cysteine:" + " " * 5 + f"{protein.total_c}" + " " * 3 + f"{percentage_c}%"
 
-    return info
+#     return info
 
 
 def foldingsteps_in_terminal(foldingsteps: list) -> str:
@@ -183,6 +185,11 @@ if __name__ == "__main__":
         # Ask user to select a protein
         protein_number = input("SELECT PROTEIN:     ")
 
+        # Quit if needed
+        if protein_number == "q":
+            print("\nBye!\n")
+            exit(1)
+
         # Import protein if found
         selected_protein = import_protein(protein_number)
         if not selected_protein:
@@ -195,21 +202,29 @@ if __name__ == "__main__":
     print("3    Dijkstra's algorithm\n")
     algorithm_number = input("SELECT ALGORITHM:   ")
 
+    # Quit if needed
+    if algorithm_number == "q":
+        print("\nBye!\n")
+        exit(1)
+
     # Run random algoritm
     if algorithm_number == "1":
+
+        # Select number of runs
+        number_of_runs = input("\nNUMBER OF RUNS:     ")
+
+        # Quit if needed
+        if number_of_runs == "q":
+            print("\nBye!\n")
+            exit(1)
 
         # Make new protein object
         print("\nAnalysing protein...")
         protein = Protein(selected_protein)
 
-        # Select number of runs
-        print("")
-        number_of_runs = int(input("NUMBER OF RUNS:   "))
-        print("")
-
         # Run algorithm
         print("Running algorithm...")
-        random_algorithm = Random(protein, number_of_runs)
+        random_algorithm = Random(protein, int(number_of_runs))
 
         # Calculate score
         print("Calculating score...")
@@ -263,7 +278,10 @@ if __name__ == "__main__":
         exit(1)
 
     # Show information about the protein
-    print(protein_info_in_terminal(protein))
+    # print(protein.protein_info_in_terminal())
+
+    # Show the theoretical lower bound of the objective function
+    # print(protein.theoretical_lower_bound())
 
     # Show score
     if score < 0:
@@ -272,18 +290,27 @@ if __name__ == "__main__":
         print("Score:" + " " * 14 + "".join(str(score)) + "\n")
 
     # Show foldingsteps in terminal
-    show_foldingsteps = input("Show foldingsteps?         [y/n] ")
+    show_foldingsteps = input("Show foldingsteps of best folded protein?   [y/n] ")
+    if show_foldingsteps == "q":
+        print("\nBye!\n")
+        exit(1)
     if show_foldingsteps == "y":
         print(foldingsteps_in_terminal(results))
 
     # Create a visualisation of the best fold
-    show_visual = input("Show visualisation?        [y/n] ")
+    show_visual = input("Show visualisation of best folded protein?  [y/n] ")
+    if show_visual == "q":
+        print("\nBye!\n")
+        exit(1)
     if show_visual == "y":
         visualisation = Visualisation(best_fold)
         visualisation.visualize_protein_plotly_3d()
 
     # Create a graph of the performnce of the algorithm
-    show_graph = input("Show performance graph?    [y/n] ")
+    show_graph = input("Show algorithm performance graph?           [y/n] ")
+    if show_graph == "q":
+        print("\nBye!\n")
+        exit(1)
     if show_graph == "y":
         graph = Graph(valid_folds)
         graph.algorithm_performance()

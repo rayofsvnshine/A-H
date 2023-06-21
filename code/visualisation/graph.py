@@ -5,6 +5,7 @@ graphs.py
 """
 
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 class Graph:
@@ -18,21 +19,7 @@ class Graph:
         """
 
         self.proteinfolds = proteinfolds
-        self.scores = []
-
-
-    def select_scores(self) -> None:
-        """
-        ...
-
-        Pre:
-            ...
-        Post:
-            ...
-        """
-
-        for score in self.proteinfolds.scores:
-            self.scores.append(score)
+        self.scores = [fold.score for fold in self.proteinfolds]
 
 
     def algorithm_performance(self) -> None:
@@ -45,5 +32,22 @@ class Graph:
             Shows a histogram.
         """
 
-        histogram = px.histogram(x = self.scores)
+        # Create a histogram
+        histogram = go.Figure()
+
+        # Add labels
+        histogram.add_trace(go.Histogram(x=self.scores,
+                                         name = "Count",
+                                         texttemplate = "%{x}",
+                                         textfont_size = 20))
+
+        # Hide x-axis
+        histogram.update_xaxes(visible=False)
+
+        # Update the layout
+        histogram.update_layout(title = "Protein folding scores",
+                                font = dict(size = 24),
+                                bargap = 0.1)
+
+        # Display the histogram
         histogram.show()

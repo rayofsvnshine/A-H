@@ -254,55 +254,13 @@ class Visualisation:
 
         # Create a protein
         protein = go.Figure(data = all_data)
+
+        # Update the layout
         protein.update_layout(scene = dict(xaxis = dict(color="white", showbackground=False),
                                            yaxis = dict(color="white", showbackground=False),
                                            zaxis = dict(color="white", showbackground=False)),
                               legend_title = "Amino acid",
                               legend_font_size= 20)
+
+        # Show the protein
         protein.show()
-
-
-    # def visualize_protein_plotly_2d(self) -> None:
-    #     """
-    #     Creates a 2D visualization of the protein using plotly.
-
-    #     Pre:
-    #         Uses a list of tuples with all the coordinates of the best fold.
-    #     Post:
-    #         Returns a dynamic visualization of the best fold.
-    #     """
-
-    #     # creating x,y dimension
-    #     x = []
-    #     y = []
-
-    #     # Insert the coordinate into the protein plot
-    #     for coordinate in bestfold.coordinates:
-    #         x.append(coordinate[0])
-    #         y.append(coordinate[1])
-
-    #     # Create 2D plot
-    #     fig = px.line(x = x, y = y, markers = True)
-
-    #     # Hide x and y axis
-    #     fig.update_xaxes(visible = False)
-    #     fig.update_yaxes(visible = False)
-
-    #     # Remove background
-    #     fig.update_layout(template = "simple_white")
-
-    #     # Show protein
-    #     fig.show()
-
-# ------------------------------------- PLOTLY ANIMATED -------------------------------------
-# protein = go.Figure(data=[go.Scatter3d(x=x, y=y, z=z)],
-#                     layout=go.Layout(xaxis=dict(range=[0, 5], autorange=False),
-#                                      yaxis=dict(range=[0, 5], autorange=False),
-#                                      updatemenus=[dict(type="buttons",
-#                                                        buttons=[dict(label="Create protein",
-#                                                                      method="animate",
-#                                                                      args=[None])])]),
-#                     frames=[go.Frame(data=[go.Scatter3d(x=[x[0]], y=[y[0]], z=[z[0]])]),
-#                             go.Frame(data=[go.Scatter3d(x=[x[1]], y=[y[1]], z=[z[1]])])
-#                             ])
-# -------------------------------------------------------------------------------------------
