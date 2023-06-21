@@ -47,7 +47,7 @@ class Graph:
         # Update the layout
         histogram.update_layout(title = "Protein folding scores",
                                 font = dict(size = 24),
-                                bargap = 0.1)
+                                bargap = 0.01)
 
         # Display the histogram
         histogram.show()

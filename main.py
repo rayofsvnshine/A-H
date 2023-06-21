@@ -12,6 +12,7 @@ from code.classes.protein import Protein
 from code.classes.score import Score
 from code.algorithms.random import Random
 from code.algorithms.montecarlo import Montecarlo
+from code.algorithms.depth_first import Depth_first
 from code.visualisation.visualisation import Visualisation
 from code.visualisation.graph import Graph
 
@@ -199,7 +200,7 @@ if __name__ == "__main__":
     # Ask user to select an algorithm
     print("\n1    Random algorithm")
     print("2    Monte Carlo simulation")
-    print("3    Dijkstra's algorithm\n")
+    print("3    Depth first algorithm\n")
     algorithm_number = input("SELECT ALGORITHM:   ")
 
     # Quit if needed
@@ -256,7 +257,7 @@ if __name__ == "__main__":
 
         print("Done!")
 
-    # Run ???
+    # Run depth first algoritm
     elif algorithm_number == "3":
 
         # Make new protein object
@@ -265,7 +266,7 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running algorithm...")
-        # todo
+        depth_first = Depth_first(protein)
 
         # Calculate score
         print("Calculating score...")
@@ -278,10 +279,7 @@ if __name__ == "__main__":
         exit(1)
 
     # Show information about the protein
-    # print(protein.protein_info_in_terminal())
-
-    # Show the theoretical lower bound of the objective function
-    # print(protein.theoretical_lower_bound())
+    print(protein.protein_info_in_terminal())
 
     # Show score
     if score < 0:
