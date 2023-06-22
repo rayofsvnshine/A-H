@@ -37,7 +37,7 @@ class Depth_first(object):
             self.clear_results()
         self.make_folds(pickle_file)
         self.Best_fold = self.determine_best_fold()
-        self.clear_results()
+
         
     def make_folds(self, pickle_file):
         # create first state of protein or retrieve parents from pickle file
@@ -57,8 +57,8 @@ class Depth_first(object):
             except KeyboardInterrupt:
                 with open('data/pause_run.pkl', 'wb') as file:
                     pickle.dump(children, file)
-                    print('Oh no! You interrupted the program.')
-                    print('Best result from currently found folds is being calculated.')
+                    print('\nOh no! You interrupted the program.')
+                    print('Best result from currently found folds is being determined.')
                     break
                 
             # if new children are created, append to children
