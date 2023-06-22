@@ -1,6 +1,7 @@
 """ 
 elongation.py
-* Class used to store information about elongation used in the Monte Carlo simulation
+
+Vera Spek
 """
 
 class Elongation(object):

@@ -24,30 +24,38 @@ class Montecarlo(object):
         """Initializer"""
         self.protein = Protein.protein
         self.protein_length = Protein.length
-        self.starting_point = (0,0)
-        self.elongations = []
         self.n = n
         self.Folds = self.make_folds(self.n)
         
 
     def make_folds(self, n):
-        """Function that runs the algorithm by calling all the other functions."""
+        """
+        Fills the list of valid_folds by generating new folds.
+        """
         valid_folds = []
         fold_id = 0
         
-        while len(valid_folds) < 5: # loop for number of folds 
-            total_length = self.protein_length
+        # loop for number of folds
+        while len(valid_folds) < 5: 
+            total_length = self.protein_length 
             self.conformation_coordinates = []
             self.conformation_directions = []
             self.conformation_aminoacids = []
             self.starting_point = (0,0)
             self.elongations = []
             random_length_elongations = random.randint(1, total_length)
-            for i in range(self.protein_length): # loop for making the elongations (max is the length of the protein) 
+
+            # loop for making the elongations (max is the length of the protein) 
+            for i in range(self.protein_length): 
+                print("random length:")
+                print(random_length_elongations)
+                print("starting point:")
+                print(self.starting_point) 
                 # make different folded elongations of the same length
                 self.make_random_elongations(random_length_elongations, n)
                 # select the elongation with the lowest (best) score & checks if elongation can be added to existing conformation
                 best_elongation = self.select_elongation()
+                print(best_elongation.coordinates)
                 # add the best elongation to the existing conformation
                 self.adding_elongation(best_elongation)
                 # generate a new length for the next random folded elongations 
@@ -55,14 +63,15 @@ class Montecarlo(object):
                 # check if the length of the protein is reached, if so, end loop and save the Fold 
                 if total_length == 0:
                     # make a new object for the complete fold
-                    new_fold = Fold(fold_id, self.conformation_aminoacids, self.conformation_coordinates, self.conformation_directions)
-                    print(new_fold.aminoacids, new_fold.coordinates, new_fold.directions)
+                    new_fold = Fold(fold_id, self.conformation_aminoacids, self.conformation_coordinates)
+                    print(new_fold.coordinates, new_fold.directions, new_fold.aminoacids)
                     # increase the fold_id for the next fold
                     fold_id += 1 
                     # add the new fold to the list of all the valid folds
                     valid_folds.append(new_fold)
                     break
                 self.set_beginning_coordinate(best_elongation.coordinates[-1])
+                # generate new random sequence length for the next elongations
                 random_length_elongations = random.randint(1, total_length) 
         
         return valid_folds
@@ -70,15 +79,15 @@ class Montecarlo(object):
 
     def make_random_elongations(self, length_elongation, n):
         """Function makes a random elongation of aminoacids with different lengths."""
-        for i in range(n): # loop for the amount of elongation per time want to be made (and checked for the best score)
+        # loop for the amount of elongation per time want to be made (and checked for the best score)
+        while len(self.elongations) < n:
             coordinates = []
             directions = []
             self.amino_list = []
             amino_counter = 0
             starting_point = (0,0)
             previous_coordinate = None 
-            succes = False
-            ind = 0
+            ind = 1
 
             # make different elongations of the same length in different folds  
             for aminoacid in self.protein:
@@ -92,20 +101,19 @@ class Montecarlo(object):
 
                     # store aminoacid's current position in coordinate list and object
                     coordinates.append(starting_point)
-                    new_amino.store_coordinates(starting_point)
+                    new_amino.set_current_coordinate(starting_point)
                     # set aminoacid's previous coordinate
                     new_amino.set_previous_coordinate(previous_coordinate)
                     # decide direction and next point of aminoacid chain
                     starting_point, direction = self.choose_direction(starting_point, options)
                     # save next direction in aminoacid
-                    new_amino.set_next_direction(starting_point)
+                    new_amino.set_next_coordinate(starting_point)
 
                     # store direction and change previous coordinate to current coordinate
                     directions.append(direction)
                     previous_coordinate = starting_point
                     # set aminocounter for the next id
                     amino_counter += 1 
-
                     #check if length of elongation is reached 
                     if ind == length_elongation:
                         self.length_reached(coordinates,directions,length_elongation)
@@ -178,7 +186,7 @@ class Montecarlo(object):
                     best_elongation = elongation 
         
         if max_score == 0:
-            best_elongation = self.elongations[1]
+            best_elongation = self.elongations[0]
 
         return best_elongation       
 
