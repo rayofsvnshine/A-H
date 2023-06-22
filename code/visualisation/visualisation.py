@@ -247,18 +247,22 @@ class Visualisation:
 
             # Create 3D hydrogen bond and store to data
             hyd_bond = px.line_3d(x = hyd_x, y = hyd_y, z = hyd_z)
-            hyd_bond.update_traces(line = dict(color = "black", width = 12, dash = "dot"))
+            hyd_bond.update_traces(line = dict(color = "black", width = 13, dash = "dot"))
             all_data += hyd_bond.data
 
         # Create a protein
         protein = go.Figure(data = all_data)
 
-        # Update the layout
+        # Remove the axes
         protein.update_layout(scene = dict(xaxis = dict(color="white", showbackground=False),
                                            yaxis = dict(color="white", showbackground=False),
-                                           zaxis = dict(color="white", showbackground=False)),
-                              legend_title = "Amino acid",
-                              legend_font_size= 20)
+                                           zaxis = dict(color="white", showbackground=False)))
+
+        # Create a legend
+        protein.update_layout(legend_font_size= 25,
+                              legend=dict(orientation = "h",
+                                    xanchor = "center",
+                                    x = 0.5))
 
         # Show the protein
         protein.show()

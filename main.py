@@ -108,25 +108,25 @@ if __name__ == "__main__":
 
     # Check command line arguments
     if len(argv) >= 3:
-        print("Usage: python main.py [protein number]")
+        print("\nUsage: python main.py [protein number]\n")
         exit(1)
 
     # Import protein if found
     elif len(argv) == 2:
         selected_protein = import_protein(argv[1])
         if not selected_protein:
-            print("Protein not found")
+            print("\nProtein not found\n")
             exit(1)
 
     # Show proteins from csv file if found
     elif len(argv) == 1:
         if not select_protein():
-            print("No proteins found in data/proteins.csv")
+            print("\nNo proteins found in data/proteins.csv\n")
             exit(1)
         print(select_protein())
 
         # Ask user to select a protein
-        protein_number = input("SELECT PROTEIN:     ")
+        protein_number = input("Which protein would you like to use? ")
 
         # Quit if needed
         if protein_number == "q":
@@ -136,14 +136,14 @@ if __name__ == "__main__":
         # Import protein if found
         selected_protein = import_protein(protein_number)
         if not selected_protein:
-            print("Selected protein not found")
+            print("\nSelected protein not found\n")
             exit(1)
 
     # Ask user to select an algorithm
     print("\n1   Random algorithm")
     print("2   Monte Carlo simulation")
     print("3   Depth first algorithm\n")
-    algorithm_number = input("SELECT ALGORITHM:   ")
+    algorithm_number = input("Which algorithm would you like to use? ")
 
     # Quit if needed
     if algorithm_number == "q":
@@ -154,7 +154,7 @@ if __name__ == "__main__":
     if algorithm_number == "1":
 
         # Select number of runs
-        number_of_runs = input("\nNUMBER OF RUNS:     ")
+        number_of_runs = input("How many times do you want to run the algorithm? ")
 
         # Quit if needed
         if number_of_runs == "q":
@@ -164,12 +164,12 @@ if __name__ == "__main__":
         # Make new protein object
         print("\nAnalysing protein...", end =" ")
         protein = Protein(selected_protein)
-        print("Done!")
+        print("done!")
 
         # Run algorithm
         print("Running algorithm...", end =" ")
         random_algorithm = Random(protein, int(number_of_runs))
-        print("Done!")
+        print("done!")
 
         # Calculate score
         print("Calculating score...", end =" ")
@@ -178,55 +178,56 @@ if __name__ == "__main__":
         best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results
         score = best_fold.score
-        print("Done!")
+        print("done!")
 
     # Run Monte Carlo Simulation 
     elif algorithm_number == "2":
 
         # Make new protein object
-        print("\nAnalysing protein...")
+        print("\nAnalysing protein...", end =" ")
         protein = Protein(selected_protein)
+        print("done!")
 
         # Run algorithm
-        print("Running Monte Carlo simulation")
+        print("Running algorithm...", end =" ")
         Monte_Carlo = Montecarlo(protein, 2)
+        print("done!")
 
         # Calculate score
-        print("Calculating score...")
+        print("Calculating score...", end =" ")
         scorer = Score()
         best_fold = scorer.best_fold(Monte_Carlo.Folds)
         results = best_fold.results 
         score = best_fold.score
-
-        print("Done!")
+        print("done!")
 
     # Run depth first algoritm
     elif algorithm_number == "3":
         
-        answer = input("\nWould you like to start a new run (n) or a continued run (c)?    ")
+        answer = input("Start a new run (n) or continue last run (c)? ")
 
         # Make new protein object
-        print("\nAnalysing protein...")
+        print("\nAnalysing protein...", end =" ")
         protein = Protein(selected_protein)
+        print("done!")
 
         # Run algorithm
-        print("Running algorithm...")
+        print("Running algorithm...", end =" ")
         if answer == 'n':
             depth_first = Depth_first(protein)
         elif answer == 'c':
             depth_first = Depth_first(protein, pickle_file=True)
-            
+        print("done!")
 
         # Calculate score
-        print("Calculating score...")
+        print("Calculating score...", end =" ")
         best_fold = depth_first.Best_fold[0]
         results = best_fold.results
         score = best_fold.score
-
-        print("Done!")
+        print("done!")
 
     else:
-        print("Selected algorithm not found")
+        print("\nSelected algorithm not found\n")
         exit(1)
 
     # Show information about the protein
@@ -238,16 +239,8 @@ if __name__ == "__main__":
     else:
         print("Score:" + " " * 14 + "".join(str(score)) + "\n")
 
-    # Show foldingsteps in terminal
-    show_foldingsteps = input("Show foldingsteps of best folded protein?   [y/n] ")
-    if show_foldingsteps == "q":
-        print("\nBye!\n")
-        exit(1)
-    if show_foldingsteps == "y":
-        print(best_fold.foldingsteps_in_terminal())
-
     # Create a visualisation of the best fold
-    show_visual = input("Show visualisation of best folded protein?  [y/n] ")
+    show_visual = input("Show visualisation of the best folded protein? [y/n] ")
     if show_visual == "q":
         print("\nBye!\n")
         exit(1)
@@ -255,14 +248,23 @@ if __name__ == "__main__":
         visualisation = Visualisation(best_fold)
         visualisation.visualize_protein_plotly_3d()
 
-    # Create a graph of the performnce of the algorithm
-    show_graph = input("Show algorithm performance graph?           [y/n] ")
-    if show_graph == "q":
+    # Show foldingsteps in terminal
+    show_foldingsteps = input("Show foldingsteps of the best folded protein?  [y/n] ")
+    if show_foldingsteps == "q":
         print("\nBye!\n")
         exit(1)
-    if show_graph == "y":
-        graph = Graph(valid_folds)
-        graph.algorithm_performance()
+    if show_foldingsteps == "y":
+        print(best_fold.foldingsteps_in_terminal())
+
+    # Create a graph of the performnce of the random algorithm
+    if algorithm_number == "1":
+        show_graph = input("Show the algorithm performance graph?          [y/n] ")
+        if show_graph == "q":
+            print("\nBye!\n")
+            exit(1)
+        if show_graph == "y":
+            graph = Graph(valid_folds)
+            graph.algorithm_performance()
 
     # Export results
     export_result(results, score)
