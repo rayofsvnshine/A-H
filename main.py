@@ -259,5 +259,5 @@ if __name__ == "__main__":
         graph.algorithm_performance()
 
     # Export results
-    # export_result(results, score)
+    export_result(results, score)
     print("\nResults can be found in data/output.csv\n")
