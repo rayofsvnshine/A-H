@@ -4,8 +4,6 @@ visualisation.py
 * Creates a visualization of the protein
 """
 
-# import matplotlib.pyplot as plt
-import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -133,13 +131,13 @@ class Visualisation:
                     ind = bestfold.coordinates.index(neighbour)
                     neighbour_obj = bestfold.aminoacids[ind]
 
-                # If both H or C aminoacids are not already checked, store coordinates for H-bond
-                if neighbour_obj.aminotype == 'H' or neighbour_obj.aminotype == 'C':
-                    if neighbour_obj.id >= aminoacid.id + 2:
-                        hydrogen_bond = []
-                        hydrogen_bond.append(aminoacid.coordinate)
-                        hydrogen_bond.append(neighbour_obj.coordinate)
-                        hydrogen_bonds.append(hydrogen_bond)
+                    # If both H or C aminoacids are not already checked, store coordinates for H-bond
+                    if neighbour_obj.aminotype == 'H' or neighbour_obj.aminotype == 'C':
+                        if neighbour_obj.id >= aminoacid.id + 2:
+                            hydrogen_bond = []
+                            hydrogen_bond.append(aminoacid.coordinate)
+                            hydrogen_bond.append(neighbour_obj.coordinate)
+                            hydrogen_bonds.append(hydrogen_bond)
 
         return hydrogen_bonds
 
