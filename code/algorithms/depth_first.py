@@ -17,7 +17,7 @@ class Depth_first(object):
     * create folds using a depth-first approach
     """
 
-    def __init__(self, Protein: object):
+    def __init__(self, Protein: object, pickle_file=None):
         """
         Initializes a Folder object
         
@@ -34,20 +34,31 @@ class Depth_first(object):
         self.Score = Score()
         self.filename = 'data/depth_first_pickle.pkl'
         self.clear_results()
-        self.make_folds()
+        self.make_folds(pickle_file)
         self.Best_fold = self.determine_best_fold()
         self.clear_results()
         
-    def make_folds(self):
+    def make_folds(self, pickle_file):
         # create first state of protein
         ancestor = self.create_ancestor()
-        children = [ancestor]
+        if pickle_file:
+            children = self.retrieve_pickle(pickle_file)
+        else:
+            children = [ancestor]
         
         # keep going until there are no more children in list
         while children:
-            # get last child
-            parent = children.pop()
-            new_children = self.create_offspring(parent)
+            try:
+                # get last child
+                parent = children.pop()
+                new_children = self.create_offspring(parent)
+            except KeyboardInterrupt:
+                with open('data/pause_run.pkl', 'wb') as file:
+                    pickle.dump(children, file)
+                    print('Oh no! You interrupted the program.')
+                    print('Best result from currently found folds is being calculated.')
+                    break
+                
             # if new children are created, append to children
             if new_children:
                 children.extend(new_children)
@@ -144,6 +155,19 @@ class Depth_first(object):
             os.remove(self.filename)
         except OSError:
             pass
+        
+        
+    def retrieve_pickle(self, pickle_file):
+        children = []
+        with open(pickle_file, 'rb') as file:
+            while True:
+                try:
+                    fold = pickle.load(file)
+                    children.append(fold)
+                except EOFError:
+                    break
+                
+        return children
         
     
     def determine_best_fold(self):
