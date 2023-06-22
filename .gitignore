@@ -1,3 +1,6 @@
+# Output file
+output.csv
+
 # pickle file
 depth_first_pickle.pkl
 pause_run.pkl
