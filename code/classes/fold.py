@@ -9,12 +9,13 @@ class Fold(object):
     Fold object
     """
 
-    def __init__(self, id: int, aminoacids: list, coordinates: list):
+    def __init__(self, id: int, protein: str, aminoacids: list, coordinates: list):
         """
         Initializer
         """
 
         self.id = id
+        self.protein = protein
         self.aminoacids = aminoacids
         self.coordinates = coordinates
         self.directions = self.calculate_directions()

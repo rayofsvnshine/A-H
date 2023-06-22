@@ -17,7 +17,7 @@ class Depth_first(object):
     * create folds using a depth-first approach
     """
 
-    def __init__(self, Protein: object, pickle_file=None):
+    def __init__(self, Protein: object, pickle_file=False):
         """
         Initializes a Folder object
         
@@ -33,17 +33,19 @@ class Depth_first(object):
         self.fold_counter = 0
         self.Score = Score()
         self.filename = 'data/depth_first_pickle.pkl'
-        self.clear_results()
+        if not pickle_file:
+            self.clear_results()
         self.make_folds(pickle_file)
         self.Best_fold = self.determine_best_fold()
         self.clear_results()
         
     def make_folds(self, pickle_file):
-        # create first state of protein
-        ancestor = self.create_ancestor()
+        # create first state of protein or retrieve parents from pickle file
         if pickle_file:
-            children = self.retrieve_pickle(pickle_file)
+            children = self.retrieve_pickle('data/pause_run.pkl')[0]
+            self.check_protein(children)
         else:
+            ancestor = self.create_ancestor()
             children = [ancestor]
         
         # keep going until there are no more children in list
@@ -98,7 +100,7 @@ class Depth_first(object):
             aminoacids.append(new_amino)
             
             # make complete Fold with score
-            new_fold = Fold(self.fold_counter, aminoacids, coordinates)
+            new_fold = Fold(self.fold_counter, self.Protein.protein, aminoacids, coordinates)
             self.fold_counter += 1
             score = self.Score.calculate_score(new_fold)
             new_fold.store_score(score)
@@ -202,5 +204,11 @@ class Depth_first(object):
         amino2.set_previous_coordinate(coordinate1)
         amino2.set_current_coordinate(coordinate2)
         
-        ancestor = Fold(self.fold_counter, [amino1, amino2], [coordinate1, coordinate2])
+        ancestor = Fold(self.fold_counter, self.Protein.protein, [amino1, amino2], [coordinate1, coordinate2])
         return ancestor
+    
+    
+    def check_protein(self, children):
+        child = children[0]
+        child_protein = child.protein
+        assert child_protein == self.Protein.protein, "The protein you provided is not the same as the protein that was previously used"

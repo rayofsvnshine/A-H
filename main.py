@@ -202,6 +202,8 @@ if __name__ == "__main__":
 
     # Run depth first algoritm
     elif algorithm_number == "3":
+        
+        answer = input("\nWould you like to start a new run (n) or a continued run (c)?    ")
 
         # Make new protein object
         print("\nAnalysing protein...")
@@ -209,7 +211,11 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running algorithm...")
-        depth_first = Depth_first(protein)
+        if answer == 'n':
+            depth_first = Depth_first(protein)
+        elif answer == 'c':
+            depth_first = Depth_first(protein, pickle_file=True)
+            
 
         # Calculate score
         print("Calculating score...")

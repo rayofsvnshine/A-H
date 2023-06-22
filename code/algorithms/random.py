@@ -115,7 +115,7 @@ class Random(object):
             previous_coordinate = starting_point
             
         # if fold was completed, store in Fold object
-        new_fold = Fold(self.fold_counter, amino_list, coordinates)
+        new_fold = Fold(self.fold_counter, self.Protein.protein, amino_list, coordinates)
         self.fold_counter += 1
         
         return new_fold
