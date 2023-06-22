@@ -36,6 +36,7 @@ class Depth_first(object):
         self.clear_results()
         self.make_folds()
         self.Best_fold = self.determine_best_fold()
+        self.clear_results()
         
     def make_folds(self):
         # create first state of protein
@@ -147,7 +148,7 @@ class Depth_first(object):
     
     def determine_best_fold(self):
         # read results file and return best folds
-        best_score = 0
+        best_score = 1
         best_fold = []
         
         with open(self.filename, 'rb') as file:
@@ -156,6 +157,7 @@ class Depth_first(object):
                     fold = pickle.load(file)
                     if fold.score < best_score:
                         best_fold = [fold]
+                        best_score = fold.score
                     elif fold.score == best_score:
                         best_fold.append(fold)
                     else:

@@ -17,6 +17,7 @@ from code.visualisation.visualisation import Visualisation
 from code.visualisation.graph import Graph
 
 from sys import argv
+from random import choice
 import csv
 
 
@@ -187,7 +188,7 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running Monte Carlo simulation")
-        Monte_Carlo = Montecarlo(protein, 10)
+        Monte_Carlo = Montecarlo(protein, 2)
 
         # Calculate score
         print("Calculating score...")
@@ -211,7 +212,9 @@ if __name__ == "__main__":
 
         # Calculate score
         print("Calculating score...")
-        # todo
+        best_fold = depth_first.Best_fold[0]
+        results = best_fold.results
+        score = best_fold.score
 
         print("Done!")
 
