@@ -52,8 +52,8 @@ class Montecarlo(object):
             for i in range(self.protein_length):
                 self.elongations = [] 
                 self.same_length = False
-                print(random_length_elongations)
                 # make n number of elongations
+                print(random_length_elongations)
                 self.make_random_elongations(random_length_elongations, n)
                 # select the elongation with the lowest (best) score & check if elongation can be added to existing conformation
                 best_elongation = self.select_elongation()
@@ -66,7 +66,7 @@ class Montecarlo(object):
                 # check if the length of the protein is reached, if so, end loop and save the Fold 
                 if total_length == 0:
                     # make a new object for the complete fold
-                    print(fold_id, self.conformation_coordinates, self.conformation_directions, self.conformation_aminoacids)
+                    print(fold_id, self.conformation_coordinates)
                     new_fold = Fold(fold_id, self.conformation_aminoacids, self.conformation_coordinates)
                     # increase the fold_id for the next fold
                     fold_id += 1 
@@ -83,6 +83,9 @@ class Montecarlo(object):
 
     def make_random_elongations(self, length_elongation, n):
         """Function makes a random elongation of aminoacids with different lengths."""
+        # set elongation id to one 
+        elongation_id = 1
+
         # loop for the amount of elongation per time want to be made (and checked for the best score)
         while len(self.elongations) < n:
             coordinates = []
@@ -90,23 +93,30 @@ class Montecarlo(object):
             self.amino_list = []
             amino_counter = 0
             previous_coordinate = None 
-            ind = 1
+            elongation_length_counter = 1
 
             if self.same_length:
                 self.starting_point = (0,0)
 
-            # make different elongations of the same length in different folds  
+            # make different elongations of the same length with different directions   
             for aminoacid in self.where_in_sequence:
                 options = self.check_directions(self.starting_point, coordinates)
                 if options == []:
                     self.same_length = True
                     break
-                else:    
+                else:   
+                    if elongation_id != 1 and self.starting_point != (0,0):
+                       self.starting_point, direction = self.choose_direction(self.starting_point, options)
+                       options = self.check_directions(self.starting_point, coordinates)
+                       if options == []:
+                            self.same_length = True
+                            break  
                     # make new aminoacid 
                     new_amino = Aminoacid(amino_counter, aminoacid)
                     self.amino_list.append(new_amino)
                     # store aminoacid's current position in coordinate list and object
                     coordinates.append(self.starting_point)
+                    # store the current coordinate in the amino acid object
                     new_amino.set_current_coordinate(self.starting_point)
                     # set aminoacid's previous coordinate
                     new_amino.set_previous_coordinate(previous_coordinate)
@@ -114,19 +124,20 @@ class Montecarlo(object):
                     self.starting_point, direction = self.choose_direction(self.starting_point, options)
                     # save next direction in aminoacid
                     new_amino.set_next_coordinate(self.starting_point)
-
                     # store direction and change previous coordinate to current coordinate
                     directions.append(direction)
+                    # set the previous coordinate 
                     previous_coordinate = self.starting_point
                     # set aminocounter for the next id
                     amino_counter += 1 
-                    #check if length of elongation is reached 
-                    if ind == length_elongation:
-                        self.length_reached(coordinates,directions,length_elongation)
+                    # check if length of elongation is reached 
+                    if elongation_length_counter == length_elongation:
+                        self.length_reached(coordinates,directions,length_elongation, elongation_id)
                         self.same_length = True
+                        elongation_id += 1
                         break
                     else:
-                        ind += 1
+                        elongation_length_counter += 1
         self.same_length = False     
         
                 
@@ -214,6 +225,7 @@ class Montecarlo(object):
         """
         for coordinate in elongation.coordinates:
             if coordinate in self.conformation_coordinates:
+                print("hier komt false uit")
                 return False 
             else:
                 return True 
@@ -225,12 +237,12 @@ class Montecarlo(object):
         self.starting_point = last_coordinate
 
     
-    def length_reached(self, coordinates, directions, length_elongation):
+    def length_reached(self, coordinates, directions, length_elongation, id):
         """
         Makes an Elongation object and stores this in the list of all elongations.
         """
         # make an object of the newly made elongation storing coordinates, directions and the length
-        new_elongation = Elongation(coordinates, directions, length_elongation, self.amino_list)
+        new_elongation = Elongation(coordinates, directions, length_elongation, self.amino_list, id)
         # save the elongation in the list of possible elongations 
         self.elongations.append(new_elongation)
 
@@ -241,4 +253,9 @@ class Montecarlo(object):
         """
         for i in range(length_elongation):
             self.where_in_sequence.pop(0)
+    
+    def first_aminoacid_in_elongation():
+        """
+        Generates a the coordinate of the second or later elongation of the protein sequence and generates new options for the next coordinate.
+        """
         
