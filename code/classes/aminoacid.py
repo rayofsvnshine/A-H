@@ -19,7 +19,7 @@ class Aminoacid(object):
         self.coordinate = ()
 
 
-    def set_previous_coordinate(self, direction: tuple) -> None:
+    def set_previous_coordinate(self, coordinate: tuple) -> None:
         """
         Sets the connection to previous amino acid.
         
@@ -29,10 +29,10 @@ class Aminoacid(object):
             Stores the previous direction.
         """
 
-        self.origin_direction = direction
+        self.origin_coordinate = coordinate
 
 
-    def set_next_coordinate(self, direction: tuple) -> None:
+    def set_next_coordinate(self, coordinate: tuple) -> None:
         """
         Sets the connection to next amino acid.
         
@@ -42,7 +42,7 @@ class Aminoacid(object):
             Stores the next direction.
         """
 
-        self.target_direction = direction
+        self.target_coordinate = coordinate
 
 
     def set_current_coordinate(self, coordinate: tuple) -> None:

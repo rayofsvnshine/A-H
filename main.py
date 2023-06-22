@@ -187,7 +187,7 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running Monte Carlo simulation")
-        Monte_Carlo = Montecarlo(protein, 10)
+        Monte_Carlo = Montecarlo(protein, 2)
 
         # Calculate score
         print("Calculating score...")
