@@ -100,7 +100,7 @@ class Protein(object):
         percentage_c = round(self.total_c / self.length * 100)
 
         # Create a string with the protein information
-        info = "\n"
+        info = "\n\n"
         info += "Selected protein:" + " " * 3 + f"{self.protein}" +"\n"
         info += "Total amino acids:" + " " * 2 + f"{self.length}" +"\n"
 

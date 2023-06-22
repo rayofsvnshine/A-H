@@ -140,9 +140,9 @@ if __name__ == "__main__":
             exit(1)
 
     # Ask user to select an algorithm
-    print("\n1    Random algorithm")
-    print("2    Monte Carlo simulation")
-    print("3    Depth first algorithm\n")
+    print("\n1   Random algorithm")
+    print("2   Monte Carlo simulation")
+    print("3   Depth first algorithm\n")
     algorithm_number = input("SELECT ALGORITHM:   ")
 
     # Quit if needed
@@ -162,21 +162,22 @@ if __name__ == "__main__":
             exit(1)
 
         # Make new protein object
-        print("\nAnalysing protein...")
+        print("\nAnalysing protein...", end =" ")
         protein = Protein(selected_protein)
+        print("Done!")
 
         # Run algorithm
-        print("Running algorithm...")
+        print("Running algorithm...", end =" ")
         random_algorithm = Random(protein, int(number_of_runs))
+        print("Done!")
 
         # Calculate score
-        print("Calculating score...")
+        print("Calculating score...", end =" ")
         valid_folds = random_algorithm.Folds
         scorer = Score()
         best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results
         score = best_fold.score
-
         print("Done!")
 
     # Run Monte Carlo Simulation 
