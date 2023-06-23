@@ -13,6 +13,7 @@ from code.classes.score import Score
 from code.algorithms.random import Random
 from code.algorithms.montecarlo import Montecarlo
 from code.algorithms.depth_first import Depth_first
+from code.algorithms.Pruning import Pruning
 from code.visualisation.visualisation import Visualisation
 from code.visualisation.graph import Graph
 
@@ -142,7 +143,8 @@ if __name__ == "__main__":
     # Ask user to select an algorithm
     print("\n1   Random algorithm")
     print("2   Monte Carlo simulation")
-    print("3   Depth first algorithm\n")
+    print("3   Depth first algorithm")
+    print("4   Pruning algorithm\n")
     algorithm_number = input("Which algorithm would you like to use? ")
 
     # Quit if needed
@@ -218,6 +220,37 @@ if __name__ == "__main__":
         elif answer == 'c':
             depth_first = Depth_first(protein, pickle_file=True)
         print("done!")
+
+        # Calculate score
+        print("Calculating score...", end =" ")
+        best_fold = depth_first.Best_fold[0]
+        results = best_fold.results
+        score = best_fold.score
+        print("done!")
+        
+    elif algorithm_number == "4":
+        
+        answer = input("Start a new run (n) or continue last run (c)? ")
+
+        # Make new protein object
+        print("\nAnalysing protein...", end =" ")
+        protein = Protein(selected_protein)
+        print("done!")
+
+        # Run algorithm
+        print("Running algorithm...", end =" ")
+        if answer == 'n':
+            depth_first = Pruning(protein)
+        elif answer == 'c':
+            depth_first = Pruning(protein, pickle_file=True)
+            
+        if depth_first.Best_fold:
+            print("done!")
+        else:
+            print("\nNo folds were found :(")
+            print("Please restart program and continue running to find a fold.")
+            exit(4)
+        
 
         # Calculate score
         print("Calculating score...", end =" ")

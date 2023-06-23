@@ -36,7 +36,11 @@ class Depth_first(object):
         if not pickle_file:
             self.clear_results()
         self.make_folds(pickle_file)
-        self.Best_fold = self.determine_best_fold()
+        # if file exists, determine best fold
+        if os.path.exists(self.filename):
+            self.Best_fold = self.determine_best_fold()
+        else:
+            self.Best_fold = None
 
         
     def make_folds(self, pickle_file):
@@ -52,7 +56,7 @@ class Depth_first(object):
         while children:
             try:
                 # get last child
-                parent = children.pop()
+                parent = self.get_parent(children)
                 new_children = self.create_offspring(parent)
             except KeyboardInterrupt:
                 with open('data/pause_run.pkl', 'wb') as file:
@@ -64,6 +68,10 @@ class Depth_first(object):
             # if new children are created, append to children
             if new_children:
                 children.extend(new_children)
+                
+    
+    def get_parent(self, parents):
+        return parents.pop()
         
     
     def create_offspring(self, parent):
@@ -192,6 +200,7 @@ class Depth_first(object):
                     break
                 
         return best_fold
+    
     
     def create_ancestor(self):
         # creates initial fold from which all other child folds are created
