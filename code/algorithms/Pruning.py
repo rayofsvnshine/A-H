@@ -1,7 +1,8 @@
 from .depth_first import Depth_first
-# from ..classes.fold import Fold
 from copy import deepcopy
-# import pickle
+from random import random
+import pickle
+
 
 class Pruning(Depth_first):
     """
@@ -11,80 +12,51 @@ class Pruning(Depth_first):
     
     def __init__(self, Protein: object, pickle_file=False):
         super().__init__(Protein, pickle_file)
-        self.prune_values = {}
         
         
     def get_parent(self, parents):
-        # get first parent
-        first_parent = parents.pop(0)
-        new_parents = [first_parent]
-        # while first parent in list is of same generation, add to list
-        while len(parents[0].aminoacids) == len(first_parent.aminoacids):
-            new_parents.append(parents.pop(0))
-            
-        return new_parents
+        new_parents = deepcopy(parents)
+        parents = []
+        return parents, new_parents
 
 
-    def create_offspring(self, parents):
-        new_children = []
+    def create_offspring(self, parents):        
+        next_generation = []
+        best_score = 1
+        
         for parent in parents:
-            # make new children or store final folds
-            prev_coords = deepcopy(parent.coordinates)
             # make sure there are options for next aminoacid
             options = self.check_directions(parent)
             if options == None:
                 continue
             
-            # if the protein has reached final length, create entry in results
-            if len(prev_coords) == self.Protein.bonds:
-                self.make_children(parent, options, saving=True)
-            # else create children to return
-            else:
-                children = self.make_children(parent, options)
-                # prune children
-                new_children.append(self.prune_children(children, parent))
-        
-        if len(new_children) == 0:
+            # create next generation and prune
+            new_children = self.make_children(parent, options)
+            next_generation, best_score = self.prune_children(best_score, new_children, next_generation)
+
+        # save final generation or return
+        if not next_generation:
+            return None
+        elif len(next_generation[0].aminoacids) == len(self.Protein.protein):
+            for child in next_generation:
+                with open(self.filename, 'ab') as file:
+                    pickle.dump(child, file)
             return None
         else:
-           return new_children
+            return next_generation
         
-        
-    def prune_children(self, new_children, parent):
-        # if no children were made, return
-        if len(new_children) == 0:
-            return None
-        # if one child was made, prune
-        if len(new_children) < 2:
-            
-            generation = len(parent.aminoacids)
-            
-            if self.prune_values[generation]:
-                if child.score == self.prune_values[generation]:
-                    return [child]
-                elif child.score < self.prune_values[generation]:
-                    self.prune_values[generation] = child.score
-                    return [child]
-                else:
-                    return None
-            else:
-                self.prune_values[generation] = child.score
-                return [child]
-        else:
-            if self.prune_values[id]:
-                best_score = self.prune_values[id]
-            else:
-                best_score = 1
-            pruned_children = []
-            for child in new_children:
-                if child.score < best_score:
-                    best_score = child.score
-                    pruned_children.append(child)
-                elif child.score == best_score:
-                    pruned_children.append(child)
-                else:
-                    pass
-        
-        self.prune_values[id] = best_score
-        
-        return pruned_children
+
+    def prune_children(self, best_score, new_children, next_generation):
+        # check every child
+        for child in new_children:
+            # if the child score is the same as the best score, store child
+            if child.score == best_score:
+                next_generation.append(child)
+            # if the child score is lower than the best score, reset next generation and reassign best score
+            elif child.score < best_score:
+                next_generation = [child]
+                best_score = child.score
+            elif random() > 0.95:
+                next_generation.append(child)
+        # return the next generation and best score
+        return next_generation, best_score

@@ -56,8 +56,9 @@ class Depth_first(object):
         while children:
             try:
                 # get last child
-                parent = self.get_parent(children)
+                children, parent = self.get_parent(children)
                 new_children = self.create_offspring(parent)
+                # print("new gen!")
             except KeyboardInterrupt:
                 with open('data/pause_run.pkl', 'wb') as file:
                     pickle.dump(children, file)
@@ -71,7 +72,8 @@ class Depth_first(object):
                 
     
     def get_parent(self, parents):
-        return parents.pop()
+        new_parent = parents.pop()
+        return parents, new_parent
         
     
     def create_offspring(self, parent):
