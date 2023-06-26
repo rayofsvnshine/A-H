@@ -71,6 +71,7 @@ class Montecarlo(object):
                 if total_length == 0:
                     # make a new object for the complete fold
                     new_fold = Fold(fold_id, self.protein, self.conformation_aminoacids, self.conformation_coordinates)
+                    print(new_fold.coordinates)
                     # increase the fold_id for the next fold
                     fold_id += 1 
                     # add the new fold to the list of all the valid folds
@@ -232,12 +233,12 @@ class Montecarlo(object):
         """
         Checks whether the selected aminoacid sequence can be added to the existing protein conformation.
         """
-
         for coordinate in elongation.coordinates:
             if coordinate in self.conformation_coordinates:
                 return False 
             else:
-                return True 
+                continue
+        return True 
 
 
 
@@ -267,6 +268,7 @@ class Montecarlo(object):
         Removes aminoacids that have been used in an elongation from the total protein sequence.
         """
         for i in range(length_elongation):
+            # remove the used aminoacid from the aminoacids that can be used
             self.where_in_sequence.pop(0)
     
 
