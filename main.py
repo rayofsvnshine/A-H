@@ -103,6 +103,12 @@ def export_result(foldingsteps: list, score: int) -> None:
 
         # Write score
         output.writerow(["score", score])
+        
+        
+def check_quit(user_input):
+    if user_input == "q":
+        print("\nBye!\n")
+        exit(1)
 
 
 if __name__ == "__main__":
@@ -130,9 +136,7 @@ if __name__ == "__main__":
         protein_number = input("Which protein would you like to use? ")
 
         # Quit if needed
-        if protein_number == "q":
-            print("\nBye!\n")
-            exit(1)
+        check_quit(protein_number)
 
         # Import protein if found
         selected_protein = import_protein(protein_number)
@@ -148,9 +152,7 @@ if __name__ == "__main__":
     algorithm_number = input("Which algorithm would you like to use? ")
 
     # Quit if needed
-    if algorithm_number == "q":
-        print("\nBye!\n")
-        exit(1)
+    check_quit(algorithm_number)
 
     # Run random algoritm
     if algorithm_number == "1":
@@ -159,9 +161,7 @@ if __name__ == "__main__":
         number_of_runs = input("How many times do you want to run the algorithm? ")
 
         # Quit if needed
-        if number_of_runs == "q":
-            print("\nBye!\n")
-            exit(1)
+        check_quit(number_of_runs)
 
         # Make new protein object
         print("\nAnalysing protein...", end =" ")
@@ -188,15 +188,11 @@ if __name__ == "__main__":
         number_of_runs = input("How many times do you want to run the algorithm? ")
 
         # Quit if needed
-        if number_of_runs == "q":
-            print("\nBye!\n")
-            exit(1)
+        check_quit(number_of_runs)
 
         # Select number of times an elongation is going to be folded 
         number_of_folds_elongations = input("How many times do you want the elongations to be folded? ")
-        if number_of_runs == "q":
-            print("\nBye!\n")
-            exit(1)
+        check_quit(number_of_folds_elongations)
             
         # Make new protein object
         print("\nAnalysing protein...", end =" ")
@@ -220,6 +216,7 @@ if __name__ == "__main__":
     elif algorithm_number == "3":
         
         answer = input("Start a new run (n) or continue last run (c)? ")
+        check_quit(answer)
 
         # Make new protein object
         print("\nAnalysing protein...", end =" ")
@@ -244,6 +241,7 @@ if __name__ == "__main__":
     elif algorithm_number == "4":
         
         answer = input("Start a new run (n) or continue last run (c)? ")
+        check_quit(answer)
 
         # Make new protein object
         print("\nAnalysing protein...", end =" ")
@@ -287,27 +285,21 @@ if __name__ == "__main__":
 
     # Create a visualisation of the best fold
     show_visual = input("Show visualisation of the best folded protein? [y/n] ")
-    if show_visual == "q":
-        print("\nBye!\n")
-        exit(1)
+    check_quit(show_visual)
     if show_visual == "y":
         visualisation = Visualisation(best_fold)
         visualisation.visualize_protein_plotly_3d()
 
     # Show foldingsteps in terminal
     show_foldingsteps = input("Show foldingsteps of the best folded protein?  [y/n] ")
-    if show_foldingsteps == "q":
-        print("\nBye!\n")
-        exit(1)
+    check_quit(show_foldingsteps)
     if show_foldingsteps == "y":
         print(best_fold.foldingsteps_in_terminal())
 
     # Create a graph of the performnce of the random algorithm
     if algorithm_number == "1":
         show_graph = input("Show the algorithm performance graph?          [y/n] ")
-        if show_graph == "q":
-            print("\nBye!\n")
-            exit(1)
+        check_quit(show_graph)
         if show_graph == "y":
             graph = Graph(valid_folds)
             graph.algorithm_performance()
