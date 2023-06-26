@@ -184,7 +184,20 @@ if __name__ == "__main__":
 
     # Run Monte Carlo Simulation 
     elif algorithm_number == "2":
+        # Select number of runs
+        number_of_runs = input("How many times do you want to run the algorithm? ")
 
+        # Quit if needed
+        if number_of_runs == "q":
+            print("\nBye!\n")
+            exit(1)
+
+        # Select number of times an elongation is going to be folded 
+        number_of_folds_elongations = input("How many times do you want the elongations to be folded? ")
+        if number_of_runs == "q":
+            print("\nBye!\n")
+            exit(1)
+            
         # Make new protein object
         print("\nAnalysing protein...", end =" ")
         protein = Protein(selected_protein)
@@ -192,7 +205,7 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running algorithm...", end =" ")
-        Monte_Carlo = Montecarlo(protein, 10000)
+        Monte_Carlo = Montecarlo(protein, int(number_of_folds_elongations), int(number_of_runs))
         print("done!")
 
         # Calculate score

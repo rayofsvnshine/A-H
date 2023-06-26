@@ -21,11 +21,12 @@ class Montecarlo(object):
     """
 
 
-    def __init__(self, Protein, n):
+    def __init__(self, Protein, n, number_of_runs):
         """Initializer"""
         self.protein = Protein.protein
         self.protein_length = Protein.length
         self.n = n
+        self.number_of_runs = number_of_runs
         self.Folds = self.make_folds(self.n)
         
 
@@ -38,7 +39,7 @@ class Montecarlo(object):
         fold_id = 0
         
         # loop for number of folds
-        while len(valid_folds) < 10: 
+        while len(valid_folds) < self.number_of_runs: 
             total_length = self.protein_length
             self.conformation_coordinates = []
             self.conformation_directions = []
@@ -71,7 +72,6 @@ class Montecarlo(object):
                 if total_length == 0:
                     # make a new object for the complete fold
                     new_fold = Fold(fold_id, self.protein, self.conformation_aminoacids, self.conformation_coordinates)
-                    print(new_fold.coordinates)
                     # increase the fold_id for the next fold
                     fold_id += 1 
                     # add the new fold to the list of all the valid folds
