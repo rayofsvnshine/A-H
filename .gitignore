@@ -1,5 +1,5 @@
 # Output file
-data/output.csv
+output.csv
 
 # pickle file
 depth_first_pickle.pkl
