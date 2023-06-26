@@ -33,21 +33,19 @@ class Graph:
         """
 
         # Create a histogram
-        histogram = go.Figure()
+        histogram = px.histogram(x = self.scores)
 
-        # Add labels
-        histogram.add_trace(go.Histogram(x=self.scores,
-                                         name = "Count",
-                                         texttemplate = "%{x}",
-                                         textfont_size = 20))
-
-        # Hide x-axis
-        histogram.update_xaxes(visible=False)
-
+        # Update x-axis
+        histogram.update_xaxes(tickmode = 'array',
+                               tickvals = self.scores)
         # Update the layout
-        histogram.update_layout(title = "Protein folding scores",
+        histogram.update_layout(title_text='Algorithm performace score count',
+                                title_x = 0.5,
                                 font = dict(size = 24),
-                                bargap = 0.01)
+                                bargap = 0.01,
+                                xaxis_title = "Score",
+                                yaxis_title = "Count",
+                                xaxis_categoryorder = 'total ascending')
 
         # Display the histogram
         histogram.show()

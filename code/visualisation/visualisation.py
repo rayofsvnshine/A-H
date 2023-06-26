@@ -259,10 +259,10 @@ class Visualisation:
                                            zaxis = dict(color="white", showbackground=False)))
 
         # Create a legend
-        protein.update_layout(legend_font_size= 25,
-                              legend=dict(orientation = "h",
-                                    xanchor = "center",
-                                    x = 0.5))
+        protein.update_layout(legend_font_size = 25,
+                              legend = dict(orientation = "h",
+                                            xanchor = "center",
+                                            x = 0.5))
 
         # Show the protein
         protein.show()

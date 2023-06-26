@@ -184,6 +184,7 @@ if __name__ == "__main__":
 
     # Run Monte Carlo Simulation 
     elif algorithm_number == "2":
+
         # Select number of runs
         number_of_runs = input("How many times do you want to run the algorithm? ")
 
@@ -202,6 +203,7 @@ if __name__ == "__main__":
         # Run algorithm
         print("Running algorithm...", end =" ")
         Monte_Carlo = Montecarlo(protein, int(number_of_folds_elongations), int(number_of_runs))
+        valid_folds = Monte_Carlo.Folds
         print("done!")
 
         # Calculate score
@@ -297,7 +299,7 @@ if __name__ == "__main__":
         print(best_fold.foldingsteps_in_terminal())
 
     # Create a graph of the performnce of the random algorithm
-    if algorithm_number == "1":
+    if algorithm_number == "1" or algorithm_number == "2":
         show_graph = input("Show the algorithm performance graph?          [y/n] ")
         check_quit(show_graph)
         if show_graph == "y":
