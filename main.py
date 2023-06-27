@@ -13,7 +13,7 @@ from code.classes.score import Score
 from code.algorithms.random import Random
 from code.algorithms.FRESS import FRESS
 from code.algorithms.depth_first import Depth_first
-from code.algorithms.Pruning import Pruning
+from code.algorithms.greedy import Greedy
 from code.visualisation.visualisation import Visualisation
 from code.visualisation.graph import Graph
 

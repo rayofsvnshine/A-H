@@ -64,7 +64,7 @@ In case the user choose Depth_first or Pruning, the user needs to clarify if a n
 ## Output
 The output is generated in the form of the aminoacid type and the direction the next aminoacid is placed. This output can be found in the file output.csv. 
 
-The scores found by the algorithm can be found in the file [name_algorithm].csv. The csv files created can be used for further analysis when user chooses 'analyse existing data (e), and all score_*.csv files are filled. 
+The scores found by the algorithm can be found in the file [name_algorithm].csv. The csv files created can be used for further analysis when user chooses 'analyse existing data (e), and all score_*.csv files are filled (with the same protein and parameters). 
 
 ## Experiments 
 To evaluate our algorithms, we conducted experiments using different protein sequences.
