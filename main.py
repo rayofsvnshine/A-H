@@ -18,7 +18,6 @@ from code.visualisation.visualisation import Visualisation
 from code.visualisation.graph import Graph
 
 from sys import argv
-from random import choice
 import csv
 
 
@@ -118,7 +117,7 @@ def create_protein_object(selected_protein):
     return protein
 
 
-def export_result(valid_folds, algorithm_name) -> None:
+def export_scores(valid_folds, algorithm_name) -> None:
     """
     ...
     
@@ -134,11 +133,36 @@ def export_result(valid_folds, algorithm_name) -> None:
         output = csv.writer(csvfile)
 
         # Write column names
-        output.writerow(["score"])
+        output.writerow(["scores"])
 
         # Write folding data
         for score in valid_folds:
             output.writerow([score])
+
+def import_scores(algorithm_name):
+    """
+    ...
+    
+    Pre:
+        ...
+    Post:
+        ...
+    """
+
+    with open(f"data/scores_{algorithm_name}.csv", "r") as csvfile:
+
+        # Read input file
+        input = csv.reader(csvfile)
+
+        # Load scores
+        scores = []
+        for row in input:
+            if str(row[0]):
+                next(row)
+            scores.append(row)
+
+        # Returns the scores
+        return scores
 
 
 if __name__ == "__main__":
@@ -157,21 +181,44 @@ if __name__ == "__main__":
 
     # Show proteins from csv file if found
     elif len(argv) == 1:
-        if not select_protein():
-            print("\nNo proteins found in data/proteins.csv :(\n")
-            exit(1)
-        print(select_protein())
 
-        # Ask user to select a protein
-        protein_number = input("Which protein would you like to use? ")
+
+        # Ask for new run
+        answer = input("\nAnalyse a new protein (n) or analyse existing data (e)? ")
 
         # Quit if needed
-        check_quit(protein_number)
+        check_quit(answer)
 
-        # Import protein if found
-        selected_protein = import_protein(protein_number)
-        if not selected_protein:
-            print("\nSelected protein not found :(\n")
+        # Analyse new protein
+        if answer == "n":
+
+            if not select_protein():
+                print("\nNo proteins found in data/proteins.csv :(\n")
+                exit(1)
+            print(select_protein())
+
+            # Ask user to select a protein
+            protein_number = input("Which protein would you like to use? ")
+
+            # Quit if needed
+            check_quit(protein_number)
+
+            # Import protein if found
+            selected_protein = import_protein(protein_number)
+            if not selected_protein:
+                print("\nSelected protein not found :(\n")
+                exit(1)
+
+        # Analyse existing data
+        if answer == "e":
+
+            # import scores
+            scores_random = import_scores("Random")
+            scores_FRESS = import_scores("FRESS")
+            scores_pruning = import_scores("Pruning")
+
+            # Create graph end exit prompt
+            Graph.algorithm_comparison(scores_random, scores_FRESS, scores_pruning)
             exit(1)
 
     # Ask user to select an algorithm
@@ -210,9 +257,12 @@ if __name__ == "__main__":
         score = best_fold.score
         print("done!")
 
-        # Export data
-        algorithm_name = "random"
-        export_result(valid_folds, algorithm_name)
+        # Export scores for graph
+        algorithm_name = "Random"
+        scores = []
+        for fold in valid_folds:
+            scores.append(fold.score)
+        export_scores(scores, algorithm_name)
 
     # Run Monte Carlo Simulation 
     elif algorithm_number == "2":
@@ -244,9 +294,12 @@ if __name__ == "__main__":
         score = best_fold.score
         print("done!")
 
-        # Export data
-        algorithm_name = "fress"
-        export_result(valid_folds, algorithm_name)
+        # Export scores for graph
+        algorithm_name = "FRESS"
+        scores = []
+        for fold in valid_folds:
+            scores.append(fold.score)
+        export_scores(scores, algorithm_name)
 
     # Run depth first algoritm
     elif algorithm_number == "3":
@@ -314,9 +367,12 @@ if __name__ == "__main__":
         score = best_fold.score
         print("done!")
 
-        # Export data
-        algorithm_name = "pruning"
-        export_result(valid_folds, algorithm_name)
+        # Export scores for graph
+        algorithm_name = "Pruning"
+        scores = []
+        for fold in valid_folds:
+            scores.append(fold.score)
+        export_scores(scores, algorithm_name)
 
     else:
         print("\nSelected algorithm not found :(\n")
@@ -350,7 +406,7 @@ if __name__ == "__main__":
         check_quit(show_graph)
         if show_graph == "y":
             graph = Graph(valid_folds)
-            graph.algorithm_performance()
+            graph.algorithm_performance(algorithm_name)
 
     # Export results
     export_result(results, score)
