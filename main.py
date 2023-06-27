@@ -111,6 +111,36 @@ def check_quit(user_input):
         exit(1)
 
 
+def create_protein_object(selected_protein):
+    print("\nAnalysing protein...", end =" ")
+    protein = Protein(selected_protein)
+    print("done!")
+    return protein
+
+
+def export_result(valid_folds, algorithm_name) -> None:
+    """
+    ...
+    
+    Pre:
+        ...
+    Post:
+        ...
+    """
+
+    with open(f'data/scores_{algorithm_name}.csv', 'w') as csvfile:
+
+        # Create output file
+        output = csv.writer(csvfile)
+
+        # Write column names
+        output.writerow(["score"])
+
+        # Write folding data
+        for score in valid_folds:
+            output.writerow([score])
+
+
 if __name__ == "__main__":
 
     # Check command line arguments
@@ -164,9 +194,7 @@ if __name__ == "__main__":
         check_quit(number_of_runs)
 
         # Make new protein object
-        print("\nAnalysing protein...", end =" ")
-        protein = Protein(selected_protein)
-        print("done!")
+        protein = create_protein_object(selected_protein)
 
         # Run algorithm
         print("Running algorithm...", end =" ")
@@ -182,6 +210,10 @@ if __name__ == "__main__":
         score = best_fold.score
         print("done!")
 
+        # Export data
+        algorithm_name = "random"
+        export_result(valid_folds, algorithm_name)
+
     # Run Monte Carlo Simulation 
     elif algorithm_number == "2":
 
@@ -196,9 +228,7 @@ if __name__ == "__main__":
         check_quit(number_of_folds_elongations)
             
         # Make new protein object
-        print("\nAnalysing protein...", end =" ")
-        protein = Protein(selected_protein)
-        print("done!")
+        protein = create_protein_object(selected_protein)
 
         # Run algorithm
         print("Running algorithm...", end =" ")
@@ -214,6 +244,10 @@ if __name__ == "__main__":
         score = best_fold.score
         print("done!")
 
+        # Export data
+        algorithm_name = "random"
+        export_result(valid_folds, algorithm_name)
+
     # Run depth first algoritm
     elif algorithm_number == "3":
         
@@ -221,9 +255,7 @@ if __name__ == "__main__":
         check_quit(answer)
 
         # Make new protein object
-        print("\nAnalysing protein...", end =" ")
-        protein = Protein(selected_protein)
-        print("done!")
+        protein = create_protein_object(selected_protein)
 
         # Run algorithm
         print("Running algorithm...", end =" ")
@@ -245,11 +277,6 @@ if __name__ == "__main__":
         answer = input("Start a new run (n) or continue last run (c)? ")
         check_quit(answer)
 
-        # Make new protein object
-        print("\nAnalysing protein...", end =" ")
-        protein = Protein(selected_protein)
-        print("done!")
-
         # Run algorithm
         if answer == 'n':
             # Select number of runs
@@ -258,17 +285,23 @@ if __name__ == "__main__":
             # Quit if needed
             check_quit(number_of_runs)
 
+            # Make new protein object
+            protein = create_protein_object(selected_protein)
+
             print("Running algorithm...", end =" ")
             pruner = Pruning(protein, number_of_runs)
+
         elif answer == 'c':
             print("Running algorithm...", end =" ")
+            protein = Protein(selected_protein)
             pruner = Pruning(protein, pickle_file=True)
             
         if pruner.Best_fold:
+            valid_folds = pruner.Best_fold
             print("done!")
         else:
             print("\nNo folds were found :(")
-            print("Please restart program and continue running to find a fold.")
+            print("Please restart program and continue running to find a fold")
             exit(4)
         
 
@@ -281,8 +314,12 @@ if __name__ == "__main__":
         score = best_fold.score
         print("done!")
 
+        # Export data
+        algorithm_name = "random"
+        export_result(valid_folds, algorithm_name)
+
     else:
-        print("\nSelected algorithm not found\n")
+        print("\nSelected algorithm not found :(\n")
         exit(1)
 
     # Show information about the protein
@@ -308,7 +345,7 @@ if __name__ == "__main__":
         print(best_fold.foldingsteps_in_terminal())
 
     # Create a graph of the performnce of the random algorithm
-    if algorithm_number == "1" or algorithm_number == "2":
+    if algorithm_number != "3":
         show_graph = input("Show the algorithm performance graph?          [y/n] ")
         check_quit(show_graph)
         if show_graph == "y":
