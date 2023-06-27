@@ -53,40 +53,7 @@ class Graph:
         histogram.show()
 
 
-    # def algorithm_comparison(data) -> None:
-    #     """
-    #     Displays a histogram to show the performance of all algorithms.
-
-    #     Pre:
-    #         Uses a list with all protein folds.
-    #     Post:
-    #         Shows a performance histogram for all algorithms.
-    #     """
-
-    #     # Create a histogram
-    #     histogram = go.Figure()
-
-    #     # Extract data
-    #     for list in data:
-    #         histogram.add_trace(go.Histogram(x = list))
-
-    #     # Update the layout
-    #     histogram.update_layout(barmode = "overlay",
-    #                             title_text = "Algorithm performace comparison",
-    #                             title_x = 0.5,
-    #                             font = dict(size = 24),
-    #                             bargap = 0.01,
-    #                             xaxis_title = "Score",
-    #                             yaxis_title = "Count")
-
-    #     # Reduce opacity to see both histograms
-    #     histogram.update_traces(opacity = 0.75)
-
-    #     # Display the histogram
-    #     histogram.show()
-
-
-    def algorithm_comparison(random, FRESS, pruning,) -> None:
+    def algorithm_comparison(random, FRESS, greedy) -> None:
         """
         Displays a histogram to show the performance of all algorithms.
 
@@ -96,11 +63,17 @@ class Graph:
             Shows a performance histogram for all algorithms.
         """
 
+        # Get max length
+        length_random = max(random) - min(random) + 1
+        length_FRESS = max(FRESS) - min(FRESS) + 1
+        length_greedy = max(greedy) - min(greedy) + 1
+        length = max(length_random, length_FRESS, length_greedy)
+
         # Create a histogram
         histogram = go.Figure()
-        histogram.add_trace(go.Histogram(x = random))
-        histogram.add_trace(go.Histogram(x = FRESS))
-        histogram.add_trace(go.Histogram(x = pruning))
+        histogram.add_trace(go.Histogram(x = random, name = "Random", nbinsx = length))
+        histogram.add_trace(go.Histogram(x = FRESS, name = "FRESS", nbinsx = length))
+        histogram.add_trace(go.Histogram(x = greedy, name = "Greedy", nbinsx = length))
 
         # Update the layout
         histogram.update_layout(barmode = "overlay",
@@ -113,6 +86,12 @@ class Graph:
 
         # Reduce opacity to see both histograms
         histogram.update_traces(opacity = 0.75)
+
+        # Create a legend
+        histogram.update_layout(legend_font_size = 25,
+                                legend = dict(orientation = "h",
+                                              xanchor = "center",
+                                              x = 0.5))
 
         # Display the histogram
         histogram.show()

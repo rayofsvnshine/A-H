@@ -132,10 +132,7 @@ def export_scores(valid_folds, algorithm_name) -> None:
         # Create output file
         output = csv.writer(csvfile)
 
-        # Write column names
-        output.writerow(["scores"])
-
-        # Write folding data
+        # Write score data
         for score in valid_folds:
             output.writerow([score])
 
@@ -157,9 +154,7 @@ def import_scores(algorithm_name):
         # Load scores
         scores = []
         for row in input:
-            if str(row[0]):
-                next(row)
-            scores.append(row)
+                scores.append(int(row[0])) 
 
         # Returns the scores
         return scores
@@ -342,25 +337,24 @@ if __name__ == "__main__":
             protein = create_protein_object(selected_protein)
 
             print("Running algorithm...", end =" ")
-            pruner = Pruning(protein, number_of_runs)
+            greedy = Greedy(protein, number_of_runs)
 
         elif answer == 'c':
             print("Running algorithm...", end =" ")
             protein = Protein(selected_protein)
-            pruner = Pruning(protein, pickle_file=True)
+            greedy = Greedy(protein, pickle_file=True)
             
-        if pruner.Best_fold:
-            valid_folds = pruner.Best_fold
+        if greedy.Best_fold:
+            valid_folds = greedy.Best_fold
             print("done!")
         else:
             print("\nNo folds were found :(")
             print("Please restart program and continue running to find a fold")
             exit(4)
-        
 
         # Calculate score
         print("Calculating score...", end =" ")
-        valid_folds = pruner.Best_fold
+        valid_folds = greedy.Best_fold
         scorer = Score()
         best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results
@@ -368,7 +362,7 @@ if __name__ == "__main__":
         print("done!")
 
         # Export scores for graph
-        algorithm_name = "Pruning"
+        algorithm_name = "Greedy"
         scores = []
         for fold in valid_folds:
             scores.append(fold.score)
