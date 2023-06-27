@@ -2,6 +2,7 @@ from .depth_first import Depth_first
 from copy import deepcopy
 from random import random
 import pickle
+import operator
 
 
 class Pruning(Depth_first):
@@ -10,7 +11,7 @@ class Pruning(Depth_first):
     * create folds using a depth-first and pruning algorithm
     """
     
-    def __init__(self, Protein: object, number_of_runs: int, pickle_file=False):
+    def __init__(self, Protein: object, number_of_runs=1, pickle_file=False):
         super().__init__(Protein, pickle_file, number_of_runs)
         
         
@@ -60,3 +61,26 @@ class Pruning(Depth_first):
                 next_generation.append(child)
         # return the next generation and best score
         return next_generation, best_score
+
+
+    def retrieve_pickle(self, pickle_file):
+        children = []
+        generation = 0
+        gen_flag = True
+        with open(pickle_file, 'rb') as file:
+            while True:
+                try:
+                    fold = pickle.load(file)
+                    for i in range(len(fold)):
+                        fold_gen = len(fold[i].aminoacids)
+                        if fold_gen != generation:
+                            gen_flag = operator.not_(gen_flag)
+                            if gen_flag == True:
+                                print("\nThe folds are not equally long.")
+                                print("Please make sure your previous run is a Pruning run")
+                                exit(4)
+                    children.append(fold)
+                except EOFError:
+                    break
+                
+        return children
