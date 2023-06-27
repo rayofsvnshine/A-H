@@ -107,6 +107,7 @@ class FRESS(object):
             # make different elongations of the same length with different directions   
             for aminoacid in self.where_in_sequence:
                 options = self.check_directions(self.starting_point, coordinates)
+                # if there are no available directions retry to make an elongation
                 if options == []:
                     self.same_length = True
                     break
@@ -159,8 +160,11 @@ class FRESS(object):
             
             for plus_x, plus_y in orientations:
                 x, y = starting_point
+                # set new y coordinate
                 new_x = x + plus_x
+                # set new x coordinate
                 new_y = y + plus_y
+                # check if the new coordinates are already occupied 
                 if (new_x, new_y) in coordinates:
                     continue
                 else:
@@ -280,6 +284,7 @@ class FRESS(object):
         """
         self.can_append = []
         for elongation in self.elongations:
+            # check if elongation can be added to the existing conformation
             if self.addition_possible(elongation):
                 self.can_append.append(elongation)
                 return True 

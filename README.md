@@ -43,3 +43,23 @@ This will show you the possible proteins that you can select. If you already kno
 python3 main.py [number]
 ```
 Where [number] is any integer representing a protein.
+
+The user can choose an algorithm in the next menu that pops up, choosing random (1), FRESS (2), Depth_first (3) or Pruning (4)
+
+In case the user choose random, the program needs to be provided with the number of times the algorithm should be ran.
+
+In case the user choose FRESS, the user will be asked to provide the number of times the algorithm should be run, and the amount of folds need to be made per elongation. 
+
+In case the user choose Depth_first or Pruning, the user needs to clarify if a new run shouold be conducted, or the last run should be continued.
+
+## Output
+The output is generated in the form of the aminoacid type and the direction the next aminoacid is placed. This output can be found in the file output.csv. 
+
+The scores found by the algorithm can be found in the file [name_algorithm].csv. 
+
+## Experiments 
+To evaluate our algorithms, we conducted experiments using different protein sequences.
+
+For the second protein provided for this case (HHPHHHPHPHHHPH) we ran the random algorithm (10000 runs), the pruning algorithm (10000 runs), the FRESS algorithm (10000 runs and 1000 folds per elongation) the depth_first algortihm and the pruning algorithm (10000 runs).
+
+For protein 5 and 8 provided by the case (HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH and HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH respectively) we ran the random (10000 runs), the FRESS algorithm (10000 runs and 1000 folds per elongation) and the pruning algorithm (10000 runs). 
