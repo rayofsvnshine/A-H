@@ -10,8 +10,8 @@ class Pruning(Depth_first):
     * create folds using a depth-first and pruning algorithm
     """
     
-    def __init__(self, Protein: object, pickle_file=False):
-        super().__init__(Protein, pickle_file)
+    def __init__(self, Protein: object, number_of_runs: int, pickle_file=False):
+        super().__init__(Protein, pickle_file, number_of_runs)
         
         
     def get_parent(self, parents):

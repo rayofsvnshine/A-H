@@ -11,7 +11,7 @@ main.py
 from code.classes.protein import Protein
 from code.classes.score import Score
 from code.algorithms.random import Random
-from code.algorithms.montecarlo import Montecarlo
+from code.algorithms.FRESS import FRESS
 from code.algorithms.depth_first import Depth_first
 from code.algorithms.Pruning import Pruning
 from code.visualisation.visualisation import Visualisation
@@ -146,7 +146,7 @@ if __name__ == "__main__":
 
     # Ask user to select an algorithm
     print("\n1   Random algorithm")
-    print("2   Monte Carlo simulation")
+    print("2   FRESS ")
     print("3   Depth first algorithm")
     print("4   Pruning algorithm\n")
     algorithm_number = input("Which algorithm would you like to use? ")
@@ -202,14 +202,14 @@ if __name__ == "__main__":
 
         # Run algorithm
         print("Running algorithm...", end =" ")
-        Monte_Carlo = Montecarlo(protein, int(number_of_folds_elongations), int(number_of_runs))
-        valid_folds = Monte_Carlo.Folds
+        FRESS = FRESS(protein, int(number_of_folds_elongations), int(number_of_runs))
+        valid_folds = FRESS.Folds
         print("done!")
 
         # Calculate score
         print("Calculating score...", end =" ")
         scorer = Score()
-        best_fold = scorer.best_fold(Monte_Carlo.Folds)
+        best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results 
         score = best_fold.score
         print("done!")
@@ -251,13 +251,20 @@ if __name__ == "__main__":
         print("done!")
 
         # Run algorithm
-        print("Running algorithm...", end =" ")
         if answer == 'n':
-            depth_first = Pruning(protein)
+            # Select number of runs
+            number_of_runs = input("How many times do you want to run the algorithm? ")
+
+            # Quit if needed
+            check_quit(number_of_runs)
+
+            print("Running algorithm...", end =" ")
+            pruner = Pruning(protein, number_of_runs)
         elif answer == 'c':
-            depth_first = Pruning(protein, pickle_file=True)
+            print("Running algorithm...", end =" ")
+            pruner = Pruning(protein, pickle_file=True)
             
-        if depth_first.Best_fold:
+        if pruner.Best_fold:
             print("done!")
         else:
             print("\nNo folds were found :(")
@@ -267,7 +274,9 @@ if __name__ == "__main__":
 
         # Calculate score
         print("Calculating score...", end =" ")
-        best_fold = depth_first.Best_fold[0]
+        valid_folds = pruner.Best_fold
+        scorer = Score()
+        best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results
         score = best_fold.score
         print("done!")

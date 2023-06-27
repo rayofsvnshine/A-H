@@ -17,7 +17,7 @@ class Depth_first(object):
     * create folds using a depth-first approach
     """
 
-    def __init__(self, Protein: object, pickle_file=False):
+    def __init__(self, Protein: object, pickle_file=False, number_of_runs=1):
         """
         Initializes a Folder object
         
@@ -33,14 +33,17 @@ class Depth_first(object):
         self.fold_counter = 0
         self.Score = Score()
         self.filename = 'data/depth_first_pickle.pkl'
-        if not pickle_file:
-            self.clear_results()
-        self.make_folds(pickle_file)
-        # if file exists, determine best fold
-        if os.path.exists(self.filename):
-            self.Best_fold = self.determine_best_fold()
-        else:
-            self.Best_fold = None
+        self.Best_fold = []
+        self.number_of_runs = range(int(number_of_runs))
+        for run in self.number_of_runs:
+            if not pickle_file:
+                self.clear_results()
+            self.make_folds(pickle_file)
+            # if file exists, determine best fold
+            if os.path.exists(self.filename):
+                self.Best_fold.extend(self.determine_best_fold())
+            else:
+                continue
 
         
     def make_folds(self, pickle_file):
@@ -58,7 +61,6 @@ class Depth_first(object):
                 # get last child
                 children, parent = self.get_parent(children)
                 new_children = self.create_offspring(parent)
-                # print("new gen!")
             except KeyboardInterrupt:
                 with open('data/pause_run.pkl', 'wb') as file:
                     pickle.dump(children, file)
