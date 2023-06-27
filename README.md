@@ -50,7 +50,7 @@ In case the user choose random, the program needs to be provided with the number
 
 In case the user choose FRESS, the user will be asked to provide the number of times the algorithm should be run, and the amount of folds need to be made per elongation. 
 
-In case the user choose Depth_first or Pruning, the user needs to clarify if a new run shouold be conducted, or the last run should be continued.
+In case the user choose Depth_first or Pruning, the user needs to clarify if a new run shouold be conducted, or the last run should be continued. Afterwards, in case of Pruning, the number of times the algorithm should run is asked. 
 
 ## Output
 The output is generated in the form of the aminoacid type and the direction the next aminoacid is placed. This output can be found in the file output.csv. 
