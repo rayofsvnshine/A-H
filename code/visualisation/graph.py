@@ -36,7 +36,7 @@ class Graph:
         length = max(self.scores) - min(self.scores) + 1
 
         # Create a histogram
-        histogram = px.histogram(x = self.scores, nbins = length, barmode = "group")
+        histogram = px.histogram(x = self.scores, nbins = length)
 
         # Update x-axis
         histogram.update_xaxes(tickmode = "array",
