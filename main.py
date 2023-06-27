@@ -210,17 +210,17 @@ if __name__ == "__main__":
             # import scores
             scores_random = import_scores("Random")
             scores_FRESS = import_scores("FRESS")
-            scores_pruning = import_scores("Pruning")
+            scores_greedy = import_scores("Greedy")
 
             # Create graph end exit prompt
-            Graph.algorithm_comparison(scores_random, scores_FRESS, scores_pruning)
+            Graph.algorithm_comparison(scores_random, scores_FRESS, scores_greedy)
             exit(1)
 
     # Ask user to select an algorithm
     print("\n1   Random algorithm")
     print("2   FRESS ")
     print("3   Depth first algorithm")
-    print("4   Pruning algorithm\n")
+    print("4   Greedy algorithm\n")
     algorithm_number = input("Which algorithm would you like to use? ")
 
     # Quit if needed
