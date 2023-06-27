@@ -5,10 +5,15 @@ Case: Protein Pow(d)er
 Team: The Folding Brigade  
 
 ## Table of Contents
-* [Introduction](#introduction)
-* [Input](#input)
-* [Prerequisites](#prerequisites)
-* [Running the code](#running-the-code)
+- [Protein folding algorithm](#protein-folding-algorithm)
+  - [Table of Contents](#table-of-contents)
+  - [Order of business (remove??)](#order-of-business-remove)
+  - [Introduction](#introduction)
+  - [Input](#input)
+  - [Prerequisites](#prerequisites)
+  - [Running the code](#running-the-code)
+  - [Output](#output)
+  - [Experiments](#experiments)
 
 ## Order of business (remove??)
 1. main loads in csv
@@ -59,7 +64,7 @@ In case the user choose Depth_first or Pruning, the user needs to clarify if a n
 ## Output
 The output is generated in the form of the aminoacid type and the direction the next aminoacid is placed. This output can be found in the file output.csv. 
 
-The scores found by the algorithm can be found in the file [name_algorithm].csv. 
+The scores found by the algorithm can be found in the file [name_algorithm].csv. The csv files created can be used for further analysis when user chooses 'analyse existing data (e), and all score_*.csv files are filled. 
 
 ## Experiments 
 To evaluate our algorithms, we conducted experiments using different protein sequences.

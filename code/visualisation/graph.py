@@ -53,7 +53,7 @@ class Graph:
         histogram.show()
 
 
-    def algorithm_comparison(random, FRESS, greedy, LB) -> None:
+    def algorithm_comparison(random, FRESS, greedy) -> None:
         """
         Displays a histogram to show the performance of all algorithms.
 
@@ -92,9 +92,6 @@ class Graph:
                                 legend = dict(orientation = "h",
                                               xanchor = "center",
                                               x = 0.5))
-
-        # Add line
-        histogram.add_vline(x = LB, line_color = 'firebrick')
 
         # Display the histogram
         histogram.show()

@@ -213,7 +213,7 @@ if __name__ == "__main__":
             scores_pruning = import_scores("Pruning")
 
             # Create graph end exit prompt
-            Graph.algorithm_comparison(scores_random, scores_FRESS, scores_pruning, LB)
+            Graph.algorithm_comparison(scores_random, scores_FRESS, scores_pruning)
             exit(1)
 
     # Ask user to select an algorithm
@@ -351,7 +351,6 @@ if __name__ == "__main__":
             print("\nNo folds were found :(")
             print("Please restart program and continue running to find a fold")
             exit(4)
-        
 
         # Calculate score
         print("Calculating score...", end =" ")
