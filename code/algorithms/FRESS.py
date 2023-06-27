@@ -1,5 +1,5 @@
 """ 
-monte_carlo.py 
+FRESS.py 
 
 Vera Spek 
  
@@ -11,9 +11,9 @@ from ..classes.elongation import Elongation
 from ..classes.score import Score
 import random
 
-class Montecarlo(object):
+class FRESS(object):
     """
-    Monte Carlo class 
+    FRESS class 
     * Algorithm that uses the addition of parts of the aminosequence with a random length
     * Alorithm selects how the protein is extended by calculating the score according to non-covalent bound H's
     or non-covalent bound C's that are next to eachother. 
