@@ -251,13 +251,20 @@ if __name__ == "__main__":
         print("done!")
 
         # Run algorithm
-        print("Running algorithm...", end =" ")
         if answer == 'n':
-            depth_first = Pruning(protein)
+            # Select number of runs
+            number_of_runs = input("How many times do you want to run the algorithm? ")
+
+            # Quit if needed
+            check_quit(number_of_runs)
+
+            print("Running algorithm...", end =" ")
+            pruner = Pruning(protein, number_of_runs)
         elif answer == 'c':
-            depth_first = Pruning(protein, pickle_file=True)
+            print("Running algorithm...", end =" ")
+            pruner = Pruning(protein, pickle_file=True)
             
-        if depth_first.Best_fold:
+        if pruner.Best_fold:
             print("done!")
         else:
             print("\nNo folds were found :(")
@@ -267,7 +274,9 @@ if __name__ == "__main__":
 
         # Calculate score
         print("Calculating score...", end =" ")
-        best_fold = depth_first.Best_fold[0]
+        valid_folds = pruner.Best_fold
+        scorer = Score()
+        best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results
         score = best_fold.score
         print("done!")
