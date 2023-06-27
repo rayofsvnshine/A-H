@@ -38,7 +38,11 @@ The best way to run the code is by simply using the following command:
 ```
 python3 main.py
 ```
-This will show you the possible proteins that you can select. If you already know which protein you wish to select beforehand, you can use the command:
+This will ask the user if he/she wants to analyse a new protein (n) or analyse existing data(e).
+
+After choosing to evaluate existing data(e), the files scores_random.csv, scores_FRESS.csv and scores_Pruning.csv from the data map, will be used to generate a graph. 
+
+After choosing to analyse a new protein (n), the user can see the possible proteins that you can select. If you already know which protein you wish to select beforehand, you can use the command:
 ```
 python3 main.py [number]
 ```
@@ -46,9 +50,9 @@ Where [number] is any integer representing a protein.
 
 The user can choose an algorithm in the next menu that pops up, choosing random (1), FRESS (2), Depth_first (3) or Pruning (4)
 
-In case the user choose random, the program needs to be provided with the number of times the algorithm should be ran.
+In case the user chooses random, the program needs to be provided with the number of times the algorithm should be ran.
 
-In case the user choose FRESS, the user will be asked to provide the number of times the algorithm should be run, and the amount of folds need to be made per elongation. 
+In case the user chooses FRESS, the user will be asked to provide the number of times the algorithm should be run, and the amount of folds need to be made per elongation. 
 
 In case the user choose Depth_first or Pruning, the user needs to clarify if a new run shouold be conducted, or the last run should be continued. Afterwards, in case of Pruning, the number of times the algorithm should run is asked. 
 

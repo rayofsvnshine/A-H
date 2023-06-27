@@ -132,10 +132,7 @@ def export_scores(valid_folds, algorithm_name) -> None:
         # Create output file
         output = csv.writer(csvfile)
 
-        # Write column names
-        output.writerow(["scores"])
-
-        # Write folding data
+        # Write score data
         for score in valid_folds:
             output.writerow([score])
 
@@ -157,9 +154,7 @@ def import_scores(algorithm_name):
         # Load scores
         scores = []
         for row in input:
-            if str(row[0]):
-                next(row)
-            scores.append(row)
+                scores.append(int(row[0])) 
 
         # Returns the scores
         return scores
