@@ -152,13 +152,13 @@ if __name__ == "__main__":
     elif len(argv) == 2:
         selected_protein = import_protein(argv[1])
         if not selected_protein:
-            print("\nProtein not found\n")
+            print("\nProtein not found :(\n")
             exit(1)
 
     # Show proteins from csv file if found
     elif len(argv) == 1:
         if not select_protein():
-            print("\nNo proteins found in data/proteins.csv\n")
+            print("\nNo proteins found in data/proteins.csv :(\n")
             exit(1)
         print(select_protein())
 
@@ -171,7 +171,7 @@ if __name__ == "__main__":
         # Import protein if found
         selected_protein = import_protein(protein_number)
         if not selected_protein:
-            print("\nSelected protein not found\n")
+            print("\nSelected protein not found :(\n")
             exit(1)
 
     # Ask user to select an algorithm
@@ -245,7 +245,7 @@ if __name__ == "__main__":
         print("done!")
 
         # Export data
-        algorithm_name = "random"
+        algorithm_name = "fress"
         export_result(valid_folds, algorithm_name)
 
     # Run depth first algoritm
@@ -315,7 +315,7 @@ if __name__ == "__main__":
         print("done!")
 
         # Export data
-        algorithm_name = "random"
+        algorithm_name = "pruning"
         export_result(valid_folds, algorithm_name)
 
     else:

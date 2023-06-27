@@ -32,8 +32,11 @@ class Graph:
             Shows a histogram.
         """
 
+        # Get length
+        length = max(self.scores) - min(self.scores) + 1
+
         # Create a histogram
-        histogram = px.histogram(x = self.scores)
+        histogram = px.histogram(x = self.scores, nbins = length)
 
         # Update x-axis
         histogram.update_xaxes(tickmode = "array",
@@ -44,8 +47,7 @@ class Graph:
                                 font = dict(size = 24),
                                 bargap = 0.01,
                                 xaxis_title = "Score",
-                                yaxis_title = "Count",
-                                xaxis_categoryorder = "total ascending")
+                                yaxis_title = "Count")
 
         # Display the histogram
         histogram.show()
