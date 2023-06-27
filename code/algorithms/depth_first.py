@@ -36,12 +36,13 @@ class Depth_first(object):
         self.Best_fold = []
         self.number_of_runs = range(int(number_of_runs))
         for run in self.number_of_runs:
-            if not pickle_file:
+            if not pickle_file or run > 0:
                 self.clear_results()
             self.make_folds(pickle_file)
             # if file exists, determine best fold
             if os.path.exists(self.filename):
-                self.Best_fold.extend(self.determine_best_fold())
+                solution = self.determine_best_fold()
+                self.Best_fold.append(solution)
             else:
                 continue
 
@@ -187,17 +188,15 @@ class Depth_first(object):
     def determine_best_fold(self):
         # read results file and return best folds
         best_score = 1
-        best_fold = []
+        best_fold = None
         
         with open(self.filename, 'rb') as file:
             while True:
                 try:
                     fold = pickle.load(file)
                     if fold.score < best_score:
-                        best_fold = [fold]
+                        best_fold = fold
                         best_score = fold.score
-                    elif fold.score == best_score:
-                        best_fold.append(fold)
                     else:
                         continue
                 except EOFError:

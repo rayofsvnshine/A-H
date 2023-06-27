@@ -5,7 +5,7 @@ import pickle
 import operator
 
 
-class Pruning(Depth_first):
+class Greedy(Depth_first):
     """
     Creates a Folder object that can:
     * create folds using a depth-first and pruning algorithm

@@ -161,7 +161,7 @@ class Protein(object):
             lowerbound -= 5
 
         # Only half of the bonds can connect so divided by 2 times 2
-        lowerbound = round(lowerbound / 4)
+        lowerbound = round(lowerbound / 2)
 
         # Return result
         return lowerbound
