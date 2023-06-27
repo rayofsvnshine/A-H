@@ -213,7 +213,7 @@ if __name__ == "__main__":
             scores_pruning = import_scores("Pruning")
 
             # Create graph end exit prompt
-            Graph.algorithm_comparison(scores_random, scores_FRESS, scores_pruning)
+            Graph.algorithm_comparison(scores_random, scores_FRESS, scores_pruning, LB)
             exit(1)
 
     # Ask user to select an algorithm
@@ -337,15 +337,15 @@ if __name__ == "__main__":
             protein = create_protein_object(selected_protein)
 
             print("Running algorithm...", end =" ")
-            pruner = Pruning(protein, number_of_runs)
+            greedy = Greedy(protein, number_of_runs)
 
         elif answer == 'c':
             print("Running algorithm...", end =" ")
             protein = Protein(selected_protein)
-            pruner = Pruning(protein, pickle_file=True)
+            greedy = Greedy(protein, pickle_file=True)
             
-        if pruner.Best_fold:
-            valid_folds = pruner.Best_fold
+        if greedy.Best_fold:
+            valid_folds = greedy.Best_fold
             print("done!")
         else:
             print("\nNo folds were found :(")
@@ -355,7 +355,7 @@ if __name__ == "__main__":
 
         # Calculate score
         print("Calculating score...", end =" ")
-        valid_folds = pruner.Best_fold
+        valid_folds = greedy.Best_fold
         scorer = Score()
         best_fold = scorer.best_fold(valid_folds)
         results = best_fold.results
@@ -363,7 +363,7 @@ if __name__ == "__main__":
         print("done!")
 
         # Export scores for graph
-        algorithm_name = "Pruning"
+        algorithm_name = "Greedy"
         scores = []
         for fold in valid_folds:
             scores.append(fold.score)

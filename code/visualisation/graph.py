@@ -53,7 +53,7 @@ class Graph:
         histogram.show()
 
 
-    def algorithm_comparison(random, FRESS, pruning) -> None:
+    def algorithm_comparison(random, FRESS, greedy, LB) -> None:
         """
         Displays a histogram to show the performance of all algorithms.
 
@@ -66,14 +66,14 @@ class Graph:
         # Get max length
         length_random = max(random) - min(random) + 1
         length_FRESS = max(FRESS) - min(FRESS) + 1
-        length_pruning = max(pruning) - min(pruning) + 1
-        length = max(length_random, length_FRESS, length_pruning)
+        length_greedy = max(greedy) - min(greedy) + 1
+        length = max(length_random, length_FRESS, length_greedy)
 
         # Create a histogram
         histogram = go.Figure()
         histogram.add_trace(go.Histogram(x = random, name = "Random", nbinsx = length))
         histogram.add_trace(go.Histogram(x = FRESS, name = "FRESS", nbinsx = length))
-        histogram.add_trace(go.Histogram(x = pruning, name = "Pruning", nbinsx = length))
+        histogram.add_trace(go.Histogram(x = greedy, name = "Greedy", nbinsx = length))
 
         # Update the layout
         histogram.update_layout(barmode = "overlay",
@@ -94,7 +94,7 @@ class Graph:
                                               x = 0.5))
 
         # Add line
-        histogram.add_vline(x = -2, line_color = 'firebrick')
+        histogram.add_vline(x = LB, line_color = 'firebrick')
 
         # Display the histogram
         histogram.show()
