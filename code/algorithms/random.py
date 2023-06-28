@@ -1,5 +1,6 @@
 """
-algorithm.py
+random.py
+Ray Pelupessy
 
 * folds protein according to certain criteria:
     * no overlap on 2D grid.
@@ -32,10 +33,7 @@ class Random(object):
         Parameters:
         ----
         Protein = Protein object with properties of a given protein
-        
-        Returns?:
-        ----
-        self.Best_fold = the optimal generated fold of a protein with coordinates and score
+        number_of_runs = the amount of times to run the algorithm
         """
         self.Protein = Protein
         self.amino_counter = 0
@@ -48,9 +46,13 @@ class Random(object):
         """
         Creates folds until certain number of folds is reached
         
-        Returns:
+        Parameters:
+        ----
+        number_of_runs = how many times the algorithm needs to run
+        
+        Output:
         ------
-        a list of Fold objects
+        valid_folds = a list of Fold objects
         """
         # stop making folds after number_of_runs are folded
         valid_folds = []
@@ -65,25 +67,22 @@ class Random(object):
         return valid_folds
     
         
-    def fold_protein(self):
+    def fold_protein(self) -> object | None:
         """
         Attempts to fold the protein
         
-        Returns:
+        Output:
         -----
         None = if an invalid fold is created
-        
-        Fold = a Fold object with a valid fold
-        """
-        # needs to return a fold
-            
+        new_fold = a Fold object with a valid fold
+        """ 
         # set starting point
         starting_point = (0,0)
         
-        # make list for coordinates, directions, and aminoacids
+        # make list for coordinates and aminoacids
         coordinates = []
         amino_list = []
-        # get all aminoacids in string
+        # get all aminoacids in Protein
         amino_amigos = self.Protein.protein
         # set previous coordinate
         previous_coordinate = None
@@ -121,23 +120,23 @@ class Random(object):
         return new_fold
     
             
-    def check_directions(self, starting_point, coordinates) -> list:
+    def check_directions(self, starting_point: tuple(int, int), coordinates: list) -> list:
         """
         Determines the coordinate where the following aminoacid will be placed.
         
         Parameters:
         -----
         starting_point = previous coordinate
-        coordinates = previous route
+        coordinates = all coordinates where there are already Aminoacids
         
         Returns:
         -----
         options = list with possible coordinates
         """
-        # returns list of possible coordinates
         orientations = [(0,1), (0,-1), (1,0), (-1,0)]
         options = []
         
+        # for each direction, check if it has already been visited or not and append if not
         for plus_x, plus_y in orientations:
             x, y = starting_point
             new_x = x + plus_x
@@ -149,7 +148,19 @@ class Random(object):
                 
         return options
     
-    def choose_direction(self, options):
+    
+    def choose_direction(self, options: list) -> tuple:
+        """
+        returns a randomly chosen coordinate from list
+        
+        Parameters:
+        ----
+        options = list of possible coordinates
+        
+        Output:
+        ----
+        next_point = tuple containing the next coordinate of the fold
+        """
         next_point = choice(options) 
             
         return next_point
