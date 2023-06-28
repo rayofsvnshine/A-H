@@ -62,6 +62,7 @@ class Depth_first(object):
                 # get last child
                 children, parent = self.get_parent(children)
                 new_children = self.create_offspring(parent)
+            # if keyboard interrupt -> save children
             except KeyboardInterrupt:
                 with open('data/pause_run.pkl', 'wb') as file:
                     pickle.dump(children, file)
