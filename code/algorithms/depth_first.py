@@ -73,6 +73,7 @@ class Depth_first(object):
                 except KeyboardInterrupt:
                     print('\nWhat!? Why did you do that!?')
                     print('\nThe children were not saved... :(')
+                    break
                 
             # if new children are created, append to children
             if new_children:
