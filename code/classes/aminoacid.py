@@ -4,6 +4,7 @@ aminoacid.py
 * Stores all properties of an aminoacod
 """
 
+
 class Aminoacid(object):
     """
     Aminoacid object
@@ -18,11 +19,10 @@ class Aminoacid(object):
         self.aminotype = aminotype
         self.coordinate = ()
 
-
     def set_previous_coordinate(self, coordinate: tuple) -> None:
         """
         Sets the connection to previous amino acid.
-        
+
         Pre:
             Direction is a tuple coordinate of the last amino acid.
         Post:
@@ -31,11 +31,10 @@ class Aminoacid(object):
 
         self.origin_coordinate = coordinate
 
-
     def set_next_coordinate(self, coordinate: tuple) -> None:
         """
         Sets the connection to next amino acid.
-        
+
         Pre:
             Direction is a tuple coordinate of the next amino acid.
         Post:
@@ -43,7 +42,6 @@ class Aminoacid(object):
         """
 
         self.target_coordinate = coordinate
-
 
     def set_current_coordinate(self, coordinate: tuple) -> None:
         """
