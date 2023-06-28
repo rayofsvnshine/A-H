@@ -1,11 +1,12 @@
 """
 main.py
-
-* Imports the protein from the proteins.csv file
-* Puts protein in Protein class
-* Runs algorithm
-* Output of folded protein in Score class
-* Exports results to the output.csv file
+    * Gives an overview of the available proteins.
+    * Imports the protein from the proteins.csv file.
+    * Puts protein in Protein class.
+    * Runs the algorithm that is selected by the user.
+    * Gives terminal feedback to the user.
+    * Exports all scores for all runs to a scores_<algorithm_name>.csv file.
+    * Exports foldingsteps and score to the output.csv file.
 """
 
 from code.classes.protein import Protein
@@ -51,10 +52,10 @@ def select_protein() -> str:
         return overview
 
 
-def import_protein(protein_number: int):
+def import_protein(protein_number: int) -> bool:
     """
     Loads the selected protein into the protein class.
-    
+
     Pre:
         The protein_number is a integer representing the
         selected protein from the data/proteins.csv file.
@@ -80,7 +81,7 @@ def import_protein(protein_number: int):
 def export_result(foldingsteps: list, score: int) -> None:
     """
     Exports results to the output.csv file.
-    
+
     Pre:
         Foldingsteps is a list of tuples with the amino acid as
         string and the step as integer and score is an integer.
@@ -88,7 +89,7 @@ def export_result(foldingsteps: list, score: int) -> None:
         Writes the results in the data/output.csv file.
     """
 
-    with open('data/output.csv', 'w') as csvfile:
+    with open("data/output.csv", "w") as csvfile:
 
         # Create output file
         output = csv.writer(csvfile)
@@ -102,32 +103,51 @@ def export_result(foldingsteps: list, score: int) -> None:
 
         # Write score
         output.writerow(["score", score])
-        
-        
-def check_quit(user_input):
+
+
+def check_quit(user_input: str) -> None:
+    """
+    Check if the user wants to quit the program.
+
+    Pre:
+        The parameter user_input is a string contaning the user input.
+    Post:
+        Prints bye and exits the program.
+    """
+
     if user_input == "q":
         print("\nBye!\n")
         exit(1)
 
 
-def create_protein_object(selected_protein):
-    print("\nAnalysing protein...", end =" ")
+def create_protein_object(selected_protein: int) -> object:
+    """
+    Creates a protein object.
+
+    Pre:
+        The parameter selected_protein is a integer, representing the protein number.
+    Post:
+        Returns a protein object.
+    """
+
+    print("\nAnalysing protein...", end=" ")
     protein = Protein(selected_protein)
     print("done!")
     return protein
 
 
-def export_scores(valid_folds, algorithm_name) -> None:
+def export_scores(valid_folds: list, algorithm_name: str) -> None:
     """
-    ...
-    
+    Exports the scores to a csv file so it can be accesed later.
+
     Pre:
-        ...
+        The parameter valid_folds is a list containing valid fold objects.
+        The parameter algorithm_name is a string containing the name of the algorithm.
     Post:
-        ...
+        Creates a csv file with the name of the algorithm contaning all scores.
     """
 
-    with open(f'data/scores_{algorithm_name}.csv', 'w') as csvfile:
+    with open(f"data/scores_{algorithm_name}.csv", "w") as csvfile:
 
         # Create output file
         output = csv.writer(csvfile)
@@ -136,14 +156,15 @@ def export_scores(valid_folds, algorithm_name) -> None:
         for score in valid_folds:
             output.writerow([score])
 
-def import_scores(algorithm_name):
+
+def import_scores(algorithm_name: str) -> list:
     """
-    ...
-    
+    Imports the scores from the csv file with valid folding scores.
+
     Pre:
-        ...
+        The parameter algorithm_name is a string containing the name of the algorithm.
     Post:
-        ...
+        Returns a list with all the valid folding scores.
     """
 
     with open(f"data/scores_{algorithm_name}.csv", "r") as csvfile:
@@ -154,7 +175,7 @@ def import_scores(algorithm_name):
         # Load scores
         scores = []
         for row in input:
-                scores.append(int(row[0])) 
+            scores.append(int(row[0]))
 
         # Returns the scores
         return scores
@@ -176,7 +197,6 @@ if __name__ == "__main__":
 
     # Show proteins from csv file if found
     elif len(argv) == 1:
-
 
         # Ask for new run
         answer = input("\nAnalyse a new protein (n) or analyse existing data (e)? ")
@@ -239,12 +259,12 @@ if __name__ == "__main__":
         protein = create_protein_object(selected_protein)
 
         # Run algorithm
-        print("Running algorithm...", end =" ")
+        print("Running algorithm...", end=" ")
         random_algorithm = Random(protein, int(number_of_runs))
         print("done!")
 
         # Calculate score
-        print("Calculating score...", end =" ")
+        print("Calculating score...", end=" ")
         valid_folds = random_algorithm.Folds
         scorer = Score()
         best_fold = scorer.best_fold(valid_folds)
@@ -259,7 +279,7 @@ if __name__ == "__main__":
             scores.append(fold.score)
         export_scores(scores, algorithm_name)
 
-    # Run Monte Carlo Simulation 
+    # Run Monte Carlo Simulation
     elif algorithm_number == "2":
 
         # Select number of runs
@@ -268,24 +288,26 @@ if __name__ == "__main__":
         # Quit if needed
         check_quit(number_of_runs)
 
-        # Select number of times an elongation is going to be folded 
-        number_of_folds_elongations = input("How many times do you want the elongations to be folded? ")
+        # Select number of times an elongation is going to be folded
+        number_of_folds_elongations = input(
+            "How many times do you want the elongations to be folded? "
+        )
         check_quit(number_of_folds_elongations)
-            
+
         # Make new protein object
         protein = create_protein_object(selected_protein)
 
         # Run algorithm
-        print("Running algorithm...", end =" ")
+        print("Running algorithm...", end=" ")
         FRESS = FRESS(protein, int(number_of_folds_elongations), int(number_of_runs))
         valid_folds = FRESS.Folds
         print("done!")
 
         # Calculate score
-        print("Calculating score...", end =" ")
+        print("Calculating score...", end=" ")
         scorer = Score()
         best_fold = scorer.best_fold(valid_folds)
-        results = best_fold.results 
+        results = best_fold.results
         score = best_fold.score
         print("done!")
 
@@ -298,7 +320,7 @@ if __name__ == "__main__":
 
     # Run depth first algoritm
     elif algorithm_number == "3":
-        
+
         answer = input("Start a new run (n) or continue last run (c)? ")
         check_quit(answer)
 
@@ -306,27 +328,27 @@ if __name__ == "__main__":
         protein = create_protein_object(selected_protein)
 
         # Run algorithm
-        print("Running algorithm...", end =" ")
-        if answer == 'n':
+        print("Running algorithm...", end=" ")
+        if answer == "n":
             depth_first = Depth_first(protein)
-        elif answer == 'c':
+        elif answer == "c":
             depth_first = Depth_first(protein, pickle_file=True)
         print("done!")
 
         # Calculate score
-        print("Calculating score...", end =" ")
+        print("Calculating score...", end=" ")
         best_fold = depth_first.Best_fold[0]
         results = best_fold.results
         score = best_fold.score
         print("done!")
-        
+
     elif algorithm_number == "4":
-        
+
         answer = input("Start a new run (n) or continue last run (c)? ")
         check_quit(answer)
 
         # Run algorithm
-        if answer == 'n':
+        if answer == "n":
             # Select number of runs
             number_of_runs = input("How many times do you want to run the algorithm? ")
 
@@ -336,24 +358,24 @@ if __name__ == "__main__":
             # Make new protein object
             protein = create_protein_object(selected_protein)
 
-            print("Running algorithm...", end =" ")
+            print("Running algorithm...", end=" ")
             greedy = Greedy(protein, number_of_runs)
 
-        elif answer == 'c':
-            print("Running algorithm...", end =" ")
+        elif answer == "c":
+            print("Running algorithm...", end=" ")
             protein = Protein(selected_protein)
             greedy = Greedy(protein, pickle_file=True)
-            
+
         if greedy.Best_fold:
             valid_folds = greedy.Best_fold
             print("done!")
         else:
             print("\nNo folds were found :(")
             print("Please restart program and continue running to find a fold")
-            exit(4)
+            exit(1)
 
         # Calculate score
-        print("Calculating score...", end =" ")
+        print("Calculating score...", end=" ")
         valid_folds = greedy.Best_fold
         scorer = Score()
         best_fold = scorer.best_fold(valid_folds)

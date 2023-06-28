@@ -1,7 +1,10 @@
 """
 visualisation.py
-
-* Creates a visualization of the protein
+    * Stores all the coordinates of the p amino acids.
+    * Stores all the coordinates of the h amino acids.
+    * Stores all the coordinates of the c amino acids.
+    * Stores all the coordinates of the hydrogenbonds.
+    * Creates a visualization of the protein.
 """
 
 import plotly.express as px
@@ -10,12 +13,15 @@ import plotly.graph_objects as go
 
 class Visualisation:
     """
-    Class containing functions to create a 2D or 3D visualisation of the best folded protein.
+    A class for visualizing protein structures using Plotly.
     """
 
-    def __init__(self, bestfold: object):
+    def __init__(self, bestfold: object) -> None:
         """
-        Initializer
+        Initializes a Visualisation object.
+
+        Pre:
+            The parameter bestfold is a object containing protein fold information.
         """
 
         self.all_coordinates = bestfold.coordinates
@@ -23,7 +29,6 @@ class Visualisation:
         self.h_coordinates = self.get_h_coordinates(bestfold)
         self.c_coordinates = self.get_c_coordinates(bestfold)
         self.hydrogen_bonds = self.get_hydrogen_bonds(bestfold)
-
 
     def get_p_coordinates(self, bestfold: object) -> list:
         """
@@ -44,7 +49,6 @@ class Visualisation:
 
         return p_coordinates
 
-
     def get_h_coordinates(self, bestfold: object) -> list:
         """
         Get all coordinates from the H amino acids.
@@ -63,7 +67,6 @@ class Visualisation:
                 h_coordinates.append(aminoacid.coordinate)
 
         return h_coordinates
-
 
     def get_c_coordinates(self, bestfold: object) -> list:
         """
@@ -84,25 +87,24 @@ class Visualisation:
 
         return c_coordinates
 
-
-    def get_hydrogen_bonds(self, bestfold) -> list:
+    def get_hydrogen_bonds(self, bestfold: object) -> list:
         """
-        Finds the two coordinates of the hydrogen bond.
+        Retrieves the hydrogen bonds in the protein structure.
 
         Pre:
-            ...
+            The bestfold object contains protein fold information.
         Post:
-            ...
+            Returns a list containing the hydrogen bonds in the protein structure.
         """
 
         # Make a list to store all hydrogen bonds
         hydrogen_bonds = []
-        
+
         # Loop over all aminoacids
         for aminoacid in bestfold.aminoacids:
 
             # Check the neighbours of all H and C amino acids
-            if aminoacid.aminotype == 'H' or aminoacid.aminotype == 'C':
+            if aminoacid.aminotype == "H" or aminoacid.aminotype == "C":
 
                 # Create neighbour list
                 neighbours = []
@@ -115,7 +117,7 @@ class Visualisation:
                 for coordinate in bestfold.coordinates:
                     x = coordinate[0]
                     y = coordinate[1]
-            
+
                     # If the coordinates are neighbouring, add them to neighbours
                     if current_x + 1 == x and current_y == y:
                         neighbours.append(coordinate)
@@ -125,14 +127,14 @@ class Visualisation:
                         neighbours.append(coordinate)
                     elif current_y - 1 == y and current_x == x:
                         neighbours.append(coordinate)
-            
+
                 # Check for aminoacid
                 for neighbour in neighbours:
                     ind = bestfold.coordinates.index(neighbour)
                     neighbour_obj = bestfold.aminoacids[ind]
 
                     # If both H or C aminoacids are not already checked, store coordinates for H-bond
-                    if neighbour_obj.aminotype == 'H' or neighbour_obj.aminotype == 'C':
+                    if neighbour_obj.aminotype == "H" or neighbour_obj.aminotype == "C":
                         if neighbour_obj.id >= aminoacid.id + 2:
                             hydrogen_bond = []
                             hydrogen_bond.append(aminoacid.coordinate)
@@ -140,7 +142,6 @@ class Visualisation:
                             hydrogen_bonds.append(hydrogen_bond)
 
         return hydrogen_bonds
-
 
     def visualize_protein_plotly_3d(self) -> None:
         """
@@ -150,7 +151,7 @@ class Visualisation:
             Uses a list of tuples with all the coordinates of the best fold and uses
             a list of tuples with all the coordinates of the p, h and c amino acids.
         Post:
-            Returns a dynamic visualization of the best fold.
+            Creates a dynamic visualization of the best fold.
         """
 
         # Load the x, y and z coordinates for the protein structure
@@ -163,8 +164,8 @@ class Visualisation:
             z.append(0)
 
         # Create 3D protein structure
-        structure = px.line_3d(x = x, y = y, z = z)
-        structure.update_traces(line = dict(color = "black", width = 8))
+        structure = px.line_3d(x=x, y=y, z=z)
+        structure.update_traces(line=dict(color="black", width=8))
 
         # Add structure to data
         all_data = structure.data
@@ -179,14 +180,16 @@ class Visualisation:
             p_z.append(0)
 
         # Create amino acid locations for P
-        p = go.Figure(data = go.Scatter3d(x = p_x,
-                                          y = p_y,
-                                          z = p_z,
-                                          mode = "markers",
-                                          name = "Polair (P)",
-                                          marker = dict(size = 15,
-                                                        color = "blue",
-                                                        opacity = 0.6)))
+        p = go.Figure(
+            data=go.Scatter3d(
+                x=p_x,
+                y=p_y,
+                z=p_z,
+                mode="markers",
+                name="Polair (P)",
+                marker=dict(size=15, color="blue", opacity=0.6),
+            )
+        )
 
         # Add P to data
         all_data += p.data
@@ -201,14 +204,16 @@ class Visualisation:
             h_z.append(0)
 
         # Create amino acid locations for H
-        h = go.Figure(data = go.Scatter3d(x = h_x,
-                                          y = h_y,
-                                          z = h_z,
-                                          mode = "markers",
-                                          name = "Hydrofobe (H)",
-                                          marker = dict(size = 15,
-                                                        color = "red",
-                                                        opacity = 0.6)))
+        h = go.Figure(
+            data=go.Scatter3d(
+                x=h_x,
+                y=h_y,
+                z=h_z,
+                mode="markers",
+                name="Hydrofobe (H)",
+                marker=dict(size=15, color="red", opacity=0.6),
+            )
+        )
 
         # Add H to data
         all_data += h.data
@@ -223,14 +228,16 @@ class Visualisation:
             c_z.append(0)
 
         # Create amino acid locations for C
-        c = go.Figure(data = go.Scatter3d(x = c_x,
-                                          y = c_y,
-                                          z = c_z,
-                                          mode = "markers",
-                                          name = "Cysteine (C)",
-                                          marker = dict(size = 15,
-                                                        color = "green",
-                                                        opacity = 0.6)))
+        c = go.Figure(
+            data=go.Scatter3d(
+                x=c_x,
+                y=c_y,
+                z=c_z,
+                mode="markers",
+                name="Cysteine (C)",
+                marker=dict(size=15, color="green", opacity=0.6),
+            )
+        )
 
         # Add C to data
         all_data += c.data
@@ -246,23 +253,26 @@ class Visualisation:
                 hyd_z.append(0)
 
             # Create 3D hydrogen bond and store to data
-            hyd_bond = px.line_3d(x = hyd_x, y = hyd_y, z = hyd_z)
-            hyd_bond.update_traces(line = dict(color = "black", width = 13, dash = "dot"))
+            hyd_bond = px.line_3d(x=hyd_x, y=hyd_y, z=hyd_z)
+            hyd_bond.update_traces(line=dict(color="black", width=13, dash="dot"))
             all_data += hyd_bond.data
 
         # Create a protein
-        protein = go.Figure(data = all_data)
+        protein = go.Figure(data=all_data)
 
         # Remove the axes
-        protein.update_layout(scene = dict(xaxis = dict(color="white", showbackground=False),
-                                           yaxis = dict(color="white", showbackground=False),
-                                           zaxis = dict(color="white", showbackground=False)))
+        protein.update_layout(
+            scene=dict(
+                xaxis=dict(color="white", showbackground=False),
+                yaxis=dict(color="white", showbackground=False),
+                zaxis=dict(color="white", showbackground=False),
+            )
+        )
 
         # Create a legend
-        protein.update_layout(legend_font_size = 25,
-                              legend = dict(orientation = "h",
-                                            xanchor = "center",
-                                            x = 0.5))
+        protein.update_layout(
+            legend_font_size=25, legend=dict(orientation="h", xanchor="center", x=0.5)
+        )
 
         # Show the protein
         protein.show()
