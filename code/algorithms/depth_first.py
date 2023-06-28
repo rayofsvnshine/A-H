@@ -64,11 +64,15 @@ class Depth_first(object):
                 new_children = self.create_offspring(parent)
             # if keyboard interrupt -> save children
             except KeyboardInterrupt:
-                with open('data/pause_run.pkl', 'wb') as file:
-                    pickle.dump(children, file)
-                    print('\nOh no! You interrupted the program.')
-                    print('Best result from currently found folds is being determined.')
-                    break
+                try:
+                    with open('data/pause_run.pkl', 'wb') as file:
+                        pickle.dump(children, file)
+                        print('\nOh no! You interrupted the program.')
+                        print('Best result from currently found folds is being determined.')
+                        break
+                except KeyboardInterrupt:
+                    print('\nWhat!? Why did you do that!?')
+                    print('\nThe children were not saved... :(')
                 
             # if new children are created, append to children
             if new_children:
