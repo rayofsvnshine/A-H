@@ -67,7 +67,7 @@ class Random(object):
         return valid_folds
     
         
-    def fold_protein(self) -> object | None:
+    def fold_protein(self) -> object:
         """
         Attempts to fold the protein
         
@@ -120,7 +120,7 @@ class Random(object):
         return new_fold
     
             
-    def check_directions(self, starting_point: tuple(int, int), coordinates: list) -> list:
+    def check_directions(self, starting_point: tuple, coordinates: list) -> list:
         """
         Determines the coordinate where the following aminoacid will be placed.
         

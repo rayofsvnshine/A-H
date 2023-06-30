@@ -61,7 +61,7 @@ class Depth_first(object):
                 continue
 
         
-    def make_folds(self, pickle_file: str | None):
+    def make_folds(self, pickle_file: str):
         """
         Makes folds from new protein or pickle data and stores them
         
@@ -96,7 +96,7 @@ class Depth_first(object):
                 children.extend(new_children)
                 
     
-    def get_parent(self, parents: list) -> tuple[list, object]:
+    def get_parent(self, parents: list) -> tuple:
         """
         Returns parent to create next children from
         
@@ -113,7 +113,7 @@ class Depth_first(object):
         return parents, new_parent
         
     
-    def create_offspring(self, parent: object) -> list | None:
+    def create_offspring(self, parent: object):
         """
         Creates the next generation of children from a given parent
         
@@ -143,7 +143,7 @@ class Depth_first(object):
             return new_children
 
     
-    def make_children(self, parent: object, options: list, saving=False) -> list | None:
+    def make_children(self, parent: object, options: list, saving=False) -> list:
         """
         Creates all possible children from parent fold and either save or return them
         
@@ -187,7 +187,7 @@ class Depth_first(object):
             return children
 
         
-    def make_amino(self, parent: object, coordinate: tuple(int, int)) -> object:
+    def make_amino(self, parent: object, coordinate: tuple) -> object:
         """
         Creates an Aminoacid object and initializes its previous and current coordinate
         
@@ -280,7 +280,7 @@ class Depth_first(object):
         return children
         
     
-    def determine_best_fold(self) -> object | None:
+    def determine_best_fold(self) -> object:
         """
         iterates over stored results and saves the best fold
         

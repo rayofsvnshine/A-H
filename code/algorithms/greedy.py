@@ -42,7 +42,7 @@ class Greedy(Depth_first):
         super().__init__(Protein, pickle_file, number_of_runs)
         
         
-    def get_parent(self, parents: list) -> tuple[list, list]:
+    def get_parent(self, parents: list) -> tuple:
         """
         Returns all parents of the previous generation
         
@@ -61,7 +61,7 @@ class Greedy(Depth_first):
         return parents, new_parents
 
 
-    def create_offspring(self, parents: list) -> list | None:
+    def create_offspring(self, parents: list) -> list:
         """
         Creates next generation of child folds from parent folds
         
@@ -102,7 +102,7 @@ class Greedy(Depth_first):
             return next_generation
         
 
-    def prune_children(self, best_score: int, new_children: list, next_generation: list) -> tuple[list, int]:
+    def prune_children(self, best_score: int, new_children: list, next_generation: list) -> tuple:
         """
         Determines the best children for the created generation, with a 5% chance of accepting a bad solution.
         
