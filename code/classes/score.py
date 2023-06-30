@@ -6,6 +6,7 @@ score.py
     * compares total scores of different proteins to determine the optimal fold
 """
 
+
 class Score:
     """
     Collection of all functions regarding the score.
@@ -17,73 +18,67 @@ class Score:
         """
         pass
 
-
-    def calculate_score(self, Fold) -> int:
+    def calculate_score(self, Fold: object) -> int:
         """
         Function loops over the existing list of used coordinates to see if the
         given coordinate of an H aminoacid sides another H, if so, -1 is added to the score.
         If the given coordinate of a C aminoacid sides another C, -5 is added to score.
 
-        Pre:
-            self = Score object
-            Fold = the current fold to be scored
-
-        Post:
-            score = the score calculated for the given Fold
+        Parameters:
+        ----
+        Fold: object that stores information about a folded protein
         """
 
         # set score to 0
         score = 0
         # print('New Fold!')
-        
+
         # loop over all aminoacids
         for Aminoacid in Fold.aminoacids:
-
             # for H aminoacids, get neighbours (surrounding aminoacids)
-            if Aminoacid.aminotype == 'H':
-                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
+            if Aminoacid.aminotype == "H":
+                neighbours = self.check_surrounding_coordinates(
+                    Aminoacid.coordinate, Fold
+                )
 
                 # for each neighbour, check if it is also an H aminoacid
                 for neighbour in neighbours:
                     neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
-                    if neighbour_obj.aminotype == 'H' or neighbour_obj.aminotype == 'C':
-
+                    if neighbour_obj.aminotype == "H" or neighbour_obj.aminotype == "C":
                         # if both H aminoacids are not already connected or counted, add -1 for H-bond
                         if neighbour_obj.id >= Aminoacid.id + 2:
                             score -= 1
                             # print('score 1 HH/HC!')
- 
+
             # for C aminoacids, get neighbours (surrounding aminoacids)
-            elif Aminoacid.aminotype == 'C':
-                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Fold)
+            elif Aminoacid.aminotype == "C":
+                neighbours = self.check_surrounding_coordinates(
+                    Aminoacid.coordinate, Fold
+                )
 
                 # for each neighbour, check if it is also a C aminoacid
                 for neighbour in neighbours:
                     neighbour_obj = self.get_neighbour_obj(neighbour, Fold)
-                    if neighbour_obj.aminotype == 'C':
-
+                    if neighbour_obj.aminotype == "C":
                         # if both C aminoacids are not already connected or counted, add -5 for C-bond
                         if neighbour_obj.id >= Aminoacid.id + 2:
                             score -= 5
                             # print('score 5 CC!')
-                    elif neighbour_obj.aminotype == 'H':
+                    elif neighbour_obj.aminotype == "H":
                         if neighbour_obj.id >= Aminoacid.id + 2:
                             score -= 1
                             # print('score 1 CH!')
 
         return score
 
-
-    def get_neighbour_obj(self, coordinate, Fold):
+    def get_neighbour_obj(self, coordinate: tuple, Fold: object) -> object:
         """
         Determine the corresponding Fold object of the coordinate
 
-        Pre:
-            self = Score object
-            coordinate = the coordinate of the desired Aminoacid object
-            Fold = the fold containing the relevant Aminoacids and their coordinates
-        Post:
-            ...
+        Parameters:
+        ----
+        coordinate: tuple that stores the coordinate of an aminoacid
+        fold: object that stores information about a folded protein
         """
 
         ind = Fold.coordinates.index(coordinate)
@@ -91,18 +86,14 @@ class Score:
 
         return neighbour_obj
 
-
-    def check_surrounding_coordinates(self, current_coordinate, Fold) -> list:
+    def check_surrounding_coordinates(self, current_coordinate: tuple, Fold: object) -> list:
         """
         Gets coordinate and checks the surrounding coordinates.
 
-        Pre:
-            self = Score object
-            current_coordinate = coordinate whose neighbours are needed
-            Fold = the Fold containing the relevant Aminoacids
-        Post:
-            neighbours = a list of coordinates that gives the
-            (Von-Neumann) neighbours of the current_coordinate
+        Parameters:
+        ----
+        current_coordinate: a tuple that stores the coordinate of the aminoacid of which the score is checked
+        Fold: object that stores information about a folded protein
         """
 
         # create neighbour list
@@ -129,16 +120,13 @@ class Score:
 
         return neighbours
 
-
     def best_fold(self, valid_folds: list) -> object:
         """
         Function checks all the scores of the made folds and picks the fold with the best score.
 
-        Pre:
-            valid_folds = list of completed folds
-        
-        Post:
-            best_fold = Fold object with best score
+        Parameters:
+        ----
+        valid_folds: list of valid protein folds (objects)
         """
 
         max_score = 1
@@ -146,7 +134,6 @@ class Score:
 
         # loop over folds
         for fold in valid_folds:
-
             # determine score for Fold
             score = self.calculate_score(fold)
             fold.store_score(score)
@@ -158,50 +145,49 @@ class Score:
 
         return best_fold
 
-
-    def calculate_score_monte_carlo(self, Elongation):
+    def calculate_score_monte_carlo(self, Elongation: object) -> int:
         """
         Function loops over the list of coordinates in the elongation object and calculates the score
-        by checking if there are non covalent bound H's next to eachother (-1 point) or if there are 
+        by checking if there are non covalent bound H's next to eachother (-1 point) or if there are
         non-covalent bound C's next to eachother (-5).
 
-        Pre:
-            ...
-        Post:
-            ...
+        Parameters:
+        ----
+        Elongation: Elongation object that stores information about one elongation
         """
 
-         # set score to 0
+        # set score to 0
         score = 0
 
         # loop over all aminoacids
         for Aminoacid in Elongation.aminoacids:
-
             # for H aminoacids, get neighbours (surrounding aminoacids)
-            if Aminoacid.aminotype == 'H':
-                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Elongation)
+            if Aminoacid.aminotype == "H":
+                neighbours = self.check_surrounding_coordinates(
+                    Aminoacid.coordinate, Elongation
+                )
 
                 # for each neighbour, check if it is also an H aminoacid
                 for neighbour in neighbours:
                     neighbour_obj = self.get_neighbour_obj(neighbour, Elongation)
-                    if neighbour_obj.aminotype == 'H':
-
+                    if neighbour_obj.aminotype == "H":
                         # if both H aminoacids are not already connected or counted, add -1 for H-bond
                         if neighbour_obj.id >= Aminoacid.id + 2:
                             score -= 1
-                            
+
             # for C aminoacids, get neighbours (surrounding aminoacids)
-            elif Aminoacid.aminotype == 'C':
-                neighbours = self.check_surrounding_coordinates(Aminoacid.coordinate, Elongation)
+            elif Aminoacid.aminotype == "C":
+                neighbours = self.check_surrounding_coordinates(
+                    Aminoacid.coordinate, Elongation
+                )
 
                 # for each neighbour, check if it is also a C aminoacid
                 for neighbour in neighbours:
                     neighbour_obj = self.get_neighbour_obj(neighbour, Elongation)
                     for neighbour in neighbours:
-                        if neighbour_obj.aminotype == 'C':
-
+                        if neighbour_obj.aminotype == "C":
                             # if both C aminoacids are not already connected or counted, add -5 for C-bond
                             if neighbour_obj.id >= Aminoacid.id + 2:
-                                score -= 5 
+                                score -= 5
 
-        return score 
+        return score

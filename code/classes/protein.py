@@ -11,6 +11,7 @@ protein.py
 
 from .aminoacid import Aminoacid
 
+
 class Protein(object):
     """
     Protein object
@@ -18,7 +19,11 @@ class Protein(object):
 
     def __init__(self, protein: str):
         """
-        Initializer
+        Initializes the protein class.
+
+        Parameters:
+        ----
+        protein: a string of the sequence of the aminoacid types of a protein.
         """
 
         self.protein = protein
@@ -31,13 +36,10 @@ class Protein(object):
         self.get_totals()
         self.lower_bound = self.theoretical_lower_bound()
 
-
     def load_aminoacids(self):
         """
         Makes a list of aminoacid objects.
 
-        Post:
-            Loads all amino acids into aminoacids objects and returns them as a list.
         """
 
         # Create an empty list
@@ -48,9 +50,8 @@ class Protein(object):
 
         # Loop over all aminoacids the protein string
         for aminoacid in self.protein:
-
             # Create a new aminoacid object using the aminoacids from the protein string
-            new_aminoacid = Aminoacid(id = amino_id, aminotype = aminoacid)
+            new_aminoacid = Aminoacid(id=amino_id, aminotype=aminoacid)
 
             # Add the aminoacid to self.aminoacids, mapping id to the aminoacid object
             aminoacids.append(new_aminoacid)
@@ -61,37 +62,26 @@ class Protein(object):
         # Return the list of amino acids
         return aminoacids
 
-
     def get_totals(self) -> None:
         """
         Counts all H, P and C amino acids in the protein.
 
-        Pre:
-            Protein is a string containing H, P or C amino acids.
-        Post:
-            Updates the totals of H, P and C.
         """
 
         # Loop over all aminoacids in the protein string
         for aminoacid in self.protein:
-
             # Count the H, P and C amino acids in the string
-            if aminoacid == 'H':
+            if aminoacid == "H":
                 self.total_h += 1
-            elif aminoacid == 'P':
+            elif aminoacid == "P":
                 self.total_p += 1
-            elif aminoacid == 'C':
+            elif aminoacid == "C":
                 self.total_c += 1
-
 
     def protein_info_in_terminal(self) -> str:
         """
-        Shows information about the protein in the terminal.
-
-        Pre:
-            Uses the protein object.
-        Post:
-            Returns a string with information about the protein to print in the main.
+        Makes a list of percentage per aminotype, total amount of aminoacids and the amount of hydrophobic, polair and C aminoacids,
+        which can be shown in the terminal.
         """
 
         # Calculate the percentage for H, P and C
@@ -101,26 +91,68 @@ class Protein(object):
 
         # Create a string with the protein information
         info = "\n"
-        info += "Selected protein:" + " " * 3 + f"{self.protein}" +"\n"
-        info += "Total amino acids:" + " " * 2 + f"{self.length}" +"\n"
+        info += "Selected protein:" + " " * 3 + f"{self.protein}" + "\n"
+        info += "Total amino acids:" + " " * 2 + f"{self.length}" + "\n"
 
         # Set correct spacing
         if self.total_h > 9:
-            info += "Total hydrofobe:" + " " * 4 + f"{self.total_h}" + " " * 2 + f"{percentage_h}%" + "\n"
+            info += (
+                "Total hydrofobe:"
+                + " " * 4
+                + f"{self.total_h}"
+                + " " * 2
+                + f"{percentage_h}%"
+                + "\n"
+            )
         else:
-            info += "Total hydrofobe:" + " " * 4 + f"{self.total_h}" + " " * 3 + f"{percentage_h}%" + "\n"
+            info += (
+                "Total hydrofobe:"
+                + " " * 4
+                + f"{self.total_h}"
+                + " " * 3
+                + f"{percentage_h}%"
+                + "\n"
+            )
 
         # Set correct spacing
         if self.total_p > 9:
-            info += "Total polair:" + " " * 7 + f"{self.total_p}" + " " * 2 + f"{percentage_p}%" + "\n"
+            info += (
+                "Total polair:"
+                + " " * 7
+                + f"{self.total_p}"
+                + " " * 2
+                + f"{percentage_p}%"
+                + "\n"
+            )
         else:
-            info += "Total polair:" + " " * 7 + f"{self.total_p}" + " " * 3 + f"{percentage_p}%" + "\n"
+            info += (
+                "Total polair:"
+                + " " * 7
+                + f"{self.total_p}"
+                + " " * 3
+                + f"{percentage_p}%"
+                + "\n"
+            )
 
         # Set correct spacing
         if self.total_c > 9:
-            info += "Total cysteine:" + " " * 5 + f"{self.total_c}" + " " * 2 + f"{percentage_c}%" + "\n"
+            info += (
+                "Total cysteine:"
+                + " " * 5
+                + f"{self.total_c}"
+                + " " * 2
+                + f"{percentage_c}%"
+                + "\n"
+            )
         else:
-            info += "Total cysteine:" + " " * 5 + f"{self.total_c}" + " " * 3 + f"{percentage_c}%" + "\n"
+            info += (
+                "Total cysteine:"
+                + " " * 5
+                + f"{self.total_c}"
+                + " " * 3
+                + f"{percentage_c}%"
+                + "\n"
+            )
 
         # Set correct spacing
         if self.lower_bound < 0:
@@ -131,22 +163,16 @@ class Protein(object):
         # Return the string with protein information
         return info
 
-
     def theoretical_lower_bound(self) -> int:
         """
         Calculates the theoretical lower bound of the objective function.
-
-        Pre:
-            Uses the protein object.
-        Post:
-            Returns a string contaning the theoretical lower bound.
         """
 
         # Create lower bound
         lowerbound = 0
 
         # Check all C and H amino acids
-        lowerbound -= (self.total_h * 2 + self.total_c * 10)
+        lowerbound -= self.total_h * 2 + self.total_c * 10
 
         # Correct the first amino acid
         if self.protein[0] == "H":
