@@ -5,11 +5,7 @@ Case: Protein Pow(d)er
 Team: The Folding Brigade  
 
 ## Table of Contents
-  - [Introduction](#introduction)
-  - [Introduction](#introduction)
-  - [Input](#input)
 - [Introduction](#introduction)
-  - [Input](#input)
 - [Prerequisites](#prerequisites)
 - [Input](#input)
 - [Running the code](#running-the-code)
